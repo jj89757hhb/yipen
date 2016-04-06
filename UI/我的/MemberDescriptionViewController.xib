@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MemberDescriptionViewController">
+            <connections>
+                <outlet property="joinBtn1" destination="oeL-2d-k1C" id="bkn-YP-9HY"/>
+                <outlet property="joinBtn2" destination="yau-1y-Thz" id="aM5-WY-zu6"/>
+                <outlet property="line" destination="fur-62-EoN" id="i68-hV-D3W"/>
+                <outlet property="memberL" destination="Ecw-mK-HKD" id="kgM-5G-c4F"/>
+                <outlet property="storeL" destination="jup-tb-ewl" id="NoL-tD-S75"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oeL-2d-k1C">
+                    <rect key="frame" x="27" y="205" width="265" height="35"/>
+                    <color key="backgroundColor" red="1" green="0.14086305590000001" blue="0.08564132159" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="zWD-eA-fet"/>
+                    </constraints>
+                    <state key="normal" title="加入个人会员">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fur-62-EoN">
+                    <rect key="frame" x="19" y="255" width="283" height="1"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="2NK-eP-dXM"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="aNV-xq-Ucm"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jup-tb-ewl">
+                    <rect key="frame" x="51" y="280" width="209" height="112"/>
+                    <string key="text">商家会员权利
+1、所有个人会员权利
+2、交易更安心
+3、首页专区推介
+4、信息流优先呈现
+(须完成商家认证方可生效)</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yau-1y-Thz">
+                    <rect key="frame" x="27" y="400" width="265" height="35"/>
+                    <color key="backgroundColor" red="0.16191082952918798" green="0.56626602564102568" blue="0.25925090391766648" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="LGV-xp-bdA"/>
+                    </constraints>
+                    <state key="normal" title="加入商家会员">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ecw-mK-HKD">
+                    <rect key="frame" x="51" y="51" width="219" height="131"/>
+                    <string key="text">个人会员权利
+1、传图数量无限
+2、独享盆景养护问题专家指导
+3、同城活动发布
+4、优先友园推荐展示
+5、等级积分翻倍
+6、盆景交易拍卖问题优先解决                  </string>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="yau-1y-Thz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="27" id="29s-yF-QUH"/>
+                <constraint firstItem="Ecw-mK-HKD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="51" id="DFM-IE-Jd4"/>
+                <constraint firstAttribute="trailing" secondItem="oeL-2d-k1C" secondAttribute="trailing" constant="28" id="EQa-mr-sIs"/>
+                <constraint firstItem="yau-1y-Thz" firstAttribute="top" secondItem="jup-tb-ewl" secondAttribute="bottom" constant="8" id="Rnl-ho-djh"/>
+                <constraint firstAttribute="trailing" secondItem="yau-1y-Thz" secondAttribute="trailing" constant="28" id="VdY-G2-IiB"/>
+                <constraint firstAttribute="trailing" secondItem="Ecw-mK-HKD" secondAttribute="trailing" constant="50" id="a1A-8T-0kt"/>
+                <constraint firstItem="jup-tb-ewl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="51" id="bxX-nS-Tev"/>
+                <constraint firstItem="yau-1y-Thz" firstAttribute="top" secondItem="jup-tb-ewl" secondAttribute="bottom" constant="8" id="coX-rg-EDv"/>
+                <constraint firstItem="jup-tb-ewl" firstAttribute="top" secondItem="fur-62-EoN" secondAttribute="bottom" constant="24" id="dQm-3G-92K"/>
+                <constraint firstItem="fur-62-EoN" firstAttribute="top" secondItem="oeL-2d-k1C" secondAttribute="bottom" constant="15" id="iaA-wC-fVT"/>
+                <constraint firstItem="oeL-2d-k1C" firstAttribute="top" secondItem="Ecw-mK-HKD" secondAttribute="bottom" constant="23" id="j2R-Jd-aq5"/>
+                <constraint firstItem="oeL-2d-k1C" firstAttribute="top" secondItem="Ecw-mK-HKD" secondAttribute="bottom" constant="23" id="lI3-h6-kgx"/>
+                <constraint firstItem="fur-62-EoN" firstAttribute="top" secondItem="oeL-2d-k1C" secondAttribute="bottom" constant="15" id="lnb-rx-miW"/>
+                <constraint firstItem="jup-tb-ewl" firstAttribute="top" secondItem="fur-62-EoN" secondAttribute="bottom" constant="24" id="ooi-qV-3EO"/>
+                <constraint firstItem="Ecw-mK-HKD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="51" id="rqd-vK-sfo"/>
+                <constraint firstItem="fur-62-EoN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="19" id="shA-CB-BXs"/>
+                <constraint firstAttribute="trailing" secondItem="jup-tb-ewl" secondAttribute="trailing" constant="60" id="vDx-XN-vLd"/>
+                <constraint firstAttribute="trailing" secondItem="fur-62-EoN" secondAttribute="trailing" constant="18" id="xyo-Rs-wGR"/>
+                <constraint firstItem="oeL-2d-k1C" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="27" id="zao-1p-UI0"/>
+            </constraints>
+            <point key="canvasLocation" x="235" y="266"/>
+        </view>
+    </objects>
+</document>
