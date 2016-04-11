@@ -19,6 +19,7 @@
 #import <ShareSDK/ShareSDK.h>
 #import "ShareView.h"
 #import "WXApiManager.h"
+#import <AlipaySDK/AlipaySDK.h>
 //#define RONGCLOUD_IM_APPKEY @"z3v5yqkbv8v30" // online key
 
 #define UMENG_APPKEY @"563755cbe0f55a5cb300139c"
@@ -551,6 +552,13 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if ([url.host isEqualToString:@"safepay"]) {
+        //跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            NSLog(@"result = %@",resultDic);
+        }];
+          return YES;
+    }
     return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
 }
 

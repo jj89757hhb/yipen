@@ -27,6 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+
     // Do any additional setup after loading the view from its nib.
 //    float offX=-80;
      float offX=-60;
@@ -82,6 +83,16 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
+    
+}
 -(void)shareAction:(UIButton*)sender{
 //    SendShareViewController *sendShare=[[SendShareViewController alloc] initWithNibName:nil bundle:nil];
 //    [self.navigationController pushViewController:sendShare animated:YES];
