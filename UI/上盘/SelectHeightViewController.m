@@ -18,8 +18,9 @@ static NSString *identify=@"identify";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"选择高度";
+    WS(weakSelf)
     [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"返回"] withBlock:^(id sender) {
-        
+        [weakSelf goBackAction];
     }];
     /*
      10cm之内
@@ -35,6 +36,9 @@ static NSString *identify=@"identify";
     
 }
 
+-(void)goBackAction{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 0.01;
 }

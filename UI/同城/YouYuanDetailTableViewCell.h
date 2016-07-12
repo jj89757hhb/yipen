@@ -10,7 +10,10 @@
 #import "ImagePlayerView.h"
 #import "PraiseView.h"
 #import "ActivityInfo.h"
-@interface YouYuanDetailTableViewCell : UITableViewCell<ImagePlayerViewDelegate>
+#import "MWPhoto.h"
+#import "MWPhotoBrowser.h"
+static float content_FontSize_YouYuanDetail=14;
+@interface YouYuanDetailTableViewCell : UITableViewCell<ImagePlayerViewDelegate,MWPhotoBrowserDelegate>
 @property(nonatomic,strong)UIImageView *headIV;
 @property(nonatomic,strong)UILabel *nameL;
 @property(nonatomic,strong)UILabel *createTimeL;//创建时间
@@ -29,4 +32,5 @@
 @property(nonatomic,strong)UIButton *attentionBtn;//关注
 @property(nonatomic,strong)ImagePlayerView *imagePlayerView;
 @property(nonatomic,strong)PraiseView *praiseView;
+@property(nonatomic,strong)NSMutableArray *photos;
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "MyQRCodeViewController.h"
-#import "QRCodeGenerator.h"
+//#import "QRCodeGenerator.h"
 @interface MyQRCodeViewController ()
 
 @end
@@ -23,9 +23,9 @@
     self.headIV.contentMode=UIViewContentModeScaleAspectFill;
     self.headIV.clipsToBounds=YES;
     self.headIV.layer.cornerRadius=30;
-    UIImage *codeImage=[QRCodeGenerator qrImageForString:[DataSource sharedDataSource].userInfo.ID imageSize:_QRBgIV.bounds.size.width];
-    NSLog(@"codeImage:%@",codeImage);
-    self.QRBgIV.image=codeImage;
+//    UIImage *codeImage=[QRCodeGenerator qrImageForString:[DataSource sharedDataSource].userInfo.ID imageSize:_QRBgIV.bounds.size.width];
+//    NSLog(@"codeImage:%@",codeImage);
+//    self.QRBgIV.image=codeImage;
 //    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(30, 30, 80, 20)];
 //    label.text=@"不错";
 //    [_QRBgIV addSubview:label];

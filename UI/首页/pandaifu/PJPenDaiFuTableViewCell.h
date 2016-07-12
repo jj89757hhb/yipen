@@ -17,6 +17,11 @@ typedef void(^CollectBlock)(id sender);
 typedef void(^CommentBlock)(id sender);
 typedef void(^ChatBlock)(id sender);
 typedef void(^AttentionBlock)(id sender);
+@protocol PJPenDaiFuTableViewCellDeleagte <NSObject>
+
+-(void)tapImageViewWithCellIndex:(NSIndexPath*)indexPath imageIndex:(NSInteger)index;
+-(void)gotoDetailView:(NSIndexPath*)indexPath;//处理scrollview的拦截问题
+@end
 @interface PJPenDaiFuTableViewCell : UITableViewCell
 
 @property(nonatomic,strong)UIImageView *headView;//头像
@@ -67,5 +72,6 @@ typedef void(^AttentionBlock)(id sender);
 @property(nonatomic,strong)UILabel *priceL;//价格
 @property(nonatomic,assign)NSInteger enterType;//0 分享列表 1 分享详情   2 出售  3 拍卖
 @property(nonatomic,assign)BOOL isDetail;//是否是详情；
-
+@property(nonatomic,weak)NSIndexPath *indexPath;
+@property(nonatomic,weak)id <PJPenDaiFuTableViewCellDeleagte> delegate;
 @end

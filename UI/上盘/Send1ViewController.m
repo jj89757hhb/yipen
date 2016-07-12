@@ -132,6 +132,12 @@
     }
    
 }
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 - (IBAction)closeAction:(id)sender {
     [self dismissViewControllerAnimated:YES completion:^{
         

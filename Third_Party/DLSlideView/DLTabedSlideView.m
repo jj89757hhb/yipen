@@ -52,6 +52,9 @@
     [self addSubview:slideView_];
     
     ctrlCache_ = [[DLLRUCache alloc] initWithCount:4];
+    UIView *line=[[UIView alloc] initWithFrame:CGRectMake(0, kDefaultTabbarHeight-0.5, SCREEN_WIDTH, 0.5)];
+    line.backgroundColor=Line_Color;
+    [self addSubview:line];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder{

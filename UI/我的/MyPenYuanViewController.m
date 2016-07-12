@@ -9,14 +9,44 @@
 #import "MyPenYuanViewController.h"
 #import "MyPenYuanTableViewCell.h"
 @interface MyPenYuanViewController ()<UITableViewDelegate,UITableViewDataSource>
-
+@property(nonatomic,strong)NSMutableArray *list;
 @end
 
 @implementation MyPenYuanViewController
 static NSString *identify=@"identify";
+static NSInteger pageSize=10;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    currentPage=1;
+    self.list=[[NSMutableArray alloc] init];
     [self initTable];
+    [self requestData];
+    WS(weakSelf);
+    [myTable addLegendHeaderWithRefreshingBlock:^{
+        [weakSelf requestData];
+    }];
+}
+
+-(void)requestData{
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:currentPage],@"Page",[NSNumber numberWithInteger:pageSize],@"PageSize", nil];
+    [HttpConnection GetMyBonsaiFate:dic WithBlock:^(id response, NSError *error) {
+        [myTable.header endRefreshing];
+        [myTable.footer endRefreshing];
+        if (!error) {
+            if (![response objectForKey:KErrorMsg]) {
+                self.list=response[KDataList];
+                [myTable reloadData];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:[response objectForKey:KErrorMsg]];
+            }
+            
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:ErrorMessage];
+        }
+        
+    }];
 }
 
 -(void)initTable{
@@ -38,7 +68,7 @@ static NSString *identify=@"identify";
     return 180;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return _list.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -46,6 +76,10 @@ static NSString *identify=@"identify";
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MyPenYuanTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+    PenJinInfo *info=_list[indexPath.row];
+    [cell setInfo:info];
+    [cell updateConstraintsIfNeeded];
+    [cell layoutIfNeeded];
     return cell;
 }
 

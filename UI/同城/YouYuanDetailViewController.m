@@ -9,16 +9,23 @@
 #import "YouYuanDetailViewController.h"
 #import "YouYuanDetailTableViewCell.h"
 #import "InputTextBottom.h"
-@interface YouYuanDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
+#import "CommentInfo.h"
+#import "ActivityCommentTableViewCell.h"
+#import "MWPhotoBrowser.h"
+#import "StoreBottomView.h"
+@interface YouYuanDetailViewController ()<UITableViewDelegate,UITableViewDataSource,MWPhotoBrowserDelegate>
 @property(nonatomic,strong)UIView *bootomView;
 @property(nonatomic,strong)InputTextBottom *inputTextBottom;
 @property(nonatomic,strong)UIButton *collectBtn;
 @property(nonatomic,strong)UIButton *commentBtn;
-@property(nonatomic,strong)UIButton *joinBtn;
+@property(nonatomic,strong)UIButton *praiseBtn;
+@property(nonatomic,strong)NSMutableArray * photos;
 @end
 
 @implementation YouYuanDetailViewController
 static NSString *identifer=@"identifer";
+static NSString *identifer2=@"identifer2";
+static NSString *identifer3=@"identifer3";
 static float BottomToolView_Height=50;
 static float BottomInputView_Height=50;
 - (void)viewDidLoad {
@@ -26,23 +33,28 @@ static float BottomInputView_Height=50;
     // Do any additional setup after loading the view.
     self.title=@"友园";
     [self initTableView];
-    [self initBottomView];
+//    [self initBottomView];
     [self registerForKeyboardNotifications];
     
 }
 
 -(void)initTableView{
-    myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+    myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-20) style:UITableViewStyleGrouped];
     myTable.delegate=self;
     myTable.dataSource=self;
     [self.view addSubview:myTable];
+    [myTable registerClass:[ActivityCommentTableViewCell class] forCellReuseIdentifier:identifer2];
+    myTable.separatorStyle=UITableViewCellSeparatorStyleNone;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    return 1+1+1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (section==1) {
+        return _info.Comment.count;
+    }
     return 1;
 }
 
@@ -50,17 +62,69 @@ static float BottomInputView_Height=50;
     return 0.01;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.01;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 400;
+    if (indexPath.section==1) {
+        return 30;
+    }
+    else if(indexPath.section==2){
+        return 60;
+    }
+    ActivityInfo *info=_info;
+    float content_Height=0;
+    content_Height+=  [CommonFun sizeWithString:info.Message font:[UIFont systemFontOfSize:content_FontSize_YouYuanDetail] size:CGSizeMake(SCREEN_WIDTH-10*2, MAXFLOAT)].height;
+    return 320+content_Height;
+//    return 400;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    YouYuanDetailTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identifer];
-    if (!cell) {
-        cell=[[YouYuanDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+    if (indexPath.section==0) {
+        YouYuanDetailTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identifer];
+        if (!cell) {
+            cell=[[YouYuanDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+        }
+        [cell setInfo:_info];
+         cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        return cell;
     }
-    [cell setInfo:nil];
-    return cell;
+    else if(indexPath.section==1){
+        ActivityCommentTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identifer2 forIndexPath:indexPath];
+        cell.indexPath=indexPath;
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        [cell setInfo:_info.Comment[indexPath.row]];
+         cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        
+        return cell;
+    }
+    else{
+        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identifer3]
+        ;
+        if (!cell) {
+            cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer3];
+            StoreBottomView *bottom=[[StoreBottomView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60)];
+            [bottom setInfo:_info];
+            [cell addSubview:bottom];
+            WS(weakSelf)
+            [bottom setCommentBlock:^(id sender){
+                [weakSelf commentAction:nil];
+            }];
+            
+            [bottom setPraiseBlock:^(id sender){
+                [weakSelf praiseAction:nil];
+            }];
+            
+            [bottom setCollectBlock:^(id sender){
+                [weakSelf collectAction:nil];
+            }];
+        }
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        
+        return cell;
+    }
+   
 }
 
 
@@ -106,7 +170,7 @@ static float BottomInputView_Height=50;
     [UIView setAnimationDuration:animationDuration];
     
     //    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, _inputTextBottom.frame.origin.y-kbSize.height, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
-    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
+    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
     
     
     [UIView commitAnimations];
@@ -147,7 +211,7 @@ static float BottomInputView_Height=50;
     float offX2=(SCREEN_WIDTH-offX*2-width*3)/3;
     UIFont *font=[UIFont systemFontOfSize:13];
     UIColor *textColor=GRAYCOLOR;
-    self.bootomView=[[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-BottomToolView_Height, SCREEN_WIDTH, BottomToolView_Height)];
+    self.bootomView=[[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-BottomToolView_Height-64, SCREEN_WIDTH, BottomToolView_Height)];
     _bootomView.backgroundColor=WHITEColor;
     self.collectBtn=[[UIButton alloc] initWithFrame:CGRectMake(offX, offY, width, 40)];
     [_collectBtn addTarget:self action:@selector(collectAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -162,16 +226,16 @@ static float BottomInputView_Height=50;
     [_commentBtn setImage:[UIImage imageNamed:@"评论icon"] forState:UIControlStateNormal];
     [_commentBtn setTitle:@"评论" forState:UIControlStateNormal];
     //
-    self.joinBtn=[[UIButton alloc] initWithFrame:CGRectMake(offX+offX2*2+width*2, offY, width, 40)];
-    [_joinBtn addTarget:self action:@selector(praiseAction:) forControlEvents:UIControlEventTouchUpInside];
-    [_joinBtn setTitleColor:textColor forState:UIControlStateNormal];
-    _joinBtn.titleLabel.font=font;
-    [_joinBtn setTitle:@"看好" forState:UIControlStateNormal];
-    [_joinBtn setImage:[UIImage imageNamed:@"看好(未点)"] forState:UIControlStateNormal];
+    self.praiseBtn=[[UIButton alloc] initWithFrame:CGRectMake(offX+offX2*2+width*2, offY, width, 40)];
+    [_praiseBtn addTarget:self action:@selector(praiseAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_praiseBtn setTitleColor:textColor forState:UIControlStateNormal];
+    _praiseBtn.titleLabel.font=font;
+    [_praiseBtn setTitle:@"看好" forState:UIControlStateNormal];
+    [_praiseBtn setImage:[UIImage imageNamed:@"看好(未点)"] forState:UIControlStateNormal];
     //
     [_bootomView addSubview:_collectBtn];
     [_bootomView addSubview:_commentBtn];
-    [_bootomView addSubview:_joinBtn];
+    [_bootomView addSubview:_praiseBtn];
     UIView *line=[[UIView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH, 0.5)];
     [_bootomView addSubview:line];
     line.backgroundColor=Line_Color;
@@ -183,27 +247,52 @@ static float BottomInputView_Height=50;
 -(void)collectAction:(UIButton*)sender{
     [SVProgressHUD show];
     Collect_Type type=KCollect_YouYuan;
-//    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",[NSNumber numberWithInt:type],@"Type",_inputTextBottom.inputText.text,@"Message",nil];
-//    [HttpConnection Comments:dic WithBlock:^(id response, NSError *error) {
-//        if (!error) {
-//            if ([[response objectForKey:@"ok"] boolValue]) {
-//                [SVProgressHUD showSuccessWithStatus:@"评论成功"];
-//                _inputTextBottom.inputText=nil;
-//                [_inputTextBottom.inputText resignFirstResponder];
-//            }
-//            else{
-//                [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"Reason"]];
-//            }
-//        }
-//        else{
-//            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-//        }
-//        
-//    }];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",[NSNumber numberWithInt:type],@"Type",_inputTextBottom.inputText.text,@"Message",nil];
+    if (![_info.IsCollect boolValue]) {
+        [HttpConnection Collection:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showSuccessWithStatus:@"已收藏"];
+                    _info.IsCollect=@"1";
+                    NSIndexSet *set=[NSIndexSet indexSetWithIndex:2];
+                    [myTable reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
+                    
+                }
+                else{
+                    [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+    else{
+        [HttpConnection DelCollect:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showSuccessWithStatus:@"已取消收藏"];
+                    _info.IsCollect=@"0";
+                    NSIndexSet *set=[NSIndexSet indexSetWithIndex:2];
+                    [myTable reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
+                    
+                }
+                else{
+                    [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+
 }
 -(void)commentAction:(UIButton*)sender{
     if (!_inputTextBottom) {
-        self.inputTextBottom=[[InputTextBottom alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-BottomInputView_Height, SCREEN_WIDTH, BottomInputView_Height)];
+        self.inputTextBottom=[[InputTextBottom alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-BottomInputView_Height-64, SCREEN_WIDTH, BottomInputView_Height)];
         [self.view addSubview:_inputTextBottom];
         _inputTextBottom.backgroundColor=WHITEColor;
         [_inputTextBottom.inputText becomeFirstResponder];
@@ -223,7 +312,27 @@ static float BottomInputView_Height=50;
 
 //赞
 -(void)praiseAction:(UIButton*)sender{
-    
+    [SVProgressHUD show];
+    Collect_Type type=KCollect_YouYuan;
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",[NSNumber numberWithInteger:type],@"Type",_info.userInfo.ID,@"buid", nil];
+    [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            if ([[response objectForKey:@"ok"] boolValue]) {
+                [SVProgressHUD showInfoWithStatus:@"已赞"];
+                _info.IsPraise=@"1";
+                NSIndexSet *set=[NSIndexSet indexSetWithIndex:2];
+                [myTable reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
+                
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+            }
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+        }
+        
+    }];
 }
 
 //发送
@@ -234,23 +343,29 @@ static float BottomInputView_Height=50;
     }
     [SVProgressHUD show];
     Collect_Type type=KCollect_YouYuan;
-//    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",[NSNumber numberWithInt:type],@"Type",_inputTextBottom.inputText.text,@"Message",nil];
-//    [HttpConnection Comments:dic WithBlock:^(id response, NSError *error) {
-//        if (!error) {
-//            if ([[response objectForKey:@"ok"] boolValue]) {
-//                [SVProgressHUD showSuccessWithStatus:@"评论成功"];
-//                _inputTextBottom.inputText=nil;
-//                [_inputTextBottom.inputText resignFirstResponder];
-//            }
-//            else{
-//                [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"Reason"]];
-//            }
-//        }
-//        else{
-//            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-//        }
-//        
-//    }];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",[NSNumber numberWithInt:type],@"Type",_inputTextBottom.inputText.text,@"Message",nil];
+    [HttpConnection Comments:dic WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            if ([[response objectForKey:@"ok"] boolValue]) {
+                [SVProgressHUD showSuccessWithStatus:@"评论成功"];
+                CommentInfo *commentInfo=[[CommentInfo alloc] init];
+                commentInfo.NickName=[DataSource sharedDataSource].userInfo.NickName;
+                commentInfo.Message=_inputTextBottom.inputText.text;
+                [_info.Comment addObject:commentInfo];
+                [myTable reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+                _inputTextBottom.inputText.text=nil;
+                [_inputTextBottom.inputText resignFirstResponder];
+            }
+            else{
+                [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"reason"]];
+            }
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+        }
+        
+    }];
+
 }
 
 
@@ -258,6 +373,67 @@ static float BottomInputView_Height=50;
     [_inputTextBottom.inputText resignFirstResponder];
 }
 
+- (NSInteger)numberOfItems
+{
+    return _info.Attach.count;
+}
+
+- (void)imagePlayerView:(ImagePlayerView *)imagePlayerView loadImageForImageView:(UIImageView *)imageView index:(NSInteger)index
+{
+    [imageView sd_setImageWithURL:[NSURL URLWithString:[_info.Attach objectAtIndex:index]]];
+    //              placeholderImage:[UIImage imageNamed:@"Default_course"]];
+}
+
+- (void)imagePlayerView:(ImagePlayerView *)imagePlayerView didTapAtIndex:(NSInteger)index
+{
+    NSMutableArray *temp=[[NSMutableArray alloc] init];
+    for (int i=0;i<_info.Attach.count;i++) {
+        [temp addObject:[MWPhoto photoWithURL:[NSURL URLWithString:_info.Attach[i]]]];
+    }
+    
+    self.photos=temp;
+    [self showBrowserWithIndex:index];
+}
+
+
+-(void)showBrowserWithIndex:(NSInteger)index{
+    
+    //    self.thumbs = thumbs;
+    BOOL displayActionButton = YES;
+    BOOL displaySelectionButtons = NO;
+    BOOL displayNavArrows = NO;
+    BOOL enableGrid = YES;
+    BOOL startOnGrid = NO;
+    BOOL autoPlayOnAppear = NO;
+    // Create browser
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    browser.displayActionButton = displayActionButton;
+    browser.displayNavArrows = displayNavArrows;
+    browser.displaySelectionButtons = displaySelectionButtons;
+    browser.alwaysShowControls = displaySelectionButtons;
+    browser.zoomPhotosToFill = YES;
+    browser.enableGrid = enableGrid;
+    browser.startOnGrid = startOnGrid;
+    browser.enableSwipeToDismiss = NO;
+    browser.autoPlayOnAppear = autoPlayOnAppear;
+    [browser setCurrentPhotoIndex:index];
+    
+    [self.navigationController pushViewController:browser animated:YES];
+}
+
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return _photos.count;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < _photos.count)
+        return [_photos objectAtIndex:index];
+    return nil;
+}
+
+- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
+    NSLog(@"Did start viewing photo at index %lu", (unsigned long)index);
+}
 
 
 - (void)didReceiveMemoryWarning {

@@ -31,7 +31,7 @@ static NSString *identify=@"identify";
 
 
 -(void)initTable{
-    myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+    myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-20) style:UITableViewStyleGrouped];
     [self.view addSubview:myTable];
     myTable.delegate=self;
     myTable.dataSource=self;

@@ -31,7 +31,7 @@
         [_commentL setTextColor:[UIColor darkGrayColor]];
         [self.contentView addSubview:_commentIV];
         [self.contentView addSubview:_commentL];
-          _commentL.text=@"非常不错哦哦哦";
+//          _commentL.text=@"非常不错哦哦哦";
     }
     return self;
 }
@@ -51,8 +51,19 @@
          make.right.offset(-offX);
     }];
     [_commentL sizeToFit];
+    
   
 }
 
+-(void)setInfo:(CommentInfo *)info{
+    _info=info;
+    _commentL.text=info.Message;
+    if (_indexPath.row==0) {
+        [_commentIV setHidden:NO];
+    }
+    else{
+        [_commentIV setHidden:YES];
+    }
+}
 
 @end

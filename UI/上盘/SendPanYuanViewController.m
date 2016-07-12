@@ -61,6 +61,7 @@
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {
                  [SVProgressHUD showSuccessWithStatus:@"发布成功"];
+                [self.navigationController popViewControllerAnimated:YES];
             }
             else{
                 [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
@@ -191,6 +192,17 @@
         }
         else if(indexPath.row==3){
             cell.textLabel.text=@"你的位置";
+            UILabel *locationL=[[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-115-40, 8, 90+40, 20)];
+            locationL.textAlignment=NSTextAlignmentRight;
+            locationL.font=[UIFont systemFontOfSize:15];
+            locationL.textColor=[UIColor darkGrayColor];
+            if ([DataSource sharedDataSource].City.length==0) {
+                locationL.text=@"未获得到定位信息";
+            }
+            else{
+                locationL.text=[DataSource sharedDataSource].City;
+            }
+            [cell.contentView addSubview:locationL];
         }
         cell.textLabel.textColor=color;
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
@@ -206,6 +218,7 @@
         if (indexPath.row==0) {
             selectType=0;
             SelectTagViewController *ctr=[[SelectTagViewController alloc] init];
+            ctr.enterType=1;
             [ctr setSelectBlock:^(id sender){
                 self.sort=sender;
                 
@@ -229,6 +242,7 @@
         else if (indexPath.row==2){
             selectType=1;
             SelectTagViewController *ctr=[[SelectTagViewController alloc] init];
+            ctr.enterType=1;
             [ctr setSelectBlock:^(id sender){
                 self.sort2=sender;
                 

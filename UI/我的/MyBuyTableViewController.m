@@ -15,12 +15,22 @@
 
 @implementation MyBuyTableViewController
 static NSString *identify=@"identify";
+static NSInteger pageSize=10;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    currentPage=1;
     [self.tableView registerNib:[UINib nibWithNibName:@"MyBuyTableViewCell1" bundle:nil] forCellReuseIdentifier:identify];
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-
+    [self queryData];
 }
+
+-(void)queryData{
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:pageSize],@"PageSize",[NSNumber numberWithInteger:currentPage],@"Page", nil];
+    [HttpConnection GetMyBuy:dic WithBlock:^(id response, NSError *error) {
+        
+    }];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

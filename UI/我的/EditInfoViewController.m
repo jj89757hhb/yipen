@@ -131,7 +131,10 @@
                 addressL.textAlignment=NSTextAlignmentRight;
                 addressL.font=font;
                 addressL.textColor=MIDDLEBLACK;
-                addressL.text=@"杭州";
+//                addressL.text=@"杭州";
+                if ([DataSource sharedDataSource].userInfo.cityID) {
+                    addressL.text=[DataSource sharedDataSource].userInfo.cityID;
+                }
                 [cell.contentView addSubview:addressL];
             }
             else if(indexPath.row==4){
@@ -286,6 +289,31 @@
     self.area=[NSString stringWithFormat:@"%@ %@", picker.locate.state, picker.locate.city];
     NSLog(@"area11:%@",_area);
     [self cancelLocatePicker];
+    
+    [SVProgressHUD show];
+    //    NSString *nickName=[NSString stringWithFormat:@"Desc=%@&UID=%@",_textView.text,[DataSource sharedDataSource].userInfo.ID];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:self.area,@"CityId",[DataSource sharedDataSource].userInfo.ID,@"UID", nil];
+    
+    [HttpConnection editUserInfoWithParameter:dic pics:nil WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            if ([response[@"ok"] isEqualToString:@"TRUE"]) {
+                [SVProgressHUD showInfoWithStatus:@"修改成功"];
+                [DataSource sharedDataSource].userInfo.cityID=self.area;
+                NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:0];
+                [myTable reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:response[@"reason"]];
+            }
+            
+            
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+        }
+    }];
+    
+    
     
 }
 

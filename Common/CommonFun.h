@@ -14,6 +14,7 @@
 +(BOOL)isSpaceCharacter:(NSString*)text;
 +(NSString*)translateDateWithCreateTime:(NSInteger)createTime;
 +(NSString*)countdown:(long long)lastTime;
-+(NSString*)timerFireMethod:(long long)time;
++(NSMutableAttributedString*)timerFireMethod:(long long)time;
 +(CGSize)sizeWithString:(NSString *)string font:(UIFont *)font size:(CGSize)contentSize;
++ (UIViewController *)viewControllerHasNavigation:(UIView *)view;
 @end

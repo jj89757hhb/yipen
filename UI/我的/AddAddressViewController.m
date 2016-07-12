@@ -16,7 +16,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=@"编辑资料";
+    self.title=@"编辑地址";
+//    [self.view setFrame:CGRectOffset(self.view.frame, 0, -64)];
  
     WS(weakSelf)
     [self setNavigationBarRightItem:@"完成" itemImg:nil withBlock:^(id sender) {

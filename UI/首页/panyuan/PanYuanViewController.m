@@ -105,7 +105,11 @@
     //下排
     float label_Height2=25;
     float offX2=10;
-    UIFont *textFont2=[UIFont boldSystemFontOfSize:17];
+    float textSize2=17;
+    if (SCREEN_WIDTH<375) {//处理iPhone5
+        textSize2=15;
+    }
+    UIFont *textFont2=[UIFont boldSystemFontOfSize:textSize2];
      UIFont *textFont3=[UIFont boldSystemFontOfSize:14];
 
     productNameL=[[UILabel alloc] initWithFrame:CGRectMake(productL.frame.origin.x-offX2, CGRectGetMaxY(productL.frame)+5, label_Width+offX2*2, label_Height2)];
@@ -150,7 +154,7 @@
 }
 
 -(void)requestData{
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID", nil];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",@"",SenShu,@"",LeiBie,@"",ChanDi,@"",PinZhong,@"",ShuXin,@"",ChiCun,@"",QiTa, nil];
     [HttpConnection GetBonsaiFate:dic WithBlock:^(id response, NSError *error) {
         if (!error) {
             if (![response objectForKey:KErrorMsg]) {

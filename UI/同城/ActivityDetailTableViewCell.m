@@ -72,7 +72,8 @@
     [_timeL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_titleL.mas_bottom).offset(offY);
         make.left.offset(offX);
-        make.width.offset(SCREEN_WIDTH-120);
+         make.right.offset(-offX);
+//        make.width.offset(SCREEN_WIDTH-120);
     }];
     [_addressL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_timeL.mas_bottom).offset(offY);
@@ -97,6 +98,7 @@
         make.top.equalTo(_contentL.mas_bottom).offset(offY);
     }];
     [_praiseView initViewUsers:_info.Praised uid:_info.UID praiseNum:_info.PraisedNum];
+    _praiseView.praiseL.text=@"参加";
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -105,12 +107,25 @@
     // Configure the view for the selected state
 }
 -(void)setInfo:(ActivityInfo *)info{
+    _info=info;
+    
+//    [_headIV sd_setImageWithURL:[NSURL URLWithString:info.userInfo.UserHeader] placeholderImage:nil];
+//    _titleL.text=info.Title;
+//    _contentL.text=info.Message;
+//    _createTimeL.text=info.CreateTime;
+//    _nameL.text=info.userInfo.NickName;
+    
+    
     _titleL.text=info.Title;
     _contentL.text=info.Message;
-    _timeL.text=@"时间:2016年2月20日-29";
+//    _timeL.text=@"时间:2016年2月20日-29";
     _masterL.text=@"杭州盆景协会";
-    _addressL.text=@"杭州市西湖天地大草坪";
-    _priceL.text=@"门票: 50¥/人";
+//    _addressL.text=@"杭州市西湖天地大草坪";
+//    _priceL.text=@"门票: 50¥/人";
+    
+    _timeL.text=[NSString stringWithFormat:@"时间:%@-%@",info.STime,info.ETime];
+    _addressL.text=info.Address;
+    _priceL.text=[NSString stringWithFormat:@"门票: %@¥/人",info.Cost];
     
 }
 

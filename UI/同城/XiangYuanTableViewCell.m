@@ -36,7 +36,6 @@
         _timeL.textColor=[UIColor darkGrayColor];
         _timeL.font=[UIFont systemFontOfSize:12];
         
-        self.priceL=[[UILabel alloc] init];
         self.treeIV=[[UIImageView alloc] init];
         _treeIV.contentMode=UIViewContentModeScaleAspectFill;
         _treeIV.clipsToBounds=YES;
@@ -53,13 +52,6 @@
         _viewL.font=[UIFont systemFontOfSize:11];
         _viewL.textAlignment=NSTextAlignmentCenter;
         self.contactL=[[UILabel alloc] init];
-        
-        
-//        self.positionIV=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"位置"]];
-        
-        
-        
-        
         
         [self.contentView addSubview:_bgView];
   
@@ -82,7 +74,7 @@
         [_contactL setTextColor:MIDDLEBLACK];
         [_titleL setTextColor:DEEPBLACK];
 //        [_contentL setTextColor:MIDDLEBLACK];
-        _bgView.layer.borderColor=LIGHTBLACK.CGColor;
+        _bgView.layer.borderColor=Tree_Line.CGColor;
         _bgView.layer.borderWidth=1;
         
         _titleL.font=[UIFont systemFontOfSize:16];
@@ -152,7 +144,6 @@
     [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(offX);
         make.right.offset(-offX);
-        make.right.offset(-100);
         make.height.offset(20);
         make.top.equalTo(_treeIV.mas_bottom).offset(offY);
     }];
@@ -193,6 +184,7 @@
         make.right.offset(-offX);
         make.height.offset(20);
         make.top.equalTo(_contactL.mas_bottom).offset(2);
+//        make.bottom.offset(offY);
         
     }];
     //
@@ -221,7 +213,8 @@
 }
 
 -(void)setInfo:(ActivityInfo *)info{
-    [_headIV sd_setImageWithURL:[NSURL URLWithString:info.userInfo.UserHeader] placeholderImage:nil];
+    _info=info;
+    [_headIV sd_setImageWithURL:[NSURL URLWithString:info.userInfo.UserHeader] placeholderImage:Default_Image];
     _titleL.text=info.Title;
 //    _contentL.text=info.Message;
     _createTimeL.text=info.CreateTime;
@@ -233,15 +226,18 @@
     }
     
     _timeL.text=@"2016年2月10日-20日";
-    _addressL.text=@"地址：物业顶楼200平米招租";
-    _titleL.text=@"南京皎月园";
+//    _addressL.text=@"地址：物业顶楼200平米招租";
+    _addressL.text=[NSString stringWithFormat:@"地址: %@",info.Address];
+//    _titleL.text=@"南京皎月园";
 //    _contentL.text=@"刚开张的盆景店铺哦哦，美美的";
-    [_viewL setText:@"120人浏览"];
-    [_praiseL setText:@"12人看好"];
+//    [_viewL setText:@"120人浏览"];
+//    [_praiseL setText:@"12人看好"];
+    [_viewL setText:[NSString stringWithFormat:@"%@人浏览",info.BrowseNum]];
+    [_praiseL setText:[NSString stringWithFormat:@"%@人看好",info.PraisedNum]];
     [_contactL setText:@"联系人:韩先生"];
     [_priceL setText:@"费用:面议"];
-    NSString *url=@"http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1106/26/c2/8138154_1309077121193_1024x1024it.jpg";
-    [_treeIV sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
+//    NSString *url=@"http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1106/26/c2/8138154_1309077121193_1024x1024it.jpg";
+//    [_treeIV sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
 }
 
 @end

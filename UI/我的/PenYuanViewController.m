@@ -33,32 +33,15 @@
 
 
 -(void)viewWillAppear:(BOOL)animated{
-    [self requestData];
+//    [self requestData];
 }
--(void)requestData{
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID", nil];
-    [HttpConnection GetBonsaiFate:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            if (![response objectForKey:KErrorMsg]) {
-                    self.list=response[KDataList];
-            }
-            else{
-                [SVProgressHUD showInfoWithStatus:[response objectForKey:KErrorMsg]];
-            }
-            
-        }
-        else{
-            [SVProgressHUD showInfoWithStatus:ErrorMessage];
-        }
-        
-    }];
-}
+
 -(void)initToolBar{
     tabedSlideView=[[DLTabedSlideView alloc] init];
     [self.view addSubview:tabedSlideView];
     tabedSlideView.backgroundColor=WHITEColor;
     
-    [tabedSlideView setFrame:CGRectMake(0, 0+44+20, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    [tabedSlideView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     tabedSlideView.baseViewController = self;
     tabedSlideView.delegate=self;
     tabedSlideView.tabItemNormalColor = MIDDLEBLACK;

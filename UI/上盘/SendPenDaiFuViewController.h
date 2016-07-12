@@ -10,6 +10,7 @@
 
 @interface SendPenDaiFuViewController : BaseViewController{
     UITableView *myTable;
+    NSInteger imageIndex;
 }
 
 @end

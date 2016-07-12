@@ -15,6 +15,7 @@
     BOOL isStartTime;
     NSInteger startTime;
     NSInteger endTime;
+    NSInteger imageIndex;
 }
 @property(nonatomic,assign)NSInteger enterType;//1、分享2、出售3、拍卖 4、盘缘 5、盘大夫
 

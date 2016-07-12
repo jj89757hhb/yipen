@@ -25,6 +25,7 @@ typedef void(^AttentionBlock)(id sender);
 @interface FenXiangTableViewCell : UITableViewCell<UIGestureRecognizerDelegate>{
     
 }
+@property(nonatomic,strong)UIView *topView;//头部视图
 @property(nonatomic,strong)UIImageView *headView;//头像
 @property(nonatomic,strong)UIScrollView *imageScrollView;
 @property(nonatomic,strong)UILabel *nickNameL;//昵称

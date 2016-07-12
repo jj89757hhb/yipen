@@ -10,4 +10,5 @@
 
 @interface PraiseView : UIView
 -(void)initViewUsers:(NSMutableArray*)users uid:(NSString*)uid praiseNum:(NSString*)praiseNum;
+@property(nonatomic,strong)UILabel *praiseL;
 @end

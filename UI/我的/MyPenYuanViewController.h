@@ -10,6 +10,7 @@
 
 @interface MyPenYuanViewController : BaseViewController{
     UITableView *myTable;
+    NSInteger currentPage;
     
 }
 

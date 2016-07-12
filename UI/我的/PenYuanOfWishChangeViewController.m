@@ -9,14 +9,24 @@
 #import "PenYuanOfWishChangeViewController.h"
 #import "MyPenYuanTableViewCell.h"
 @interface PenYuanOfWishChangeViewController ()<UITableViewDataSource,UITableViewDelegate>
+@property(nonatomic,strong)NSMutableArray *list;
 
 @end
 
 @implementation PenYuanOfWishChangeViewController
 static NSString *identify=@"identify";
+static NSInteger pageSize=10;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.list=[[NSMutableArray alloc] init];
+    currentPage=1;
     [self initTable];
+    [self requestData];
+    WS(weakSelf);
+    [myTable addLegendHeaderWithRefreshingBlock:^{
+        [weakSelf requestData];
+    }];
+    
 }
 
 -(void)initTable{
@@ -26,6 +36,29 @@ static NSString *identify=@"identify";
     myTable.dataSource=self;
     [myTable registerNib:[UINib nibWithNibName:@"MyPenYuanTableViewCell" bundle:nil] forCellReuseIdentifier:identify];
 }
+
+-(void)requestData{
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:currentPage],@"Page",[NSNumber numberWithInteger:pageSize],@"PageSize", nil];
+    [HttpConnection GetMyJoinBonsaiFate:dic WithBlock:^(id response, NSError *error) {
+        [myTable.header endRefreshing];
+        [myTable.footer endRefreshing];
+        if (!error) {
+            if (![response objectForKey:KErrorMsg]) {
+                self.list=response[KDataList];
+                [myTable reloadData];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:[response objectForKey:KErrorMsg]];
+            }
+            
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:ErrorMessage];
+        }
+        
+    }];
+}
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 10;
@@ -38,7 +71,7 @@ static NSString *identify=@"identify";
     return 180;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return _list.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -46,6 +79,9 @@ static NSString *identify=@"identify";
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MyPenYuanTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+    [cell setInfo:_list[indexPath.row]];
+    [cell updateConstraintsIfNeeded];
+    [cell layoutIfNeeded];
     return cell;
 }
 

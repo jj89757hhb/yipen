@@ -8,6 +8,8 @@
 
 #import "PJPenDaiFuTableViewCell.h"
 #import "CommentInfo.h"
+#import "CustomImageView.h"
+#import "CommentLabel.h"
 static float fenXiang_offX=10;
 static float fenXiang_offY=10;
 static float fenXiang_HeadSize=50;
@@ -20,7 +22,6 @@ static float image_offX =10;
 - (void)awakeFromNib {
     // Initialization code
 }
-
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self=[super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -35,6 +36,12 @@ static float image_offX =10;
         self.certificateIV=[[UIImageView alloc] init];
         self.certificateIV.image=[UIImage imageNamed:@"个人认证"];
         self.imageScrollView=[[UIScrollView alloc] init];
+        UITapGestureRecognizer *scrolltap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapScrollView:)];
+        scrolltap.delegate=self;
+        [_imageScrollView addGestureRecognizer:scrolltap];
+        
+        //        _imageScrollView.canCancelContentTouches=YES;
+        //        _imageScrollView.delaysContentTouches=YES;
         self.nickNameL=[[UILabel alloc] init];
         [_nickNameL setFont:[UIFont systemFontOfSize:16]];
         self.levelIV=[[UIImageView alloc] init];
@@ -72,9 +79,9 @@ static float image_offX =10;
         [_timeL setTextColor:[UIColor lightGrayColor]];
         [_attentBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [_attentBtn setTitle:@"+关注" forState:UIControlStateNormal];
-        _attentBtn.titleLabel.font=[UIFont systemFontOfSize:14];
-        _attentBtn.layer.borderColor=[UIColor lightGrayColor].CGColor;
-        _attentBtn.layer.borderWidth=1;
+        _attentBtn.titleLabel.font=[UIFont systemFontOfSize:12];
+        _attentBtn.layer.borderColor=Line_Color.CGColor;
+        _attentBtn.layer.borderWidth=0.5;
         _attentBtn.layer.cornerRadius=3;
         _attentBtn.clipsToBounds=YES;
         [_attentBtn addTarget:self action:@selector(attentionAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -83,25 +90,25 @@ static float image_offX =10;
         _treeIcon.image=[UIImage imageNamed:@"标签"];
         
         
-        self.imageScrollView=[[UIScrollView alloc] init];
+        //        self.imageScrollView=[[UIScrollView alloc] init];
         self.generalGB=[[UIView alloc] init];
-        _generalGB.layer.cornerRadius=5;
-        _generalGB.layer.borderColor=LIGHTBLACK.CGColor;
+        //        _generalGB.layer.cornerRadius=5;
+        _generalGB.layer.borderColor=Tree_Line.CGColor;
         _generalGB.layer.borderWidth=0.5;
         _generalGB.clipsToBounds=YES;
-        _generalGB.backgroundColor=VIEWBACKCOLOR;
+        _generalGB.backgroundColor=Tree_BgColor;
         
         self.h_line=[[UIView alloc] init];
         self.v_line=[[UIView alloc] init];
-        _h_line.backgroundColor=LIGHTBLACK;
-        _v_line.backgroundColor=LIGHTBLACK;
+        _h_line.backgroundColor=Tree_Line;
+        _v_line.backgroundColor=Tree_Line;
         [_generalGB addSubview:_h_line];
         [_generalGB addSubview:_v_line];
         
         self.v_line2=[[UIView alloc] init];
         self.v_line3=[[UIView alloc] init];
-        _v_line2.backgroundColor=LIGHTBLACK;
-        _v_line3.backgroundColor=LIGHTBLACK;
+        _v_line2.backgroundColor=Tree_Line;
+        _v_line3.backgroundColor=Tree_Line;
         
         
         
@@ -251,7 +258,7 @@ static float image_offX =10;
         
     }];
     [_attentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.offset(-20);
+        make.right.offset(-10);
         make.width.offset(60);
         make.height.offset(30);
         make.top.offset(20);
@@ -278,8 +285,19 @@ static float image_offX =10;
     }
     _imageScrollView.contentOffset=CGPointZero;
     _imageScrollView.contentSize=CGSizeMake(_info.Attach.count*image_Size+image_offX*_info.Attach.count, image_Size);
+    WS(weakSelf)
     for (int i=0;i<_info.Attach.count;i++) {
-        UIImageView *imageView=[[UIImageView alloc] init];
+        CustomImageView *imageView=[[CustomImageView alloc] init];
+        [imageView setTapBlock:^(id sender){
+            if ([weakSelf.delegate respondsToSelector:@selector(tapImageViewWithCellIndex:imageIndex:)]) {
+                [weakSelf.delegate tapImageViewWithCellIndex:_indexPath imageIndex:imageView.index];
+            }
+        }];
+        imageView.index=i;
+        if (_isDetail) {
+            [imageView addTapAction];
+        }
+        
         imageView.tag=100+i;
         [imageView sd_setImageWithURL:[NSURL URLWithString:_info.Attach[i]] placeholderImage:nil];
         [_imageScrollView addSubview:imageView];
@@ -313,13 +331,19 @@ static float image_offX =10;
         label.textAlignment=NSTextAlignmentCenter;
         label.backgroundColor=[UIColor darkGrayColor];
         label.textColor=WHITEColor;
-        label.font=[UIFont systemFontOfSize:14];
+        label.font=[UIFont systemFontOfSize:13];
         [self.contentView addSubview:label];
         UILabel *temp=[self.contentView viewWithTag:200+i-1];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_imageScrollView.mas_bottom).offset(10);
             make.height.offset(20);
-            make.width.offset(70);
+            if ([tags[i] length]>=3) {
+                make.width.offset(50);
+            }
+            else{
+                make.width.offset(40);
+            }
+            
             if (temp) {
                 make.left.equalTo(temp.mas_right).offset(5);
             }
@@ -328,6 +352,7 @@ static float image_offX =10;
             }
             
         }];
+        //        [label sizeToFit];
         
     }
     [_treeIcon mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -354,117 +379,119 @@ static float image_offX =10;
         
     }];
     [_descriptionL sizeToFit];
-    [_generalGB mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_descriptionL.mas_bottom).offset(5);
-        make.left.offset(10);
-        make.right.offset(-10);
-        make.height.offset(50);
-    }];
-    [_h_line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_generalGB.mas_centerY);
-        make.height.offset(0.5);
-        make.left.offset(0);
-        make.right.offset(0);
-        
-    }];
-    [_v_line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(_generalGB.mas_centerX);
-        make.width.offset(0.5);
-        make.top.offset(0);
-        make.bottom.offset(0);
-        
-    }];
-    
-    [_heightL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.offset(0);
-        make.top.offset(2);
-        make.width.offset(60);
-        make.height.offset(20);
-    }];
-    [_widthL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.offset(0);
-        make.top.equalTo(_h_line.mas_bottom).offset(1);
-        make.width.offset(60);
-        make.height.offset(20);
-    }];
-    [_v_line2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.offset(0);
-        make.bottom.offset(0);
-        make.left.equalTo(_heightL.mas_right).offset(1);
-        make.width.offset(0.5);
-        
-    }];
-    [_heightNumL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.offset(2);
-        make.left.equalTo(_v_line2.mas_right).offset(10);
-        make.right.equalTo(_v_line.mas_left).offset(-1);
-        make.height.offset(20);
-        
-    }];
-    
-    [_widthNumL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_h_line.mas_bottom).offset(1);
-        make.left.equalTo(_v_line2.mas_right).offset(10);
-        make.right.equalTo(_v_line.mas_left).offset(-1);
-        make.height.offset(20);
-        
-    }];
-    
-    
-    //直径
-    
-    [_diameterL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_v_line.mas_right).offset(1);
-        //        make.left.offset((SCREEN_WIDTH-20)/2);
-        //         make.left.equalTo(_heightNumL.mas_right).offset(3);
-        make.top.offset(2);
-        make.width.offset(60);
-        make.height.offset(20);
-    }];
-    [_ageL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_v_line.mas_right).offset(1);
-        //         make.left.offset((SCREEN_WIDTH-20)/2);
-        make.top.equalTo(_h_line.mas_bottom).offset(1);
-        make.width.offset(60);
-        make.height.offset(20);
-    }];
-    
-    [_v_line3 mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.offset(0);
-        make.bottom.offset(0);
-        make.left.equalTo(_diameterL.mas_right).offset(1);
-        make.width.offset(0.5);
-        
-    }];
-    
-    [_diameterNumL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.offset(2);
-        make.left.equalTo(_v_line3.mas_right).offset(10);
-        make.right.offset(-10);
-        //        make.right.equalTo(_generalGB.mas_left).offset(-1);//这句会导致约束报错
-        make.height.offset(20);
-        //        make.width.offset(80);
-        
-    }];
-    //
-    [_ageNumL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_h_line.mas_bottom).offset(1);
-        make.left.equalTo(_v_line3.mas_right).offset(10);
-        make.right.offset(-10);
-        make.height.offset(20);
-        
-    }];
+//    [_generalGB mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(_descriptionL.mas_bottom).offset(5);
+//        make.left.offset(10);
+//        make.right.offset(-10);
+//        make.height.offset(50);
+//    }];
+//    [_h_line mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(_generalGB.mas_centerY);
+//        make.height.offset(0.5);
+//        make.left.offset(0);
+//        make.right.offset(0);
+//        
+//    }];
+//    [_v_line mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(_generalGB.mas_centerX);
+//        make.width.offset(0.5);
+//        make.top.offset(0);
+//        make.bottom.offset(0);
+//        
+//    }];
+//    
+//    [_heightL mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.offset(0);
+//        make.top.offset(2);
+//        make.width.offset(60);
+//        make.height.offset(20);
+//    }];
+//    [_widthL mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.offset(0);
+//        make.top.equalTo(_h_line.mas_bottom).offset(1);
+//        make.width.offset(60);
+//        make.height.offset(20);
+//    }];
+//    [_v_line2 mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.top.offset(0);
+//        make.bottom.offset(0);
+//        make.left.equalTo(_heightL.mas_right).offset(1);
+//        make.width.offset(0.5);
+//        
+//    }];
+//    [_heightNumL mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.offset(2);
+//        make.left.equalTo(_v_line2.mas_right).offset(10);
+//        make.right.equalTo(_v_line.mas_left).offset(-1);
+//        make.height.offset(20);
+//        
+//    }];
+//    
+//    [_widthNumL mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(_h_line.mas_bottom).offset(1);
+//        make.left.equalTo(_v_line2.mas_right).offset(10);
+//        make.right.equalTo(_v_line.mas_left).offset(-1);
+//        make.height.offset(20);
+//        
+//    }];
+//    
+//    
+//    //直径
+//    
+//    [_diameterL mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(_v_line.mas_right).offset(1);
+//        //        make.left.offset((SCREEN_WIDTH-20)/2);
+//        //         make.left.equalTo(_heightNumL.mas_right).offset(3);
+//        make.top.offset(2);
+//        make.width.offset(60);
+//        make.height.offset(20);
+//    }];
+//    [_ageL mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(_v_line.mas_right).offset(1);
+//        //         make.left.offset((SCREEN_WIDTH-20)/2);
+//        make.top.equalTo(_h_line.mas_bottom).offset(1);
+//        make.width.offset(60);
+//        make.height.offset(20);
+//    }];
+//    
+//    [_v_line3 mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.top.offset(0);
+//        make.bottom.offset(0);
+//        make.left.equalTo(_diameterL.mas_right).offset(1);
+//        make.width.offset(0.5);
+//        
+//    }];
+//    
+//    [_diameterNumL mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.offset(2);
+//        make.left.equalTo(_v_line3.mas_right).offset(10);
+//        make.right.offset(-10);
+//        //        make.right.equalTo(_generalGB.mas_left).offset(-1);//这句会导致约束报错
+//        make.height.offset(20);
+//        //        make.width.offset(80);
+//        
+//    }];
+//    //
+//    [_ageNumL mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(_h_line.mas_bottom).offset(1);
+//        make.left.equalTo(_v_line3.mas_right).offset(10);
+//        make.right.offset(-10);
+//        make.height.offset(20);
+//        
+//    }];
     
     
     [_praiseView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(0);
         make.right.offset(0);
         make.height.offset(50);
-        make.top.equalTo(_ageNumL.mas_bottom).offset(1);
+        make.top.equalTo(_descriptionL.mas_bottom).offset(5);
+//        make.top.equalTo(_ageNumL.mas_bottom).offset(1);
     }];
-    [_praiseView initViewUsers:nil uid:_info.UID praiseNum:_info.PraisedNum];
+    //    [_praiseView initViewUsers:nil];
+    [_praiseView initViewUsers:_info.Praised uid:_info.UID praiseNum:_info.PraisedNum];
     
     
     [_bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -472,113 +499,221 @@ static float image_offX =10;
         make.right.offset(0);
         make.height.offset(0.5);
         make.top.equalTo(_praiseView.mas_bottom).offset(1);
-    }];
-    _bottomLine.backgroundColor=Line_Color;
+    }];//
+    _bottomLine.backgroundColor=Clear_Color;//线条暂时无用了 设置透明色
     
     
-    [_bottomToolView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.offset(0);
-        make.right.offset(0);
-        make.height.offset(BottomToolView_Height);
-        make.top.equalTo(_bottomLine.mas_bottom).offset(1);
-    }];
-    
-    
-    //    [_v_line3 mas_makeConstraints:^(MASConstraintMaker *make) {
-    //
-    //        make.top.offset(0);
-    //        make.bottom.offset(0);
-    //        make.left.equalTo(_heightL.mas_right).offset(1);
-    //        make.width.offset(0.5);
-    //
+    //    [_bottomToolView mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.left.offset(0);
+    //        make.right.offset(0);
+    //        make.height.offset(BottomToolView_Height);
+    //        make.top.equalTo(_bottomLine.mas_bottom).offset(1);
     //    }];
+    
     
     if (self.isDetail) {//详情页面隐藏底部
         [_bottomToolView setHidden:YES];
     }
     float Width=50;
     //    _priceL.text=@"100元";
-    if (self.enterType==2) {
-        if ([_info.InfoType integerValue]==2) {//出售
-            _saleStatusL.text=@"出售中";
-            _priceL.text=[NSString stringWithFormat:@"%@元",_info.Price];
-            
-            if ([_info.IsMailed boolValue]) {
-                [_isExpressL setText:@"包邮"];
-                [_priceL mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*2+10));
-                    make.width.offset(Width);
-                }];
-                [_saleStatusL mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*1+10));
-                    make.width.offset(Width);
-                }];
-                [_isExpressL mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*0+10));
-                    make.width.offset(Width);
-                }];
-            }
-            else{
-                [_isExpressL setHidden:YES];
-                [_priceL mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*1+10));
-                    make.width.offset(Width);
-                }];
-                [_saleStatusL mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*0+10));
-                    make.width.offset(Width);
-                }];
-                //                [_isExpressL mas_makeConstraints:^(MASConstraintMaker *make) {
-                //                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                //                    make.right.offset(-(Width*0+10));
-                //                    make.width.offset(Width);
-                //                }];
-            }
+    //    if (self.enterType==2) {
+    if ([_info.InfoType integerValue]==2) {//出售
+        _saleStatusL.text=@"出售中";
+        _priceL.text=[NSString stringWithFormat:@"%@元",_info.Price];
+        
+        if ([_info.IsMailed boolValue]) {
+            [_isExpressL setText:@"包邮"];
+            [_priceL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                make.right.offset(-(Width*2+10));
+                make.width.offset(Width);
+            }];
+            [_saleStatusL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                make.right.offset(-(Width*1+10));
+                make.width.offset(Width);
+            }];
+            [_isExpressL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                make.right.offset(-(Width*0+10));
+                make.width.offset(Width);
+            }];
+        }
+        else{
+            [_isExpressL setHidden:YES];
+            [_priceL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                make.right.offset(-(Width*1+10));
+                make.width.offset(Width);
+            }];
+            [_saleStatusL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                make.right.offset(-(Width*0+10));
+                make.width.offset(Width);
+            }];
+            //                [_isExpressL mas_makeConstraints:^(MASConstraintMaker *make) {
+            //                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+            //                    make.right.offset(-(Width*0+10));
+            //                    make.width.offset(Width);
+            //                }];
+        }
+        
+    }
+    else if ([_info.InfoType integerValue]==3) {//拍卖
+        _saleStatusL.text=@"拍卖中";
+        _priceL.text=[NSString stringWithFormat:@"%@元",_info.APrice];
+        if ([_info.IsMailed boolValue]) {
+            [_isExpressL setText:@"包邮"];
+            [_priceL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                make.right.offset(-(Width*2+10));
+                make.width.offset(Width);
+            }];
+            [_saleStatusL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                make.right.offset(-(Width*1+10));
+                make.width.offset(Width);
+            }];
+            [_isExpressL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                make.right.offset(-(Width*0+10));
+                make.width.offset(Width);
+            }];
             
         }
-        else if ([_info.InfoType integerValue]==3) {//拍卖
-            _saleStatusL.text=@"拍卖中";
-            _priceL.text=[NSString stringWithFormat:@"%@元",_info.APrice];
-            if ([_info.IsMailed boolValue]) {
-                [_isExpressL setText:@"包邮"];
-                [_priceL mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*2+10));
-                    make.width.offset(Width);
-                }];
-                [_saleStatusL mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*1+10));
-                    make.width.offset(Width);
-                }];
-                [_isExpressL mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*0+10));
-                    make.width.offset(Width);
+        else{
+            [_isExpressL setHidden:YES];
+            [_isExpressL setHidden:YES];
+            [_priceL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                make.right.offset(-(Width*1+10));
+                make.width.offset(Width);
+            }];
+            [_saleStatusL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                make.right.offset(-(Width*0+10));
+                make.width.offset(Width);
+            }];
+        }
+    }
+    else if([_info.InfoType integerValue]==4){//盆大夫
+        _saleStatusL.text=@"诊疗中";
+        [_saleStatusL mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_treeIcon.mas_top).offset(0);
+            make.right.offset(-10);
+            make.width.offset(Width);
+        }];
+
+    }
+    
+    for (UIView *temp in self.contentView.subviews) {
+        if (temp.tag==501||[temp isMemberOfClass:[CommentLabel class]]) {
+            [temp removeFromSuperview];
+            
+        }
+    }
+    //评论布局
+    for (int i=0; i<_info.Comment.count; i++) {
+        if (i==3&&!self.isDetail) {//列表页面只显示3条
+            break;
+        }
+        UIView *lastView=[self.contentView viewWithTag:110+i-1];
+        CommentInfo *comment=_info.Comment[i];
+        float offX=10;
+        float offY=5;
+        if (i==0) {
+            UIImageView *commentIV=[[UIImageView alloc] init];
+            commentIV.tag=501;
+            commentIV.image=[UIImage imageNamed:@"评论-列表"];
+            [self.contentView addSubview:commentIV];
+            
+            [commentIV mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.left.offset(offX);
+                //                make.top.offset(offY);
+                if (!_isDetail) {
+                    //                        make.top.equalTo(_bottomToolView.mas_bottom).offset(offY);
+                    make.top.equalTo(_praiseView.mas_bottom).offset(offY);
+                }
+                else{
+                    make.top.equalTo(_praiseView.mas_bottom).offset(offY);
+                }
+                
+                make.width.and.height.offset(15);
+            }];
+        }
+        
+        CommentLabel *commentL=[[CommentLabel alloc] init];
+        commentL.tag=110+i;
+        commentL.text=[NSString stringWithFormat:@"%@: %@",comment.NickName,comment.Message];
+        //        commentL.text=comment.Message;
+        commentL.font=[UIFont systemFontOfSize:comment_FontSize];
+        commentL.textColor=[UIColor darkGrayColor];
+        [self.contentView addSubview:commentL];
+        if (!lastView) {
+            [commentL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.left.offset(15+offX*2);
+                make.right.offset(-offX);
+                if (!_isDetail) {
+                    //                  make.top.equalTo(_bottomToolView.mas_bottom).offset(offY);
+                    make.top.equalTo(_praiseView.mas_bottom).offset(offY);
+                }
+                else{
+                    make.top.equalTo(_praiseView.mas_bottom).offset(offY);
+                }
+            }];
+        }
+        else{
+            [commentL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.left.offset(15+offX*2);
+                make.right.offset(-offX);
+                make.top.equalTo(lastView.mas_bottom).offset(5);
+            }];
+        }
+        
+        [commentL sizeToFit];
+        //底部工具条布局
+        if (!_isDetail) {
+            float offY=5;
+            if (i==_info.Comment.count-1&&_info.Comment.count<=3) {
+                [_bottomToolView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                    make.left.offset(0);
+                    make.right.offset(0);
+                    make.height.offset(BottomToolView_Height);
+                    make.top.equalTo(commentL.mas_bottom).offset(offY);
                 }];
                 
             }
-            else{
-                [_isExpressL setHidden:YES];
-                [_isExpressL setHidden:YES];
-                [_priceL mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*1+10));
-                    make.width.offset(Width);
+            else if(i==2&&_info.Comment.count>3){//大于3条评论
+                [_bottomToolView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                    make.left.offset(0);
+                    make.right.offset(0);
+                    make.height.offset(BottomToolView_Height);
+                    make.top.equalTo(commentL.mas_bottom).offset(offY);
                 }];
-                [_saleStatusL mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*0+10));
-                    make.width.offset(Width);
-                }];
+                
             }
         }
+        
+        
     }
+    //无评论时布局
+    if (_info.Comment.count==0) {
+        [_bottomToolView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.offset(0);
+            make.right.offset(0);
+            make.height.offset(BottomToolView_Height);
+            make.top.equalTo(_praiseView.mas_bottom).offset(10);
+        }];
+    }
+    if ([_info.UID isEqualToString:[DataSource sharedDataSource].userInfo.ID]) {
+        [_attentBtn setHidden:YES];
+        [_bottomToolView.chatBtn setEnabled:NO];
+    }
+    else{
+        [_attentBtn setHidden:NO];
+        [_bottomToolView.chatBtn setEnabled:YES];
+    }
+    _bottomToolView.isdetail=_isDetail;
     
     
 }
@@ -593,7 +728,9 @@ static float image_offX =10;
     _ageNumL.text=info.Old;
     _diameterNumL.text=info.Diameter;
     _titleL.text=info.Title;
-    _timeL.text=[CommonFun translateDateWithCreateTime:[info.CreateTime integerValue]];
+    //    _timeL.text=[CommonFun translateDateWithCreateTime:[info.CreateTime integerValue]];
+    _timeL.text=info.Createtime;
+    //    NSLog(@"info.CreateTime:%@",info.Createtime);
     if ([_info.userInfo.IsFocus boolValue]) {
         [_attentBtn setTitle:@"已关注" forState:UIControlStateNormal];
         [_attentBtn setUserInteractionEnabled:NO];
@@ -616,70 +753,6 @@ static float image_offX =10;
     else{
         [_bottomToolView.praiseBtn setImage:[UIImage imageNamed:@"看好(未点)"] forState:UIControlStateNormal];
     }
-    for (UIView *temp in self.contentView.subviews) {
-        if (temp.tag==101||temp.tag==110||temp.tag==111||temp.tag==112||temp.tag==113) {
-            [temp removeFromSuperview];
-            
-        }
-    }
-    for (int i=0; i<info.Comment.count; i++) {
-        if (i==3) {
-            break;
-        }
-        UIView *lastView=[self.contentView viewWithTag:110+i-1];
-        CommentInfo *comment=info.Comment[i];
-        float offX=10;
-        float offY=10;
-        if (i==0) {
-            UIImageView *commentIV=[[UIImageView alloc] init];
-            commentIV.tag=101;
-            commentIV.image=[UIImage imageNamed:@"评论-列表"];
-            [self.contentView addSubview:commentIV];
-            
-            [commentIV mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.offset(offX);
-                //                make.top.offset(offY);
-                if (!_isDetail) {
-                    make.top.equalTo(_bottomToolView.mas_bottom).offset(offY);
-                }
-                else{
-                    make.top.equalTo(_praiseView.mas_bottom).offset(offY);
-                }
-                
-                make.width.and.height.offset(15);
-            }];
-        }
-        
-        UILabel *commentL=[[UILabel alloc] init];
-        commentL.tag=110+i;
-        commentL.text=[NSString stringWithFormat:@"%@: %@",comment.NickName,comment.Message];
-        //        commentL.text=comment.Message;
-        commentL.font=[UIFont systemFontOfSize:comment_FontSize];
-        commentL.textColor=[UIColor darkGrayColor];
-        [self.contentView addSubview:commentL];
-        if (!lastView) {
-            [commentL mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.offset(15+offX*2);
-                make.right.offset(-offX);
-                if (!_isDetail) {
-                    make.top.equalTo(_bottomToolView.mas_bottom).offset(offY);
-                }
-                else{
-                    make.top.equalTo(_praiseView.mas_bottom).offset(offY);
-                }
-            }];
-        }
-        else{
-            [commentL mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.offset(15+offX*2);
-                make.right.offset(-offX);
-                make.top.equalTo(lastView.mas_bottom).offset(5);
-            }];
-        }
-        
-        [commentL sizeToFit];
-    }
-    
     
     
 }
@@ -728,6 +801,31 @@ static float image_offX =10;
     
     // Configure the view for the selected state
 }
+
+
+//- (BOOL)touchesShouldBegin:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event inContentView:(UIView *)view{
+//    return NO;
+//}
+
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+//{
+//    // 输出点击的view的类名
+//    NSLog(@"%@", NSStringFromClass([touch.view class]));
+//    // 若为UITableViewCellContentView（即点击了tableViewCell），则不截获Touch事件
+////    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
+//        if ([NSStringFromClass([touch.view class]) isEqualToString:@"UIScrollView"]) {
+//        return NO;
+//    }
+//    return  YES;
+//}
+
+-(void)tapScrollView:(UITapGestureRecognizer*)sender{
+    if ([_delegate respondsToSelector:@selector(gotoDetailView:)]) {
+        [_delegate gotoDetailView:_indexPath];
+    }
+    
+}
+
 
 
 @end

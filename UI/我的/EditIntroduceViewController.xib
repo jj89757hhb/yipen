@@ -19,7 +19,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GBh-rw-Mw7">
-                    <rect key="frame" x="0.0" y="74" width="320" height="133"/>
+                    <rect key="frame" x="0.0" y="10" width="320" height="133"/>
                     <subviews>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tjV-r2-DZB">
                             <rect key="frame" x="8" y="5" width="304" height="108"/>
@@ -55,7 +55,7 @@
             <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="GBh-rw-Mw7" secondAttribute="trailing" id="AQc-H7-y6U"/>
-                <constraint firstItem="GBh-rw-Mw7" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="74" id="OSE-kX-f39"/>
+                <constraint firstItem="GBh-rw-Mw7" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="10" id="OSE-kX-f39"/>
                 <constraint firstItem="GBh-rw-Mw7" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xdq-Kd-M9z"/>
             </constraints>
             <point key="canvasLocation" x="310" y="230"/>

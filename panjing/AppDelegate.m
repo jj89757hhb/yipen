@@ -47,7 +47,7 @@
     //2. 初始化社交平台
     //2.1 代码初始化社交平台的方法
     [ShareView initializePlat];
-//     [WXApi registerApp:@"wxb4ba3c02aa476ea1" withDescription:@"demo 2.0"];
+     [WXApi registerApp:@"wxc854949473b2b966" withDescription:@"demo 2.0"];
     [NotificationCenter addObserver:self selector:@selector(loginOut) name:KloginOutNotify object:nil];
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
@@ -66,6 +66,10 @@
     MyViewController * myCtr = [[MyViewController alloc]init];
     
     BaseNavController * nav1 = [[BaseNavController alloc]initWithRootViewController:homeCtr];
+//        [nav1.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_line"] forBarMetrics:UIBarMetricsDefault];
+//    nav1.navigationBar.shadowImage = [UIImage imageNamed:@"nav_line"];
+//        [nav1.navigationBar setBackgroundImage:[UIImage imageNamed:@"top_bg"] forBarMetrics:UIBarMetricsDefault];
+    
     BaseNavController * nav2 = [[BaseNavController alloc]initWithRootViewController:sameCtr];
     BaseNavController * nav3 = [[BaseNavController alloc]initWithRootViewController:chatCtr];
     BaseNavController * nav4 = [[BaseNavController alloc]initWithRootViewController:myCtr];
@@ -143,7 +147,7 @@
     
     //登录
 //    NSString *token =[[NSUserDefaults standardUserDefaults] objectForKey:@"userToken"];
-    NSString *token=@"TI9F2LuaYEiqzMus85S51LwDOnHV8LIqjMA7EZsSql3xp+cBNwNMaWRjax2xqd5pfk0nxxrQARjlP1+MqJyXyA==";//36  18857871640
+//    NSString *token=@"TI9F2LuaYEiqzMus85S51LwDOnHV8LIqjMA7EZsSql3xp+cBNwNMaWRjax2xqd5pfk0nxxrQARjlP1+MqJyXyA==";//36  18857871640
 //    NSString *token=@"lRwBzD35sOlg6JFHfDV3LrGZqxK28HwRmXUCyKz4CKRx3+tfvm03lbllaAaaAUeqk5L2Zi+gkTkGXXbXU4kgAw==";//38
     NSString *userId=[DEFAULTS objectForKey:@"userId"];
     NSString *userName = [DEFAULTS objectForKey:@"userName"];
@@ -151,31 +155,48 @@
     NSString *userNickName = [DEFAULTS objectForKey:@"userNickName"];
     NSString *userPortraitUri = [DEFAULTS objectForKey:@"userPortraitUri"];
     
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:userId,@"userId", userNickName,@"name",userPortraitUri,@"portraitUri",nil];
-    [HttpConnection  getToken:dic WithBlock:^(id response, NSError *error) {
-        
-    }];
+//    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:userId,@"userId", userNickName,@"name",userPortraitUri,@"portraitUri",nil];
+//    [HttpConnection  getToken:dic WithBlock:^(id response, NSError *error) {
+//        
+//    }];
     
 //    if (token.length && userId.length && password.length && !debugMode) {
-     if (token.length && userId.length) {
-        RCUserInfo *_currentUserInfo =
-        [[RCUserInfo alloc] initWithUserId:userId
-                                      name:userNickName
-                                  portrait:userPortraitUri];
-        [RCIMClient sharedRCIMClient].currentUserInfo = _currentUserInfo;
-        [[RCIM sharedRCIM] connectWithToken:token
-                                    success:^(NSString *userId) {
-                                        NSLog(@"链接融云成功:%@",userId);
-                                    }
-                                      error:^(RCConnectErrorCode status) {
-                                  
-                                      }
-                             tokenIncorrect:^{
-                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                    
-                                 });
-                             }];
-    };
+
+    
+    
+    
+    //首先获取个人资料 拿到融云token
+    if ([DataSource sharedDataSource].userInfo.ID) {
+        NSString *param2=[NSString stringWithFormat:@"UID=%@",[DataSource sharedDataSource].userInfo.ID];
+        [HttpConnection getOwnerInfoWithParameter:param2 WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                NSString *token=[DataSource sharedDataSource].userInfo.Token;
+                if (token.length && userId.length) {
+                    RCUserInfo *_currentUserInfo =
+                    [[RCUserInfo alloc] initWithUserId:userId
+                                                  name:userNickName
+                                              portrait:userPortraitUri];
+                    [RCIMClient sharedRCIMClient].currentUserInfo = _currentUserInfo;
+                    [[RCIM sharedRCIM] connectWithToken:token
+                                                success:^(NSString *userId) {
+                                                    NSLog(@"链接融云成功:%@",userId);
+                                                }
+                                                  error:^(RCConnectErrorCode status) {
+                                                      
+                                                  }
+                                         tokenIncorrect:^{
+                                             dispatch_async(dispatch_get_main_queue(), ^{
+                                                 
+                                             });
+                                         }];
+                };
+            }
+            
+            
+        }];
+        
+    }
+ 
     
     /**
      * 推送处理1
@@ -246,6 +267,7 @@
     _locService.distanceFilter=200;
     //启动LocationService
     [_locService startUserLocationService];
+       [UINavigationBar appearance].translucent=NO;
     return YES;
 }
 

@@ -16,8 +16,10 @@
 static NSInteger pageSize=10;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    currentPage=1;
     // Do any additional setup after loading the view from its nib.
     [self requestData];
+    
 }
 
 -(void)requestData{

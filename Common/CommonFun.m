@@ -7,7 +7,7 @@
 //
 
 #import "CommonFun.h"
-
+#import<CoreText/CoreText.h>
 @implementation CommonFun
 
 //判断字符是否为空
@@ -70,7 +70,7 @@
 }
 
 //倒计时
-+(NSString*)timerFireMethod:(long long)time{
++(NSMutableAttributedString*)timerFireMethod:(long long)time{
     
 //    NSDateFormatter *f1 = [[NSDateFormatter alloc] init];
 //    [f1 setDateFormat:@"yyyy-MM-dd HH:mm:ss.S"];
@@ -96,19 +96,116 @@
     NSUInteger unitFlags =
     NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit;
     NSDateComponents *cps = [chineseClendar components:unitFlags fromDate:today  toDate: startDate options:0];
+    
+        NSInteger diffYear = [cps year];
+       NSInteger diffMon  = [cps month];
+    
+    NSInteger diffDay   = [cps day];
     NSInteger diffHour = [cps hour];
     NSInteger diffMin    = [cps minute];
     NSInteger diffSec   = [cps second];
-    NSInteger diffDay   = [cps day];
-    NSInteger diffMon  = [cps month];
-    NSInteger diffYear = [cps year];
+
+ 
+
 //    NSLog(  @" From Now to %@, diff: Years: %d  Months: %d, Days; %d, Hours: %d, Mins:%d, sec:%d",
 //          [today description], diffYear, diffMon, diffDay, diffHour, diffMin,diffSec );
     NSString *countdown = [NSString stringWithFormat:@"距离结束: %ld天 %ld小时 %ld分钟 %ld秒   ", diffDay,diffHour, diffMin, diffSec];
+    NSString *diffDayStr=[NSString stringWithFormat:@"%ld",diffDay];
+     NSString *diffHourStr=[NSString stringWithFormat:@"%ld",diffHour];
+     NSString *diffMinStr=[NSString stringWithFormat:@"%ld",diffMin];
+    NSString *diffSecStr=[NSString stringWithFormat:@"%ld",diffSec];
+        NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc]initWithString:countdown];
     if (diffSec<0) {
         countdown=[NSString stringWithFormat:@"拍卖已结束   "];
+        return attributedStr;
     }
-    return countdown;
+
+//    NSDictionary *attributeDict = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                   [UIFont systemFontOfSize:14.0],NSFontAttributeName,
+//                                   BLACKCOLOR,NSForegroundColorAttributeName,nil];
+//    NSDictionary *attributeDict2 = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                   [UIFont systemFontOfSize:14.0],NSFontAttributeName,
+//                                   RedColor,NSForegroundColorAttributeName,nil];
+//    [attributedStr addAttribute:NSFontAttributeName
+//                          value:[UIFont systemFontOfSize:14.0]
+//                          range:NSMakeRange(0, attributedStr.length)];
+//    [attributedStr addAttribute:NSForegroundColorAttributeName
+//                          value:[UIColor redColor]
+//                          range:NSMakeRange(6, 1)];
+//    [attributedStr addAttribute:NSForegroundColorAttributeName
+//                          value:[UIColor greenColor]
+//                          range:NSMakeRange(8, 1)];
+    int begin_Location=6;
+    int space_Lenght=1;
+//    [attributedStr addAttribute:(NSString *)kCTForegroundColorAttributeName
+//    
+//                        value:(id)[UIColor redColor].CGColor
+//                        range:NSMakeRange(begin_Location, diffDayStr.length)];
+//
+//    [attributedStr addAttribute:(NSString *)kCTForegroundColorAttributeName
+//                        value:(id)[UIColor redColor].CGColor
+//                        range:NSMakeRange(begin_Location+diffDayStr.length+1+space_Lenght, diffHourStr.length)];
+//    
+//    [attributedStr addAttribute:(NSString *)kCTForegroundColorAttributeName
+//                          value:(id)[UIColor redColor].CGColor
+//                          range:NSMakeRange(begin_Location+diffDayStr.length+1+space_Lenght+diffHourStr.length+2+space_Lenght, diffMinStr.length)];
+//    
+//    [attributedStr addAttribute:(NSString *)kCTForegroundColorAttributeName
+//                          value:(id)[UIColor redColor].CGColor
+//                          range:NSMakeRange(begin_Location+diffDayStr.length+1+space_Lenght+diffHourStr.length+2+space_Lenght  +diffMinStr.length+2+space_Lenght, diffSecStr.length)];
+
+    float size=14;
+    [attributedStr addAttribute:NSFontAttributeName
+     
+                        value:[UIFont systemFontOfSize:size]
+     
+                        range:NSMakeRange(begin_Location, diffDayStr.length)];
+    
+    [attributedStr addAttribute:NSForegroundColorAttributeName
+     
+                        value:[UIColor redColor]
+     
+                        range:NSMakeRange(begin_Location, diffDayStr.length)];
+    
+    
+    [attributedStr addAttribute:NSFontAttributeName
+     
+                        value:[UIFont systemFontOfSize:size]
+     
+                        range:NSMakeRange(begin_Location+diffDayStr.length+1+space_Lenght, diffHourStr.length)];
+    
+    [attributedStr addAttribute:NSForegroundColorAttributeName
+     
+                        value:[UIColor redColor]
+     
+                        range:NSMakeRange(begin_Location+diffDayStr.length+1+space_Lenght, diffHourStr.length)];
+    
+    [attributedStr addAttribute:NSFontAttributeName
+     
+                          value:[UIFont systemFontOfSize:size]
+     
+                          range:NSMakeRange(begin_Location+diffDayStr.length+1+space_Lenght+diffHourStr.length+2+space_Lenght, diffMinStr.length)];
+    
+    [attributedStr addAttribute:NSForegroundColorAttributeName
+     
+                          value:[UIColor redColor]
+     
+                          range:NSMakeRange(begin_Location+diffDayStr.length+1+space_Lenght+diffHourStr.length+2+space_Lenght, diffMinStr.length)];
+    
+    [attributedStr addAttribute:NSFontAttributeName
+     
+                          value:[UIFont systemFontOfSize:size]
+     
+                          range:NSMakeRange(begin_Location+diffDayStr.length+1+space_Lenght+diffHourStr.length+2+space_Lenght  +diffMinStr.length+2+space_Lenght, diffSecStr.length)];
+    
+    [attributedStr addAttribute:NSForegroundColorAttributeName
+     
+                          value:[UIColor redColor]
+     
+                          range:NSMakeRange(begin_Location+diffDayStr.length+1+space_Lenght+diffHourStr.length+2+space_Lenght  +diffMinStr.length+2+space_Lenght, diffSecStr.length)];
+    
+    
+    return attributedStr;
 
     
 }
@@ -121,6 +218,19 @@
                                        context:nil];
     
     return rect.size;
+}
+
++ (UIViewController *)viewControllerHasNavigation:(UIView *)aView
+{
+    for (UIView *next = aView.superview; next; next = next.superview) {
+        UIResponder *nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            if (((UIViewController*)nextResponder).navigationController) {
+                return (UIViewController*)nextResponder;
+            }
+        }
+    }
+    return nil;
 }
 
 @end

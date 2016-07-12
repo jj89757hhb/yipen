@@ -33,19 +33,28 @@ static NSInteger pageNum=10;//每页
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.list=[[NSMutableArray alloc] init];
+        currentPage=1;
+    [SVProgressHUD show];
         [self requestData];
     // Do any additional setup after loading the view from its nib.
-    if (_slideSwitchView) {
-        _multiDelegate = [[AIMultiDelegate alloc] init];
-        [_multiDelegate addDelegate:self];
-        [_multiDelegate addDelegate:_slideSwitchView];
-        self.tableView.delegate = (id)_multiDelegate;
-    }
-    currentPage=1;
+//    if (_slideSwitchView) {
+//        _multiDelegate = [[AIMultiDelegate alloc] init];
+//        [_multiDelegate addDelegate:self];
+//        [_multiDelegate addDelegate:_slideSwitchView];
+//        self.tableView.delegate = (id)_multiDelegate;
+//    }
+
     [self.tableView registerClass:[FenXiangTableViewCell class] forCellReuseIdentifier:identity];
+//    self.tableView.backgroundColor=VIEWBACKCOLOR;
     WS(weakSelf)
+    self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self.tableView addLegendHeaderWithRefreshingBlock:^{
+        currentPage=1;
         [weakSelf requestData];
+    }];
+    
+    [self.tableView addLegendFooterWithRefreshingBlock:^{
+          [weakSelf requestData];
     }];
     self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"返回"] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
     
@@ -66,16 +75,25 @@ static NSInteger pageNum=10;//每页
 
 
 -(void)requestData{
-    currentPage=1;
+//    currentPage=1;
     //Type=3 淘一盆
 //    NSString *param=[NSString stringWithFormat:@"UID=%@&Page=%ld&PageSize=%ld",[DataSource sharedDataSource].userInfo.ID,currentPage,pageNum];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:currentPage],@"Page",[NSNumber numberWithInteger:pageNum],@"PageSize",@"1",@"Type", nil];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:currentPage],@"Page",[NSNumber numberWithInteger:pageNum],@"PageSize",@"1",@"Type",@"",SenShu,@"",LeiBie,@"",ChanDi,@"",PinZhong,@"",ShuXin,@"",ChiCun,@"",QiTa, nil];
     [HttpConnection GetBonsaiList:dic WithBlock:^(id response, NSError *error) {
+        [SVProgressHUD dismiss];
         [self.tableView.header endRefreshing];
+           [self.tableView.footer endRefreshing];
         if (!error) {
             if (![response objectForKey:KErrorMsg]) {
-                self.list=response[KDataList];
+                if (currentPage==1) {
+                         self.list=response[KDataList];
+                }
+                else{
+                    [self.list addObjectsFromArray:response[KDataList]];
+                }
+          
                 [self.tableView reloadData];
+                currentPage++;
             }
             else{
                 
@@ -98,21 +116,37 @@ static NSInteger pageNum=10;//每页
     return 1;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+//    return 10;
+    return 0.01f;
+}
+
+//-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10)];
+//    view.backgroundColor=VIEWBACKCOLOR;
+//    return view;
+//}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     PenJinInfo *info=_list[indexPath.row];
     float comment_Height=0;
+    float offY_Comment=4;
     if (info.Comment.count) {//计算评论高度
         for (int i=0; i<info.Comment.count; i++) {
             CommentInfo *comment=info.Comment[i];
-            comment_Height+=  [CommonFun sizeWithString:comment.Message font:[UIFont systemFontOfSize:comment_FontSize] size:CGSizeMake(SCREEN_WIDTH-15+10*2, MAXFLOAT)].height;
+            comment_Height+=  [CommonFun sizeWithString:comment.Message font:[UIFont systemFontOfSize:comment_FontSize] size:CGSizeMake(SCREEN_WIDTH-15-10*2, MAXFLOAT)].height;
+            comment_Height+=offY_Comment;
         }
-        
+        comment_Height-=2;
+
     }
-    return 400+50+BottomToolView_Height+comment_Height;
+    return 400+30+BottomToolView_Height+comment_Height;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     FenXiangTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identity];
+//    cell.contentView.backgroundColor=VIEWBACKCOLOR;
+    cell.indexPath=indexPath;
     [cell setInfo:_list[indexPath.row]];
     cell.delegate=self;
     [cell setClickBlock:^(id sender){
@@ -170,20 +204,38 @@ static NSInteger pageNum=10;//每页
 }
 
 
-
+//收藏 取消收藏
 -(void)collectAction:(PenJinInfo*)info{
     [SVProgressHUD show];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type", nil];
-    [HttpConnection Collection:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            [SVProgressHUD showInfoWithStatus:@"已收藏"];
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
-        
-    }];
-    
+    Collect_Type type=KCollect_Penjin;
+    if (![info.IsCollect boolValue]) {
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type", nil];
+        [HttpConnection Collection:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                [SVProgressHUD showInfoWithStatus:@"已收藏"];
+                info.IsCollect=@"1";
+                [self reloadTableAtIndex];
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+    else{
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type", nil];
+        [HttpConnection DelCollect:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                [SVProgressHUD showInfoWithStatus:@"已取消收藏"];
+                info.IsCollect=@"0";
+                [self reloadTableAtIndex];
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
 }
 
 -(void)attentionAction:(PenJinInfo*)info{
@@ -211,7 +263,7 @@ static NSInteger pageNum=10;//每页
 //赞
 -(void)praisedAction:(PenJinInfo*)info{
     [SVProgressHUD show];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type", nil];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type",info.userInfo.ID,@"buid", nil];
     [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {
@@ -219,6 +271,9 @@ static NSInteger pageNum=10;//每页
                 info.IsPraise=@"1";
                 [self reloadTableAtIndex];
               
+            }
+            else{
+                 [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
             }
         }
         else{

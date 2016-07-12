@@ -15,14 +15,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="330" height="119"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uem-cf-ISl">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Uem-cf-ISl">
                         <rect key="frame" x="13" y="8" width="55" height="55"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="55" id="0YO-ug-JbC"/>
                             <constraint firstAttribute="height" constant="55" id="FQf-b4-Vy9"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="黑键" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z1T-LF-zcl">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="黑键" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z1T-LF-zcl">
                         <rect key="frame" x="81" y="9" width="132" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -50,7 +50,7 @@
                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                     </button>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="个人认证" translatesAutoresizingMaskIntoConstraints="NO" id="7t0-LA-pDk">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="个人认证" translatesAutoresizingMaskIntoConstraints="NO" id="7t0-LA-pDk">
                         <rect key="frame" x="50" y="44" width="17" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="8ra-Yy-Dvi"/>
@@ -59,9 +59,15 @@
                     </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="Uem-cf-ISl" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="5" id="5oU-Qf-0ft"/>
                     <constraint firstItem="1SZ-HB-qiO" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="J0d-gh-H5Y"/>
                     <constraint firstItem="7t0-LA-pDk" firstAttribute="bottom" secondItem="Uem-cf-ISl" secondAttribute="bottom" id="SrC-Uq-7jF"/>
+                    <constraint firstItem="Uem-cf-ISl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="WvT-6u-MdH"/>
                     <constraint firstItem="7t0-LA-pDk" firstAttribute="leading" secondItem="Uem-cf-ISl" secondAttribute="trailing" constant="-18" id="f7A-F9-vDH"/>
+                    <constraint firstItem="KdC-fV-qM7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="i8h-Qe-dxz"/>
+                    <constraint firstItem="Z1T-LF-zcl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="1" id="psf-f3-GB7"/>
+                    <constraint firstItem="3gV-CI-9fe" firstAttribute="leading" secondItem="Uem-cf-ISl" secondAttribute="trailing" constant="13" id="sNl-6p-w7y"/>
+                    <constraint firstItem="Z1T-LF-zcl" firstAttribute="leading" secondItem="Uem-cf-ISl" secondAttribute="trailing" constant="13" id="yhW-kg-efq"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

@@ -9,6 +9,7 @@
 #import "BaseTableViewController.h"
 
 @interface GuanZhuViewController : BaseTableViewController{
+    NSInteger currentPage;
     
 }
 - (instancetype)initSlideSwitchView:(SlideSwitchView *)slideSwitchView;

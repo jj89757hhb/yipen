@@ -22,5 +22,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *oldPriceL;
 @property (weak, nonatomic) IBOutlet UILabel *payTypeL;
 @property (weak, nonatomic) IBOutlet UIButton *tapBtn;
+@property (weak, nonatomic) IBOutlet UIButton *selectAddressBtn;
 
 @end

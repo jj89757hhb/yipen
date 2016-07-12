@@ -55,11 +55,6 @@
         _viewL.textAlignment=NSTextAlignmentCenter;
         
         self.positionIV=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"位置"]];
-        
-        
-        
-        
-        
         [self.contentView addSubview:_bgView];
         [_bgView addSubview:_praiseL];
         [_bgView addSubview:_viewL];
@@ -79,11 +74,11 @@
         [_addressL setTextColor:MIDDLEBLACK];
         [_titleL setTextColor:DEEPBLACK];
         [_contentL setTextColor:MIDDLEBLACK];
-        _bgView.layer.borderColor=LIGHTBLACK.CGColor;
+        _bgView.layer.borderColor=Tree_Line.CGColor;
         _bgView.layer.borderWidth=1;
         
         _titleL.font=[UIFont systemFontOfSize:16];
-        _contentL.font=[UIFont systemFontOfSize:14];
+        _contentL.font=[UIFont systemFontOfSize:content_FontSize_YouYuan];
         UIFont *font=[UIFont systemFontOfSize:12];
         _timeL.font=font;
         _priceL.font=font;
@@ -149,7 +144,6 @@
     [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(offX);
         make.right.offset(-offX);
-        make.right.offset(-100);
         make.height.offset(20);
         make.top.equalTo(_treeIV.mas_bottom).offset(offY);
     }];
@@ -202,7 +196,7 @@
 }
 
 -(void)setInfo:(ActivityInfo *)info{
-    [_headIV sd_setImageWithURL:[NSURL URLWithString:info.userInfo.UserHeader] placeholderImage:nil];
+    [_headIV sd_setImageWithURL:[NSURL URLWithString:info.userInfo.UserHeader] placeholderImage:Default_Image];
     _titleL.text=info.Title;
     _contentL.text=info.Message;
     _createTimeL.text=info.CreateTime;
@@ -214,13 +208,13 @@
     }
     
     _timeL.text=@"2016年2月10日-20日";
-    _addressL.text=@"杭州市西湖区孤山";
-    _titleL.text=@"南京皎月园";
-    _contentL.text=@"刚开张的盆景店铺哦哦，美美的";
-    [_viewL setText:@"120人浏览"];
-    [_praiseL setText:@"12人看好"];
-    NSString *url=@"http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1106/26/c2/8138154_1309077121193_1024x1024it.jpg";
-    [_treeIV sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
+    _addressL.text=info.Address;
+//    _titleL.text=@"南京皎月园";
+//    _contentL.text=@"刚开张的盆景店铺哦哦，美美的";
+    [_viewL setText:[NSString stringWithFormat:@"%@人浏览",info.BrowseNum]];
+    [_praiseL setText:[NSString stringWithFormat:@"%@人看好",info.PraisedNum]];
+    
+
 }
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -88,7 +88,7 @@
             </subviews>
             <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="MWI-0o-EEX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="74" id="3lW-iT-1D7"/>
+                <constraint firstItem="MWI-0o-EEX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="14" id="3lW-iT-1D7"/>
                 <constraint firstAttribute="trailing" secondItem="MWI-0o-EEX" secondAttribute="trailing" id="9Wg-EP-Xdy"/>
                 <constraint firstItem="PGa-bT-apm" firstAttribute="leading" secondItem="MWI-0o-EEX" secondAttribute="trailing" constant="-83" id="Db7-qM-iE8"/>
                 <constraint firstAttribute="trailing" secondItem="ikX-qS-AU8" secondAttribute="trailing" constant="44" id="Jgu-TT-xvF"/>

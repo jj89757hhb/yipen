@@ -13,5 +13,5 @@
     UIView *bottomView;
     UIButton *addBtn;
 }
-
+@property(nonatomic,assign)NSInteger enterType;//0 是地址管理入口 1是地址选择
 @end

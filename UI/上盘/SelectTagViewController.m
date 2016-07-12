@@ -10,19 +10,49 @@
 #import "SKTagView.h"
 #import "TreeSort.h"
 @interface SelectTagViewController ()<UITableViewDataSource,UITableViewDelegate>
-@property (strong, nonatomic) SKTagView *tagView;
-@property(nonatomic,strong)NSMutableArray *list;
+@property (strong, nonatomic) SKTagView *tagView1;
+@property (strong, nonatomic) SKTagView *tagView2;
+@property (strong, nonatomic) SKTagView *tagView3;
+@property (strong, nonatomic) SKTagView *tagView4;
+@property (strong, nonatomic) SKTagView *tagView5;
+@property (strong, nonatomic) SKTagView *tagView6;
+@property (strong, nonatomic) SKTagView *tagView7;
+@property(nonatomic,strong)NSMutableArray *list1;
+@property(nonatomic,strong)NSMutableArray *list2;
+@property(nonatomic,strong)NSMutableArray *list3;
+@property(nonatomic,strong)NSMutableArray *list4;
+@property(nonatomic,strong)NSMutableArray *list5;
+@property(nonatomic,strong)NSMutableArray *list6;
+@property(nonatomic,strong)NSMutableArray *list7;
 @property(nonatomic,strong)NSMutableArray *names;
-@property(nonatomic,strong)TreeSort *selectSort;
+@property(nonatomic,strong)TreeSort *selectSort1;
+@property(nonatomic,strong)TreeSort *selectSort2;
+@property(nonatomic,strong)TreeSort *selectSort3;
+@property(nonatomic,strong)TreeSort *selectSort4;
+@property(nonatomic,strong)TreeSort *selectSort5;
+@property(nonatomic,strong)TreeSort *selectSort6;
+@property(nonatomic,strong)TreeSort *selectSort7;
 @end
 
 @implementation SelectTagViewController
-static NSString *kTagsTableCellReuseIdentifier=@"kTagsTableCellReuseIdentifier";
+static NSString *kTagsTableCellReuseIdentifier1=@"kTagsTableCellReuseIdentifier1";
+static NSString *kTagsTableCellReuseIdentifier2=@"kTagsTableCellReuseIdentifier2";
+static NSString *kTagsTableCellReuseIdentifier3=@"kTagsTableCellReuseIdentifier3";
+static NSString *kTagsTableCellReuseIdentifier4=@"kTagsTableCellReuseIdentifier4";
+static NSString *kTagsTableCellReuseIdentifier5=@"kTagsTableCellReuseIdentifier5";
+static NSString *kTagsTableCellReuseIdentifier6=@"kTagsTableCellReuseIdentifier6";
+static NSString *kTagsTableCellReuseIdentifier7=@"kTagsTableCellReuseIdentifier7";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"选择标签";
-    self.names=[[NSMutableArray alloc] init];
-    self.list=[[NSMutableArray alloc] init];
+    self.names=[[NSMutableArray alloc] init];//废弃
+    self.list1=[[NSMutableArray alloc] init];
+    self.list2=[[NSMutableArray alloc] init];
+        self.list3=[[NSMutableArray alloc] init];
+        self.list4=[[NSMutableArray alloc] init];
+        self.list5=[[NSMutableArray alloc] init];
+        self.list6=[[NSMutableArray alloc] init];
+        self.list7=[[NSMutableArray alloc] init];
     [self initTable];
     WS(weakSelf)
     [self setNavigationBarRightItem:@"完成" itemImg:nil withBlock:^(id sender) {
@@ -33,13 +63,31 @@ static NSString *kTagsTableCellReuseIdentifier=@"kTagsTableCellReuseIdentifier";
 }
 
 -(void)initTable{
-    myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+    myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStyleGrouped];
     myTable.delegate=self;
     myTable.dataSource=self;
     [self.view addSubview:myTable];
-    [myTable registerClass:[UITableViewCell class] forCellReuseIdentifier:kTagsTableCellReuseIdentifier];
+    [myTable registerClass:[UITableViewCell class] forCellReuseIdentifier:kTagsTableCellReuseIdentifier1];
+    if (self.enterType==0) {
+        [myTable registerClass:[UITableViewCell class] forCellReuseIdentifier:kTagsTableCellReuseIdentifier2];
+        [myTable registerClass:[UITableViewCell class] forCellReuseIdentifier:kTagsTableCellReuseIdentifier3];
+        [myTable registerClass:[UITableViewCell class] forCellReuseIdentifier:kTagsTableCellReuseIdentifier4];
+        [myTable registerClass:[UITableViewCell class] forCellReuseIdentifier:kTagsTableCellReuseIdentifier5];
+        [myTable registerClass:[UITableViewCell class] forCellReuseIdentifier:kTagsTableCellReuseIdentifier6];
+        [myTable registerClass:[UITableViewCell class] forCellReuseIdentifier:kTagsTableCellReuseIdentifier7];
+    }
+
 }
 -(void)requestData{
+    /*
+     生熟
+    类别
+    产地
+    品种
+    树型
+    尺寸
+    其它
+     */
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:-1],@"Lastid", nil];
     [HttpConnection DownBaseInfo:dic WithBlock:^(id response, NSError *error) {
         [SVProgressHUD dismiss];
@@ -47,11 +95,38 @@ static NSString *kTagsTableCellReuseIdentifier=@"kTagsTableCellReuseIdentifier";
             NSArray *records=response[@"records"];
             for (NSDictionary *dic in records) {
                 TreeSort *sort=[[TreeSort alloc] initWithKVCDictionary:dic];
-                
                
-                if ([sort.CodeDivision isEqualToString:@"品种"]) {
-                     [self.list addObject:sort];
-                      [self.names addObject:sort.CodeValue];
+                if (self.enterType==1) {
+                    if([sort.CodeDivision isEqualToString:@"品种"]){
+                        [self.list1 addObject:sort];
+                    }
+                }
+                else{
+                if([sort.CodeDivision isEqualToString:@"生熟"]){
+                     [self.list1 addObject:sort];
+                }
+                else if([sort.CodeDivision isEqualToString:@"类别"]){
+                     [self.list2 addObject:sort];
+                }
+                else if([sort.CodeDivision isEqualToString:@"产地"]){
+                     [self.list3 addObject:sort];
+                }
+                else if ([sort.CodeDivision isEqualToString:@"品种"]) {
+                    [self.list4 addObject:sort];
+                    //                      [self.names addObject:sort.CodeValue];
+                }
+//                else if([sort.CodeDivision isEqualToString:@"树型"]){
+                else if([sort.CodeDivision isEqualToString:@"树形"]){
+                     [self.list5 addObject:sort];
+                }
+                else if([sort.CodeDivision isEqualToString:@"尺寸"]){
+                     [self.list6 addObject:sort];
+                }
+                
+//                else if([sort.CodeDivision isEqualToString:@"其它"]){
+                else if([sort.CodeDivision isEqualToString:@"其他"]){
+                     [self.list7 addObject:sort];
+                }
                 }
               
             }
@@ -66,7 +141,15 @@ static NSString *kTagsTableCellReuseIdentifier=@"kTagsTableCellReuseIdentifier";
 
 -(void)finishAction{
     if (_selectBlock) {
-        _selectBlock(_selectSort);
+//        _selectBlock(_selectSort1);
+//         _selectBlock(_selectSort4);
+        if (self.enterType==1) {//盆缘
+             _selectBlock(_selectSort1);
+        }
+        else{
+        NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_selectSort1?_selectSort1:@"",SenShu,_selectSort2?_selectSort2:@"",LeiBie,_selectSort3?_selectSort3:@"",ChanDi,_selectSort4?_selectSort4:@"",PinZhong,_selectSort5?_selectSort5:@"",ShuXin,_selectSort6?_selectSort6:@"",ChiCun, _selectSort7?_selectSort7:@"",QiTa,nil];
+          _selectBlock(dic);
+        }
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -75,26 +158,73 @@ static NSString *kTagsTableCellReuseIdentifier=@"kTagsTableCellReuseIdentifier";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = nil;
+    NSString *cellIndentify=nil;
+    SKTagView *tagView=nil;
+    if (indexPath.section==0) {
+        cellIndentify=kTagsTableCellReuseIdentifier1;
+    }
+    else if (indexPath.section==1) {
+        cellIndentify=kTagsTableCellReuseIdentifier2;
+    }
+    else if (indexPath.section==2) {
+        cellIndentify=kTagsTableCellReuseIdentifier3;
+    }
+    else if (indexPath.section==3) {
+        cellIndentify=kTagsTableCellReuseIdentifier4;
+    }
+    else if (indexPath.section==4) {
+        cellIndentify=kTagsTableCellReuseIdentifier5;
+    }
+    else if (indexPath.section==5) {
+        cellIndentify=kTagsTableCellReuseIdentifier6;
+    }
+    else if (indexPath.section==6) {
+        cellIndentify=kTagsTableCellReuseIdentifier7;
+    }
+ 
     if (!cell)
     {
-        if (indexPath.section==0) {
-            cell = [tableView dequeueReusableCellWithIdentifier:kTagsTableCellReuseIdentifier];
-        }
+            cell = [tableView dequeueReusableCellWithIdentifier:cellIndentify];
         
     }
     [self setupTagViewWithCell:cell withType:indexPath.section];
+    if (indexPath.section==0) {
+        tagView=_tagView1;
+    }
+    else if (indexPath.section==1) {
+        tagView=_tagView2;
+    }
+    else if (indexPath.section==2) {
+        tagView=_tagView3;
+    }
+    else if (indexPath.section==3) {
+        tagView=_tagView4;
+    }
+    else if (indexPath.section==4) {
+        tagView=_tagView5;
+    }
+    else if (indexPath.section==5) {
+        tagView=_tagView6;
+    }
+    else if (indexPath.section==6) {
+        tagView=_tagView7;
+    }
     [cell updateConstraintsIfNeeded];
     [cell layoutIfNeeded];//要使用这个
-    //    [cell up ]
-    
     //    [self configureCell:cell atIndexPath:indexPath];
-    NSLog(@"height222:%f",[cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height);
-    if (self.tagView) {
-        float  height=[self.tagView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+//    NSLog(@"height222:%f",[cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height);
+    if (tagView) {
+        float  height=[tagView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
         NSLog(@"height111:%f",height);
         if (height==0) {
-            height=40;
+            height=44;
         }
+//        if (indexPath.section==3) {
+//            return 280;
+//        }
+//        else if (indexPath.section==4) {
+//            return 160;
+//        }
         return height;
     }
     else{
@@ -106,7 +236,10 @@ static NSString *kTagsTableCellReuseIdentifier=@"kTagsTableCellReuseIdentifier";
 
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    if (self.enterType==1) {
+        return 1;
+    }
+    return 1+6;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -127,7 +260,55 @@ static NSString *kTagsTableCellReuseIdentifier=@"kTagsTableCellReuseIdentifier";
         UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 120, 20)];
         label.font=[UIFont systemFontOfSize:16];
         label.textColor=[UIColor grayColor];
+        if (self.enterType==1) {
+            label.text=@"品种";
+        }
+        else{
+            label.text=@"生熟";
+        }
+  
+        [view addSubview:label];
+    }
+    if (section==1) {
+        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 120, 20)];
+        label.font=[UIFont systemFontOfSize:16];
+        label.textColor=[UIColor grayColor];
         label.text=@"类别";
+        [view addSubview:label];
+    }
+    if (section==2) {
+        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 120, 20)];
+        label.font=[UIFont systemFontOfSize:16];
+        label.textColor=[UIColor grayColor];
+        label.text=@"产地";
+        [view addSubview:label];
+    }
+    if (section==3) {
+        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 120, 20)];
+        label.font=[UIFont systemFontOfSize:16];
+        label.textColor=[UIColor grayColor];
+        label.text=@"品种";
+        [view addSubview:label];
+    }
+    if (section==4) {
+        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 120, 20)];
+        label.font=[UIFont systemFontOfSize:16];
+        label.textColor=[UIColor grayColor];
+        label.text=@"树型";
+        [view addSubview:label];
+    }
+    if (section==5) {
+        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 120, 20)];
+        label.font=[UIFont systemFontOfSize:16];
+        label.textColor=[UIColor grayColor];
+        label.text=@"尺寸";
+        [view addSubview:label];
+    }
+    if (section==6) {
+        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 120, 20)];
+        label.font=[UIFont systemFontOfSize:16];
+        label.textColor=[UIColor grayColor];
+        label.text=@"其它";
         [view addSubview:label];
     }
     
@@ -138,9 +319,31 @@ static NSString *kTagsTableCellReuseIdentifier=@"kTagsTableCellReuseIdentifier";
     
     //    UITableViewCell *cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kTagsTableCellReuseIdentifier];
     UITableViewCell *cell=nil;
+    NSString *cellIndentify=nil;
     if (indexPath.section==0) {
-        cell=  [tableView dequeueReusableCellWithIdentifier:kTagsTableCellReuseIdentifier];
+        cellIndentify=kTagsTableCellReuseIdentifier1;
     }
+    else if (indexPath.section==1) {
+        cellIndentify=kTagsTableCellReuseIdentifier2;
+    }
+    else if (indexPath.section==2) {
+        cellIndentify=kTagsTableCellReuseIdentifier3;
+    }
+    else if (indexPath.section==3) {
+        cellIndentify=kTagsTableCellReuseIdentifier4;
+    }
+    else if (indexPath.section==4) {
+        cellIndentify=kTagsTableCellReuseIdentifier5;
+    }
+    else if (indexPath.section==5) {
+        cellIndentify=kTagsTableCellReuseIdentifier6;
+    }
+    else if (indexPath.section==6) {
+        cellIndentify=kTagsTableCellReuseIdentifier7;
+    }
+//    if (indexPath.section==0) {
+        cell=  [tableView dequeueReusableCellWithIdentifier:cellIndentify];
+//    }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
 //    cell.backgroundColor=VIEWBACKCOLOR;
     UILabel *temp=[cell.contentView viewWithTag:100];
@@ -164,8 +367,9 @@ static NSString *kTagsTableCellReuseIdentifier=@"kTagsTableCellReuseIdentifier";
 
 - (void)setupTagViewWithCell:(UITableViewCell*)cell withType:(NSInteger)type
 {
-    
-    self.tagView = ({
+    SKTagView *tagView=nil;
+  
+    tagView = ({
         SKTagView *view = [SKTagView new];
         //        view.backgroundColor = UIColor.whiteColor;
         view.backgroundColor=Clear_Color;
@@ -183,19 +387,59 @@ static NSString *kTagsTableCellReuseIdentifier=@"kTagsTableCellReuseIdentifier";
             //            btn.clipsToBounds=YES;
             //            btn.layer.borderColor=DEEPORANGECOLOR.CGColor;
             //            btn.layer.borderWidth=1;
-            self.selectSort=_list[index];
-            if (type==1) {
-                
+       
+            if (type==0) {
+                     self.selectSort1=_list1[index];
             }
-            else if (type==0){
-                
+            else if (type==1){
+                self.selectSort2=_list2[index];
             }
+            else if (type==2){
+                self.selectSort3=_list3[index];
+            }
+            else if (type==3){
+                self.selectSort4=_list4[index];
+            }
+            else if (type==4){
+                self.selectSort5=_list5[index];
+            }
+            else if (type==5){
+                self.selectSort6=_list6[index];
+            }
+            else if (type==6){
+                self.selectSort7=_list7[index];
+            }
+//            else if (type==7){
+//                self.selectSort1=_list1[index];
+//            }
+            
             
         };
         view;
     });
-    [cell.contentView addSubview:self.tagView];
-    [self.tagView mas_makeConstraints:^(MASConstraintMaker *make) {
+    if (type==0) {
+        self.tagView1= tagView;
+    }
+    else if (type==1) {
+        self.tagView2= tagView;
+    }
+    else if (type==2) {
+         self.tagView3= tagView;
+    }
+    else if (type==3) {
+         self.tagView4= tagView;
+    }
+    else if (type==4) {
+         self.tagView5= tagView;
+    }
+    else if (type==5) {
+        self.tagView6= tagView;
+    }
+    else if (type==6) {
+         self.tagView7= tagView;
+    }
+    [cell.contentView addSubview:tagView];
+    [tagView mas_makeConstraints:^(MASConstraintMaker *make) {
         UIView *superView =cell.contentView;
         //        make.centerY.equalTo(superView.mas_centerY).with.offset(0);
         
@@ -210,15 +454,31 @@ static NSString *kTagsTableCellReuseIdentifier=@"kTagsTableCellReuseIdentifier";
     }];
     NSMutableArray *list=nil;
     if (type==0) {//最近
-        list=self.names;
+//        list=self.names;
+         list=self.list1;
     }
-    //    else if (type==1){//热门
-    //        list=self.hotSearchList;
-    //    }
-    //Add Tags
-    //    [@[@"Python", @"Javascript你好阿斯达克叫啥好得很好", @"Python或多或少", @"HTML", @"Go", @"Objective-C",@"C", @"PHP"] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
+    else if(type==1){
+        list=self.list2;
+    }
+    else if(type==2){
+        list=self.list3;
+    }
+    else if(type==3){
+        list=self.list4;
+    }
+    else if(type==4){
+        list=self.list5;
+    }
+    else if(type==5){
+        list=self.list6;
+    }
+    else if(type==6){
+        list=self.list7;
+    }
     [list enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        SKTag *tag = [SKTag tagWithText:obj];
+        TreeSort *sort=obj;
+//        SKTag *tag = [SKTag tagWithText:obj];
+        SKTag *tag = [SKTag tagWithText:sort.CodeValue];
         tag.textColor = [UIColor darkGrayColor];
         tag.fontSize = 15;
         //tag.font = [UIFont fontWithName:@"Courier" size:15];
@@ -228,7 +488,7 @@ static NSString *kTagsTableCellReuseIdentifier=@"kTagsTableCellReuseIdentifier";
         tag.bgColor=WHITEColor;
         tag.cornerRadius = 5;
         
-        [self.tagView addTag:tag];
+        [tagView addTag:tag];
     }];
     
 }

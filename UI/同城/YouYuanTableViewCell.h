@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ActivityInfo.h"
+static float content_FontSize_YouYuan =14;
 @interface YouYuanTableViewCell : UITableViewCell
 @property(nonatomic,strong)UIView *bgView;
 @property(nonatomic,strong)UIImageView *headIV;

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ActivityInfo.h"
 #import "PraiseView.h"
+static float activity_Content_Size =14;//内容字体大小
 @interface ActivityDetailTableViewCell : UITableViewCell{
     
 }

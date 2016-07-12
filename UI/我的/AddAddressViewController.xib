@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddAddressViewController">
@@ -25,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7zO-dX-iww">
-                    <rect key="frame" x="0.0" y="64" width="320" height="128"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="收件人" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdw-M3-XON">
                             <rect key="frame" x="8" y="14" width="51" height="21"/>
@@ -100,29 +100,29 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kYc-aQ-zBN">
-                    <rect key="frame" x="15" y="108" width="297" height="1"/>
+                    <rect key="frame" x="15" y="44" width="297" height="1"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="VaM-ZF-kVe"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="riZ-Hk-cjc">
-                    <rect key="frame" x="15" y="150" width="297" height="1"/>
+                    <rect key="frame" x="15" y="86" width="297" height="1"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="xcZ-MI-ApV"/>
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="kYc-aQ-zBN" secondAttribute="trailing" constant="8" id="9UD-F8-5Vs"/>
-                <constraint firstItem="kYc-aQ-zBN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="108" id="EAz-OW-feA"/>
+                <constraint firstItem="kYc-aQ-zBN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="44" id="EAz-OW-feA"/>
                 <constraint firstItem="riZ-Hk-cjc" firstAttribute="top" secondItem="kYc-aQ-zBN" secondAttribute="bottom" constant="41" id="IRX-Wo-OYr"/>
                 <constraint firstAttribute="trailing" secondItem="riZ-Hk-cjc" secondAttribute="trailing" constant="8" id="LtU-CX-rCi"/>
                 <constraint firstItem="riZ-Hk-cjc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="g6Z-sP-JpF"/>
                 <constraint firstItem="kYc-aQ-zBN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="hZ9-Ng-lsd"/>
-                <constraint firstItem="7zO-dX-iww" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="l5S-P1-j6o"/>
+                <constraint firstItem="7zO-dX-iww" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="l5S-P1-j6o"/>
                 <constraint firstItem="7zO-dX-iww" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="mLU-N9-aBz"/>
                 <constraint firstAttribute="trailing" secondItem="7zO-dX-iww" secondAttribute="trailing" id="mQg-3w-eLX"/>
             </constraints>

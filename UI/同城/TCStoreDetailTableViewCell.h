@@ -10,7 +10,10 @@
 #import "ActivityInfo.h"
 #import "ImagePlayerView.h"
 #import "PraiseView.h"
-@interface TCStoreDetailTableViewCell: UITableViewCell<ImagePlayerViewDelegate>{
+#import "MWPhotoBrowser.h"
+static float content_FontSize_StoreDetail=14;
+typedef void(^AttentionBlock)(id sender);
+@interface TCStoreDetailTableViewCell: UITableViewCell<ImagePlayerViewDelegate,MWPhotoBrowserDelegate>{
     
 }
 //@property(nonatomic,strong)UIView *bgView;
@@ -32,4 +35,6 @@
 @property(nonatomic,strong)UIButton *attentionBtn;//关注
 @property(nonatomic,strong)ImagePlayerView *imagePlayerView;
 @property(nonatomic,strong)PraiseView *praiseView;
+@property (nonatomic,copy) AttentionBlock attentionBlock;
+@property(nonatomic,strong)NSMutableArray *photos;
 @end

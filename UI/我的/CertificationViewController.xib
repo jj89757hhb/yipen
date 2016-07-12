@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -59,23 +59,77 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="个人认证" translatesAutoresizingMaskIntoConstraints="NO" id="x9q-hb-5eI">
                     <rect key="frame" x="158" y="92" width="17" height="17"/>
                 </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="认证仅为诚信交易提供保障，绝不会用于其他用途" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5pj-sM-mou">
+                    <rect key="frame" x="24" y="242" width="264" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="sEh-DL-hmZ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="个人认证只需上传身份信息" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rZ3-72-JLG">
+                    <rect key="frame" x="58" y="270" width="168" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="168" id="Xfl-NN-YZk"/>
+                        <constraint firstAttribute="height" constant="21" id="x8D-rh-nRl"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="商户认证需上传身份信息及营业执照" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HJo-Tr-So1">
+                    <rect key="frame" x="58" y="294" width="208" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="47A-x8-lZd"/>
+                        <constraint firstAttribute="width" constant="208" id="mPT-4Q-ve3"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="个人认证" translatesAutoresizingMaskIntoConstraints="NO" id="7FC-S7-72Z">
+                    <rect key="frame" x="33" y="297" width="17" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="17" id="Pva-Qt-zqI"/>
+                        <constraint firstAttribute="height" constant="17" id="yX2-z3-QCg"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="个人认证" translatesAutoresizingMaskIntoConstraints="NO" id="a2I-Hm-tzd">
+                    <rect key="frame" x="33" y="273" width="17" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="17" id="i0M-aK-iux"/>
+                        <constraint firstAttribute="height" constant="17" id="ymx-91-lSD"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="7FC-S7-72Z" firstAttribute="leading" secondItem="a2I-Hm-tzd" secondAttribute="leading" id="5oj-8i-fJN"/>
+                <constraint firstItem="5pj-sM-mou" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="24" id="Dae-Ok-Fid"/>
+                <constraint firstItem="a2I-Hm-tzd" firstAttribute="top" secondItem="5pj-sM-mou" secondAttribute="bottom" constant="10" id="HJz-vY-6Tv"/>
+                <constraint firstAttribute="trailing" secondItem="5pj-sM-mou" secondAttribute="trailing" constant="32" id="Jjf-S9-KgM"/>
                 <constraint firstItem="x9q-hb-5eI" firstAttribute="trailing" secondItem="9LG-pM-wHw" secondAttribute="trailing" id="K2U-om-uW6"/>
                 <constraint firstAttribute="trailing" secondItem="Upp-Y5-PbH" secondAttribute="trailing" constant="13" id="MCr-ji-Wxb"/>
                 <constraint firstItem="OCl-ru-FdO" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Q9l-UY-F9J"/>
+                <constraint firstItem="5pj-sM-mou" firstAttribute="top" secondItem="CgK-mG-Yw0" secondAttribute="bottom" constant="8" id="TOW-1q-4tl"/>
                 <constraint firstItem="x9q-hb-5eI" firstAttribute="bottom" secondItem="9LG-pM-wHw" secondAttribute="bottom" id="WWS-ij-SOL"/>
                 <constraint firstAttribute="trailing" secondItem="CgK-mG-Yw0" secondAttribute="trailing" constant="32" id="WeH-yJ-mBv"/>
+                <constraint firstItem="rZ3-72-JLG" firstAttribute="top" secondItem="5pj-sM-mou" secondAttribute="bottom" constant="7" id="bZT-wL-YlO"/>
                 <constraint firstItem="CgK-mG-Yw0" firstAttribute="top" secondItem="ucB-qA-HNO" secondAttribute="bottom" constant="14" id="bri-R1-Aed"/>
                 <constraint firstItem="9LG-pM-wHw" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="fQB-kZ-fj2"/>
+                <constraint firstItem="7FC-S7-72Z" firstAttribute="top" secondItem="a2I-Hm-tzd" secondAttribute="bottom" constant="7" id="hLZ-xe-0GL"/>
                 <constraint firstItem="CgK-mG-Yw0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="33" id="jBW-M0-ClP"/>
                 <constraint firstItem="ucB-qA-HNO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="kGr-uZ-77Q"/>
                 <constraint firstItem="rL9-gT-RzG" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="lJd-Ka-n5s"/>
                 <constraint firstItem="Upp-Y5-PbH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="13" id="lhU-lh-16c"/>
+                <constraint firstItem="rZ3-72-JLG" firstAttribute="leading" secondItem="a2I-Hm-tzd" secondAttribute="trailing" constant="8" id="mMf-lu-ThO"/>
                 <constraint firstItem="D4O-xG-wPn" firstAttribute="leading" secondItem="rL9-gT-RzG" secondAttribute="trailing" constant="-2" id="mS3-kI-YJU"/>
+                <constraint firstItem="HJo-Tr-So1" firstAttribute="leading" secondItem="rZ3-72-JLG" secondAttribute="leading" id="oDf-tF-Mdp"/>
+                <constraint firstItem="HJo-Tr-So1" firstAttribute="top" secondItem="rZ3-72-JLG" secondAttribute="bottom" constant="3" id="q5X-Yh-jWA"/>
                 <constraint firstItem="ucB-qA-HNO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="41" id="q8T-U5-6hm"/>
                 <constraint firstAttribute="trailing" secondItem="ucB-qA-HNO" secondAttribute="trailing" constant="8" id="rBY-Wu-7tk"/>
+                <constraint firstItem="rZ3-72-JLG" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tZw-a7-zVi"/>
                 <constraint firstItem="CgK-mG-Yw0" firstAttribute="top" secondItem="ucB-qA-HNO" secondAttribute="bottom" constant="14" id="yy2-ua-ctO"/>
             </constraints>
             <point key="canvasLocation" x="237" y="273"/>

@@ -7,7 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface MyPenYuanTableViewCell : UITableViewCell
-
+#import "PenJinInfo.h"
+@interface MyPenYuanTableViewCell : UITableViewCell{
+    
+}
+@property (weak, nonatomic) IBOutlet UIImageView *headIV;
+@property (weak, nonatomic) IBOutlet UILabel *nameL;
+@property (weak, nonatomic) IBOutlet UIImageView *memberIV;
+@property (weak, nonatomic) IBOutlet UIButton *delBtn;
+@property (weak, nonatomic) IBOutlet UIView *bgView;
+@property (weak, nonatomic) IBOutlet UIImageView *levelIV;
+@property (weak, nonatomic) IBOutlet UILabel *sortL;
+@property (weak, nonatomic) IBOutlet UILabel *changeL;
+@property (weak, nonatomic) IBOutlet UIImageView *treeIV;
+@property (weak, nonatomic) IBOutlet UILabel *timeL;
+@property (weak, nonatomic) IBOutlet UILabel *tree_HeightL;
+@property (weak, nonatomic) IBOutlet UILabel *locationL;
+@property (weak, nonatomic) IBOutlet UILabel *changeNumL;
+@property(nonatomic,strong)PenJinInfo *info;
 @end

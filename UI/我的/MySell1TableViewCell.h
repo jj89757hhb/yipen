@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef void(^SendGoodsBlock)(id sender);
+typedef void (^MsgBlock)(id sender);
 @interface MySell1TableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *orderNumL;
 @property (weak, nonatomic) IBOutlet UILabel *sendStatusL;
@@ -21,4 +22,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *buyTypeL;
 @property (weak, nonatomic) IBOutlet UIButton *msgBtn;
 @property (weak, nonatomic) IBOutlet UIButton *sendGoodsBtn;
+@property(nonatomic,copy)SendGoodsBlock sendGoodsBlock;
+@property(nonatomic,copy)MsgBlock msgBlock;
 @end

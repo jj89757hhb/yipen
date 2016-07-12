@@ -34,6 +34,9 @@ static NSString *headerCellIdentify=@"MyHeaderTableViewCell";
     [self setNavigationBarRightItem:nil itemImg:[UIImage imageNamed:@"设置"] withBlock:^(id sender) {
         [weakSelf setAction];
     }];
+    [myTable addLegendHeaderWithRefreshingBlock:^{
+        [weakSelf queryPersonalInfo];
+    }];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -42,11 +45,12 @@ static NSString *headerCellIdentify=@"MyHeaderTableViewCell";
 }
 
 -(void)initTableView{
-    myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49) style:UITableViewStyleGrouped];
+    myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49-20) style:UITableViewStyleGrouped];
     myTable.delegate=self;
     myTable.dataSource=self;
     [self.view addSubview:myTable];
     [myTable registerNib:[UINib nibWithNibName:@"MyHeaderTableViewCell" bundle:nil] forCellReuseIdentifier:headerCellIdentify];
+  
     
 }
 
@@ -234,29 +238,37 @@ static NSString *headerCellIdentify=@"MyHeaderTableViewCell";
     [super viewWillAppear:animated];
     [super hideTabBar:NO animated:NO];
     if (![DataSource sharedDataSource].userInfo.Sex) {
-        NSString *param=[NSString stringWithFormat:@"UID=%@",[DataSource sharedDataSource].userInfo.ID];
-        [HttpConnection getOwnerInfoWithParameter:param WithBlock:^(id response, NSError *error) {
-            if (!error) {
-                if ([[response objectForKey:@"ok"] isEqualToString:@"TRUE"]) {
-                    NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:0];
-                    [myTable reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
-                }
-                else{
-                    [SVProgressHUD showInfoWithStatus:[response objectForKey:@"Reason"]];
-                }
-            }
-            else{
-                [SVProgressHUD showInfoWithStatus:ErrorMessage];
-            }
-            
-        }];
+        [self queryPersonalInfo];
+ 
     }
     _headerCell.nameL.text=[DataSource sharedDataSource].userInfo.NickName;
     [_headerCell.headIV sd_setImageWithURL:[NSURL URLWithString:[DataSource sharedDataSource].userInfo.UserHeader] placeholderImage:Default_Image];
-   
   
 }
 
+-(void)queryPersonalInfo{
+    if (![DataSource sharedDataSource].userInfo.ID) {
+        [myTable.header endRefreshing];
+        return;
+    }
+    NSString *param=[NSString stringWithFormat:@"UID=%@",[DataSource sharedDataSource].userInfo.ID];
+    [HttpConnection getOwnerInfoWithParameter:param WithBlock:^(id response, NSError *error) {
+         [myTable.header endRefreshing];
+        if (!error) {
+            if ([[response objectForKey:@"ok"] isEqualToString:@"TRUE"]) {
+                NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:0];
+                [myTable reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:[response objectForKey:@"Reason"]];
+            }
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:ErrorMessage];
+        }
+        
+    }];
+}
 
 -(void)editBtnAction{
           [super hideTabBar:YES animated:NO];

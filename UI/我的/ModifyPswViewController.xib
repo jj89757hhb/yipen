@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ModifyPswViewController">
@@ -85,7 +85,7 @@
             <constraints>
                 <constraint firstItem="9Pd-5R-tTe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="5gf-rs-fpP"/>
                 <constraint firstItem="1Vm-RB-DzH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="KTE-D3-kfu"/>
-                <constraint firstItem="9Pd-5R-tTe" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="75" id="Olx-yP-RHH"/>
+                <constraint firstItem="9Pd-5R-tTe" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="10" id="Olx-yP-RHH"/>
                 <constraint firstAttribute="trailing" secondItem="9Pd-5R-tTe" secondAttribute="trailing" id="UhN-hT-Cio"/>
                 <constraint firstItem="1Vm-RB-DzH" firstAttribute="top" secondItem="9Pd-5R-tTe" secondAttribute="bottom" constant="12" id="biW-EN-qpW"/>
                 <constraint firstAttribute="trailing" secondItem="1Vm-RB-DzH" secondAttribute="trailing" constant="16" id="nS9-0T-Nlf"/>

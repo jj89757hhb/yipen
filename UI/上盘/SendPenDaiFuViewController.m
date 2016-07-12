@@ -16,7 +16,7 @@
 @property(nonatomic,strong)NSMutableArray *imgList;
 @property(nonatomic,strong)UILabel *popL;
 @property(nonatomic,strong)TreeSort *sort;
-
+@property(nonatomic,strong)NSMutableDictionary *sortDic;
 @end
 
 @implementation SendPenDaiFuViewController
@@ -24,11 +24,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.imgList=[[NSMutableArray alloc] init];
+    WS(weakSelf)
     [self setNavigationBarRightItem:@"完成" itemImg:nil withBlock:^(id sender) {
-        
+        [weakSelf sendAction];
     }];
     [self initTable];
 }
+
 
 -(void)initTable{
     myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
@@ -86,9 +88,11 @@
             UIView *line=[[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_titleTF.frame), SCREEN_WIDTH, 0.5)];
             line.backgroundColor=Line_Color;
             self.contentTV=[[UITextView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(line.frame), SCREEN_WIDTH-10*2, 100)];
-                  [cell.contentView addSubview:_titleTF];
+            
+            [cell.contentView addSubview:_titleTF];
             [cell.contentView addSubview:line];
             [cell.contentView addSubview:_contentTV];
+            _contentTV.font=[UIFont systemFontOfSize:16];
             _contentTV.delegate=self;
             UILabel *contentL=[[UILabel alloc] initWithFrame:CGRectMake(5, 5, 100, 20)];
             contentL.text=@"描述疑难杂症";
@@ -114,7 +118,20 @@
         nameL.font=[UIFont systemFontOfSize:14];
         nameL.textColor=[UIColor darkGrayColor];
         nameL.textAlignment=NSTextAlignmentRight;
-        nameL.text=_sort.CodeValue;
+//        nameL.text=_sort.CodeValue;
+        NSString *value=nil;
+        NSString *lastValue=nil;
+        for (TreeSort *sort in _sortDic.allValues) {
+            if (lastValue) {
+                value=   [value stringByAppendingString:[NSString stringWithFormat:@" %@",sort.CodeValue]];
+            }
+            else{
+                value=sort.CodeValue;
+            }
+            
+            lastValue=sort.CodeValue;
+        }
+        nameL.text=value;
         [cell.contentView addSubview:nameL];
     }
     else if(indexPath.section==3){
@@ -178,14 +195,117 @@
     if (indexPath.section==2) {
         SelectTagViewController *ctr=[[SelectTagViewController alloc] init];
         [ctr setSelectBlock:^(id sender){
-            self.sort=sender;
+            self.sortDic=sender;
+            for (NSString *key in _sortDic.allKeys) {//值
+                id temp=[_sortDic objectForKey:key];
+                if (![temp isMemberOfClass:[TreeSort class]]) {//过滤掉为空的对象
+                    [_sortDic removeObjectForKey:key];
+                }
+            }
             
             NSIndexSet *sections=[NSIndexSet  indexSetWithIndex:2];
             [myTable reloadSections:sections withRowAnimation:UITableViewRowAnimationNone];
         }];
         [self.navigationController pushViewController:ctr animated:YES];
     }
+    else if(indexPath.section==1){
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInteger:1],@"Page",[NSNumber numberWithInteger:10],@"PageSize", nil];
+        [HttpConnection GetExperts:dic WithBlock:^(id response, NSError *error) {
+            
+        }];
+    }
 }
+
+
+//发布
+-(void)sendAction{
+    NSMutableDictionary *sortDic2=[[NSMutableDictionary alloc] init];
+    for (NSString *key in _sortDic) {
+        TreeSort *sort=_sortDic[key];
+        [sortDic2 setObject:sort.CodeValue forKey:key];//保存值
+    }
+    if ([_titleTF.text length]==0) {
+        [SVProgressHUD showErrorWithStatus:@"请输入标题"];
+        return;
+    }
+    
+    if ([_contentTV.text length]==0) {
+        [SVProgressHUD showErrorWithStatus:@"请输入正文"];
+        return;
+    }
+    if (_imgList.count==0) {
+        [SVProgressHUD showErrorWithStatus:@"请添加照片"];
+        return;
+    }
+//    if (!_sort.CodeValue) {
+//        [SVProgressHUD showErrorWithStatus:@"请选择标签"];
+//        return;
+//    }
+    if (sortDic2.allValues.count==0) {
+        [SVProgressHUD showErrorWithStatus:@"请选择标签"];
+        return;
+    }
+    [SVProgressHUD show];
+    NSMutableDictionary *dic=nil;
+    // IsAuction非拍卖传0
+    dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:4],@"Type",[NSNumber numberWithInt:0],@"IsAuction", nil];
+    if (sortDic2.allKeys.count) {
+        [dic setValuesForKeysWithDictionary:sortDic2];
+    }
+    
+    imageIndex=0;
+    [HttpConnection PostBasins:dic pics:_imgList WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            if ([[response objectForKey:@"ok"] boolValue]) {
+                //                [SVProgressHUD showSuccessWithStatus:@"发布成功"];
+                NSString *bid=response[@"bid"];
+                if (_imgList.count) {
+                    [SVProgressHUD showWithStatus:@"正在上传图片"];
+                    //                     if (imageIndex>=_imgList.count) {
+                    //                          [SVProgressHUD showSuccessWithStatus:@"发布成功"];
+                    //                         return ;
+                    //                     }
+                    
+                    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"Uid",bid,@"Bid", nil];
+                    for (int index=0 ;index<_imgList.count;index++) {
+                        [HttpConnection PostBasins2:dic pics:_imgList[index] WithBlock:^(id response, NSError *error) {
+                            if (!error) {
+                                if ([[response objectForKey:@"ok"] boolValue]) {
+                                    imageIndex++;//计算已上传的数
+                                    if (imageIndex>=_imgList.count) {
+                                        [SVProgressHUD showSuccessWithStatus:@"发布成功"];
+                                        [self.navigationController popViewControllerAnimated:YES];
+                                    }
+                                    
+                                }
+                                else{
+                                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                                }
+                            }
+                            else{
+                                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+                            }
+                            
+                            
+                        }];
+                        
+                    }
+                    
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+            }
+            
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+        }
+        
+    } ];
+}
+
+
 //选择照片
 -(void)tapAction:(UITapGestureRecognizer*)sender{
     UIImageView *imageView=sender.view;
@@ -284,7 +404,8 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             //            [self.photoIV setHidden:YES];
             //            [self initCollectionView];
-            [myTable reloadData];
+//            [myTable reloadData];
+            [myTable reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationNone];
         });
         
         dispatch_async(dispatch_get_main_queue(), ^{

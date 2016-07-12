@@ -13,6 +13,8 @@
 - (void)awakeFromNib {
     // Initialization code
     self.timerL.backgroundColor=Tree_BgColor;
+//    self.textLayer = [CATextLayer layer];
+//    [self.contentView.layer addSublayer:_textLayer];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -37,8 +39,13 @@
 -(void)refreshTime{
     
 //    long long timeInterval=time(NULL)-[_info.AEndTime longLongValue];
-    self.timerL.text=[CommonFun timerFireMethod:[_info.AEndTime longLongValue]];
-    
+    NSMutableAttributedString *attributedStr=[CommonFun timerFireMethod:[_info.AEndTime longLongValue]];
+ 
+    self.timerL.attributedText=attributedStr;
+//    _textLayer.string=attributedStr;
+//    
+//    _textLayer.frame = CGRectMake(SCREEN_WIDTH-200, 5, 200, 20);
+//    [self.timerL setHidden:YES];
 }
 
 -(void)dealloc{

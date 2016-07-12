@@ -10,6 +10,7 @@
 #import "YPUserInfo.h"
 #import "ActivityInfo.h"
 typedef void(^ClickHeadBlock)(id sender);
+static float activity_Content_Size =14;//内容字体大小
 @interface ActivityTableViewCell1 : UITableViewCell{
     
 }
@@ -17,8 +18,8 @@ typedef void(^ClickHeadBlock)(id sender);
 @property(nonatomic,strong)UIImageView *headIV;
 @property(nonatomic,strong)UILabel *nameL;
 @property(nonatomic,strong)UILabel *createTimeL;//创建时间
-@property(nonatomic,strong)UILabel *viewL;//浏览
-@property(nonatomic,strong)UILabel *praiseL;//看好
+//@property(nonatomic,strong)UILabel *viewL;//浏览
+//@property(nonatomic,strong)UILabel *praiseL;//看好
 @property(nonatomic,strong)UIImageView *treeIV;
 @property(nonatomic,strong)UILabel *titleL;//标题
 @property(nonatomic,strong)UILabel *contentL;//内容
@@ -29,4 +30,8 @@ typedef void(^ClickHeadBlock)(id sender);
 
 @property(nonatomic,strong)ActivityInfo *info;
 @property (nonatomic,copy) ClickHeadBlock clickHeadBlock;
+@property(nonatomic,strong)UIButton *viewBtn;//浏览
+@property(nonatomic,strong)UIButton *praiseBtn;//赞
+@property(nonatomic,strong)UIButton *collectBtn;//收藏数
+@property(nonatomic,strong)UIButton *commentBtn;//评论数
 @end

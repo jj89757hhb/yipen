@@ -8,11 +8,16 @@
 
 #import "ApplyIdentityViewController.h"
 
-@interface ApplyIdentityViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface ApplyIdentityViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
+    int count;
+}
 @property(nonatomic,strong)NSData *data1;
 @property(nonatomic,strong)NSData *data2;
 @property(nonatomic,strong)NSData *data3;
 @property(nonatomic,assign)NSInteger type;
+@property(nonatomic,strong)NSString *name1;
+@property(nonatomic,strong)NSString *name2;
+@property(nonatomic,strong)NSString *name3;
 
 @end
 
@@ -43,7 +48,7 @@
         [weakSelf backAction];
     }];
     
-    
+   
 }
 
 -(void)backAction{
@@ -67,6 +72,7 @@
         [SVProgressHUD showErrorWithStatus:@"请选择一张身份证反面照"];
         return;
     }
+        count++;
    NSDictionary *dic=nil;
     if ([_infoTF.text length]) {
          dic= [[NSDictionary alloc] initWithObjectsAndKeys:_nameTF.text,@"Name",_infoTF.text,@"Certifi",[NSNumber numberWithInteger:type],@"IsBusiness",[DataSource sharedDataSource].userInfo.ID,@"UID" ,nil];
@@ -75,22 +81,104 @@
         dic= [[NSDictionary alloc] initWithObjectsAndKeys:_nameTF.text,@"Name",[NSNumber numberWithInteger:type],@"IsBusiness",[DataSource sharedDataSource].userInfo.ID,@"UID", nil];
     }
     [SVProgressHUD show];
-    [HttpConnection MemberCertifi:dic pic1:_data1 pic2:_data2 pic3:_data3 WithBlock:^(id response, NSError *error) {
+    [HttpConnection MemberCertifiPicture:dic pic1:_data1 pic2:_data2 pic3:_data3 count:count WithBlock:^(id response, NSError *error) {
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {
-                [SVProgressHUD showSuccessWithStatus:@"提交成功"];
+//                [SVProgressHUD showSuccessWithStatus:@"提交成功"];
+                NSString *reason=[response objectForKey:@"reason"];
+                if (count==1) {
+                     self.name1=reason;
+                    [self sureAction];//接着上传第二张、三张
+                }
+                else if(count==2){
+                     self.name2=reason;
+                    if (type==kEnterpriseAccount) {
+                        [self sureAction];//接着上传第三张
+                    }
+                    else{
+                        [SVProgressHUD show];
+                        NSMutableDictionary *dic2=[[NSMutableDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_name1,@"fileName1",_name2,@"fileName2", nil];
+//                        [dic2 setDictionary:dic];
+                        [dic2 addEntriesFromDictionary:dic];
+                        [HttpConnection MemberCertifiInfo:dic2 WithBlock:^(id response, NSError *error) {
+                            if (!error) {
+                                if ([[response objectForKey:@"ok"] boolValue]) {
+                                    [SVProgressHUD showSuccessWithStatus:@"提交成功"];
+                                    [self.navigationController popViewControllerAnimated:YES];
+                                }
+                                else{
+                                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                                }
+                            }
+                            else{
+                                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+                                  count=0;
+                            }
+                           
+                            
+                        }];
+                    }
+            
+                   
+                }
+                else if(count==3){
+                    self.name3=reason;
+                    [SVProgressHUD show];
+                    NSMutableDictionary *dic2=[[NSMutableDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_name1,@"fileName1",_name2,@"fileName2",_name3,@"fileName3", nil];
+                    [dic2 addEntriesFromDictionary:dic];
+                    [HttpConnection MemberCertifiInfo:dic2 WithBlock:^(id response, NSError *error) {
+                        if (!error) {
+                            if ([[response objectForKey:@"ok"] boolValue]) {
+                                [SVProgressHUD showSuccessWithStatus:@"提交成功"];
+                                [self.navigationController popViewControllerAnimated:YES];
+                            }
+                            else{
+                                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                            }
+                        }
+                        else{
+                            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+                            count=0;
+                        }
+                        
+                        
+                    }];
+                }
+        
+            
             }
             else{
+                count=0;
                 [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
             }
         }
         else{
             [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            count=0;
         }
         
     }];
    
 }
+
+//-(void)uploadPictureMore{
+//    [HttpConnection MemberCertifiPicture:dic pic1:_data1 pic2:nil pic3:nil WithBlock:^(id response, NSError *error) {
+//        if (!error) {
+//            if ([[response objectForKey:@"ok"] boolValue]) {
+//                //                [SVProgressHUD showSuccessWithStatus:@"提交成功"];
+//                NSString *reason=[response objectForKey:@"reason"];
+//                self.name1=reason;
+//            }
+//            else{
+//                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+//            }
+//        }
+//        else{
+//            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+//        }
+//        
+//    }];
+//}
 
 -(void)selectPhoto:(UIButton*)sender{
     if ([sender isEqual:_btn1]) {
@@ -102,7 +190,7 @@
     else if([sender isEqual:_btn3]){
         self.type=3;
     }
-    
+    [self.view endEditing:YES];
     WS(weakSelf)
     UIActionSheet *actionSheet=[UIActionSheet bk_actionSheetWithTitle:@"头像"];
     [actionSheet bk_addButtonWithTitle:NSLocalizedString(@"拍照", nil) handler:^{

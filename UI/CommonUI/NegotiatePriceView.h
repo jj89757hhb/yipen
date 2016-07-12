@@ -13,5 +13,5 @@ typedef void(^NegotiatePriceBlock)(id sender);//出价
     UITextField *priceTF;
 }
 @property (nonatomic,copy) NegotiatePriceBlock negotiatePriceBlock;
--(void)initViewWithPrice:(NSString*)price;
+-(void)initViewWithPrice:(NSString*)price isNegotiate:(BOOL)isNegotiate;
 @end

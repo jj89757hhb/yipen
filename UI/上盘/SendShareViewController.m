@@ -34,6 +34,7 @@
 @property(nonatomic,strong) NSMutableArray *imageUrls;
 @property(nonatomic,strong)NSMutableArray *photos;
 @property(nonatomic,assign)NSInteger currentIndex;
+@property(nonatomic,strong)NSMutableDictionary *sortDic;
 @end
 
 @implementation SendShareViewController
@@ -85,7 +86,11 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
 
 //发布
 -(void)sendAction{
-    
+    NSMutableDictionary *sortDic2=[[NSMutableDictionary alloc] init];
+    for (NSString *key in _sortDic) {
+        TreeSort *sort=_sortDic[key];
+        [sortDic2 setObject:sort.CodeValue forKey:key];//保存值
+    }
     if ([_titleTF.text length]==0) {
         [SVProgressHUD showErrorWithStatus:@"请输入标题"];
         return;
@@ -99,14 +104,22 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
         [SVProgressHUD showErrorWithStatus:@"请添加照片"];
         return;
     }
-    if (!_sort.CodeValue) {
+//    if (!_sort.CodeValue) {
+   if (sortDic2.allValues.count==0) {
         [SVProgressHUD showErrorWithStatus:@"请选择标签"];
         return;
     }
     [SVProgressHUD show];
-    NSDictionary *dic=nil;
+    NSMutableDictionary *dic=nil;
+
+    // IsAuction非拍卖传0
     if (self.enterType==1) {//分享
-        dic=[[NSDictionary alloc] initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", _treeHeightCell.heightTF.text, @"Hight",_treeHeightCell.widthTF.text,@"Width",_treeHeightCell.zhijinTF.text,@"Diameter",_treeHeightCell.ageTF.text,@"Old", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:1],@"Type",_sort.CodeValue,@"Varieties", nil];
+//        dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", _treeHeightCell.heightTF.text, @"Hight",_treeHeightCell.widthTF.text,@"Width",_treeHeightCell.zhijinTF.text,@"Diameter",_treeHeightCell.ageTF.text,@"Old", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:1],@"Type",_sort.CodeValue,@"Varieties",[NSNumber numberWithInt:0],@"IsAuction", nil];
+              dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", _treeHeightCell.heightTF.text, @"Hight",_treeHeightCell.widthTF.text,@"Width",_treeHeightCell.zhijinTF.text,@"Diameter",_treeHeightCell.ageTF.text,@"Old", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:1],@"Type",[NSNumber numberWithInt:0],@"IsAuction", nil];
+        if (sortDic2.allKeys.count) {
+                  [dic setValuesForKeysWithDictionary:sortDic2];
+        }
+  
     }
     else if(self.enterType==2){//出售
         if ([_cell2.treePriceTF.text length]==0&&[_IsMarksPrice isEqualToString:@"1"]) {
@@ -122,9 +135,11 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
             return;
         }
         
-        dic=[[NSDictionary alloc] initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", _treeHeightCell.heightTF.text, @"Hight",_treeHeightCell.widthTF.text,@"Width",_treeHeightCell.zhijinTF.text,@"Diameter",_treeHeightCell.ageTF.text,@"Old", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:2],@"Type",_sort.CodeValue,@"Varieties",self.IsMarksPrice,@"IsMarksPrice",_cell2.treePriceTF.text.length?_cell2.treePriceTF.text:@"0",@"Price",_cell2.numTF.text,@"Num", _IsMailed,@"IsMailed",_cell2.expressTF.text.length?_cell2.expressTF.text:@"0",@"MailFee",nil];
+        dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", _treeHeightCell.heightTF.text, @"Hight",_treeHeightCell.widthTF.text,@"Width",_treeHeightCell.zhijinTF.text,@"Diameter",_treeHeightCell.ageTF.text,@"Old", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:2],@"Type",self.IsMarksPrice,@"IsMarksPrice",_cell2.treePriceTF.text.length?_cell2.treePriceTF.text:@"0",@"Price",_cell2.numTF.text,@"Num", _IsMailed,@"IsMailed",_cell2.expressTF.text.length?_cell2.expressTF.text:@"0",@"MailFee",[NSNumber numberWithInt:0],@"IsAuction",nil];
         
-        
+        if (sortDic2.allKeys.count) {
+            [dic setValuesForKeysWithDictionary:sortDic2];
+        }
     }
     else if(self.enterType==3){//拍卖
         if (_cell3.auctionPriceTF.text.length==0) {//
@@ -151,17 +166,56 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
             [SVProgressHUD showErrorWithStatus:@"结束时间不能小于开始时间"];
             return;
         }
-        dic=[[NSDictionary alloc]
-        initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", _treeHeightCell.heightTF.text, @"Hight",_treeHeightCell.widthTF.text,@"Width",_treeHeightCell.zhijinTF.text,@"Diameter",_treeHeightCell.ageTF.text,@"Old", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:3],@"Type",_sort.CodeValue,@"Varieties",_IsMailed,@"IsMailed",_cell3.expressTF.text.length?_cell3.expressTF.text:@"0",@"MailFee",_cell3.auctionPriceTF.text,@"APrice",_cell3.addPriceTF.text,@"MakeUp",[NSNumber numberWithInteger:startTime],@"AStartTime",[NSNumber numberWithInteger:endTime],@"AEndTime",nil];
+        dic=[[NSMutableDictionary alloc]
+        initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", _treeHeightCell.heightTF.text, @"Hight",_treeHeightCell.widthTF.text,@"Width",_treeHeightCell.zhijinTF.text,@"Diameter",_treeHeightCell.ageTF.text,@"Old", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:3],@"Type",_IsMailed,@"IsMailed",_cell3.expressTF.text.length?_cell3.expressTF.text:@"0",@"MailFee",_cell3.auctionPriceTF.text,@"APrice",_cell3.addPriceTF.text,@"MakeUp",[NSNumber numberWithInteger:startTime],@"AStartTime",[NSNumber numberWithInteger:endTime],@"AEndTime",[NSNumber numberWithInt:1],@"IsAuction",nil];
+        if (sortDic2.allKeys.count) {
+            [dic setValuesForKeysWithDictionary:sortDic2];
+        }
         NSLog(@"startTime:%ld",startTime);
          NSLog(@"endTime:%ld",endTime);
     }
     
+
     
+    imageIndex=0;
     [HttpConnection PostBasins:dic pics:_imgList WithBlock:^(id response, NSError *error) {
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {
-                [SVProgressHUD showSuccessWithStatus:@"发布成功"];
+//                [SVProgressHUD showSuccessWithStatus:@"发布成功"];
+                NSString *bid=response[@"bid"];
+                 if (_imgList.count) {
+                       [SVProgressHUD showWithStatus:@"正在上传图片"];
+//                     if (imageIndex>=_imgList.count) {
+//                          [SVProgressHUD showSuccessWithStatus:@"发布成功"];
+//                         return ;
+//                     }
+                
+                     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"Uid",bid,@"Bid", nil];
+                     for (int index=0 ;index<_imgList.count;index++) {
+                         [HttpConnection PostBasins2:dic pics:_imgList[index] WithBlock:^(id response, NSError *error) {
+                             if (!error) {
+                                 if ([[response objectForKey:@"ok"] boolValue]) {
+                                     imageIndex++;//计算已上传的数
+                                     if (imageIndex>=_imgList.count) {
+                                          [SVProgressHUD showSuccessWithStatus:@"发布成功"];
+                                         [self.navigationController popViewControllerAnimated:YES];
+                                     }
+                          
+                                 }
+                                 else{
+                                     [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                                 }
+                             }
+                             else{
+                                 [SVProgressHUD showErrorWithStatus:ErrorMessage];
+                             }
+                             
+                             
+                         }];
+                         
+                     }
+                  
+                 }
             }
             else{
                 [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
@@ -380,11 +434,25 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
         cell.textLabel.font=[UIFont systemFontOfSize:16];
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        UILabel *nameL=[[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-110, 10, 90, 20)];
+        UILabel *nameL=[[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-110-110, 10, 90+100, 20)];
         nameL.font=[UIFont systemFontOfSize:14];
         nameL.textColor=[UIColor darkGrayColor];
         nameL.textAlignment=NSTextAlignmentRight;
-        nameL.text=_sort.CodeValue;
+//        nameL.text=_sort.CodeValue;
+        NSString *value=nil;
+        NSString *lastValue=nil;
+//        NSMutableString *mutableString=[[NSMutableString alloc] init];
+        for (TreeSort *sort in _sortDic.allValues) {
+            if (lastValue) {
+                 value=   [value stringByAppendingString:[NSString stringWithFormat:@" %@",sort.CodeValue]];
+            }
+            else{
+                value=sort.CodeValue;
+            }
+           
+            lastValue=sort.CodeValue;
+        }
+        nameL.text=value;
         [cell.contentView addSubview:nameL];
         return cell;
     }
@@ -458,7 +526,13 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
     if (indexPath.section==1) {
         SelectTagViewController *ctr=[[SelectTagViewController alloc] init];
         [ctr setSelectBlock:^(id sender){
-            self.sort=sender;
+            self.sortDic=sender;
+            for (NSString *key in _sortDic.allKeys) {//值
+                id temp=[_sortDic objectForKey:key];
+                if (![temp isMemberOfClass:[TreeSort class]]) {//过滤掉为空的对象
+                    [_sortDic removeObjectForKey:key];
+                }
+            }
        
             NSIndexSet *sections=[NSIndexSet  indexSetWithIndex:1];
             [self.myTable reloadSections:sections withRowAnimation:UITableViewRowAnimationNone];

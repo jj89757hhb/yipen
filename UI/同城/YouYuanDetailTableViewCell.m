@@ -24,7 +24,7 @@
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self=[super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        UIFont *font=[UIFont systemFontOfSize:12];
+        UIFont *font=[UIFont systemFontOfSize:13];
         self.headIV=[[UIImageView alloc] init];
         self.nameL=[[UILabel alloc] init];
         _nameL.textColor=[UIColor darkGrayColor];
@@ -76,7 +76,7 @@
         [_phoneL setTextColor:MIDDLEBLACK];
         
         _titleL.font=[UIFont systemFontOfSize:16];
-        _contentL.font=font;
+        _contentL.font=[UIFont systemFontOfSize:content_FontSize_YouYuanDetail];
         _timeL.font=font;
         _priceL.font=font;
         _joinNumL.font=font;
@@ -209,8 +209,8 @@
         make.height.offset(50);
         make.top.equalTo(_contentL.mas_bottom).offset(1);
     }];
-    [_praiseView initViewUsers:nil uid:_info.UID praiseNum:_info.PraisedNum];
-    
+    [_praiseView initViewUsers:_info.Praised uid:_info.UID praiseNum:_info.PraisedNum];
+     _praiseView.praiseL.text=@"想去";
     //    [_priceL mas_makeConstraints:^(MASConstraintMaker *make) {
     //        make.left.offset(offX);
     //        //        make.right.offset(-100);
@@ -227,26 +227,36 @@
 }
 
 -(void)setInfo:(ActivityInfo*)info{
-    ActivityInfo *temp=[[ActivityInfo alloc] init];
-    _info=temp;
-    NSMutableArray *_imageUrls=[[NSMutableArray alloc] init];
-    [_imageUrls addObject:@"http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1106/26/c2/8138154_1309077121193_1024x1024it.jpg"];
-    [_imageUrls addObject:@"http://www.photo0086.com/member/751/pic/201204191650075075.JPG"];
-    [_imageUrls addObject:@"http://image13-c.poco.cn/mypoco/myphoto/20121126/19/64947591201211261905061490497461183_000.jpg?1800x1500_120"];
-    _info.Attach=_imageUrls;
-    [_headIV sd_setImageWithURL:[NSURL URLWithString:info.userInfo.UserHeader] placeholderImage:nil];
-    _titleL.text=@"我开店啦啦啦";
-    _contentL.text=@"欢迎做客，欢迎参观副书记福建省；那就好； 就；你说句话； 就是；就；手机号； 就；换手机； 福建省；回家是；就号；手机号；手机号；时间；号就是；回家是；健身房； 就；就好手机号";
+    _info=info;
+//    ActivityInfo *temp=[[ActivityInfo alloc] init];
+//    _info=temp;
+//    NSMutableArray *_imageUrls=[[NSMutableArray alloc] init];
+//    [_imageUrls addObject:@"http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1106/26/c2/8138154_1309077121193_1024x1024it.jpg"];
+//    [_imageUrls addObject:@"http://www.photo0086.com/member/751/pic/201204191650075075.JPG"];
+//    [_imageUrls addObject:@"http://image13-c.poco.cn/mypoco/myphoto/20121126/19/64947591201211261905061490497461183_000.jpg?1800x1500_120"];
+//    _info.Attach=_imageUrls;
+    [_headIV sd_setImageWithURL:[NSURL URLWithString:info.userInfo.UserHeader] placeholderImage:Default_Image];
+    _titleL.text=info.Title;
+    _contentL.text=info.Message;
     _createTimeL.text=info.CreateTime;
-    _nameL.text=@"用户名";
+    _nameL.text=info.userInfo.NickName;
     
     //    NSString *url=info.Attach[0];
     //    [_treeIV sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
     _timeL.text=@"2016年2月10日-20日";
-    _addressL.text=@"地址:杭州市西湖区孤山";
-    _contactL.text=@"联系人:胡华斌";
-    _phoneL.text=@"电话:13444444444";
+//    _addressL.text=@"地址:杭州市西湖区孤山";
+    _addressL.text=[NSString stringWithFormat:@"地址:%@",info.Address];
+    _contactL.text=[NSString stringWithFormat:@"联系人:%@",info.Contact];
+    _phoneL.text=[NSString stringWithFormat:@"电话:%@",info.Mobile];
     [_imagePlayerView reloadData];
+    if ([_info.userInfo.IsFocus boolValue]) {
+        [_attentionBtn setTitle:@"已关注" forState:UIControlStateNormal];
+        [_attentionBtn setUserInteractionEnabled:NO];
+    }
+    else{
+        [_attentionBtn setTitle:@"+关注" forState:UIControlStateNormal];
+        [_attentionBtn setUserInteractionEnabled:YES];
+    }
 }
 
 - (NSInteger)numberOfItems
@@ -263,12 +273,56 @@
 - (void)imagePlayerView:(ImagePlayerView *)imagePlayerView didTapAtIndex:(NSInteger)index
 {
     NSMutableArray *temp=[[NSMutableArray alloc] init];
-    //    for (int i=0;i<_info.Attach.count;i++) {
-    //        [temp addObject:[MWPhoto photoWithURL:[NSURL URLWithString:_info.Attach[i]]]];
-    //    }
-    //
-    //    self.photos=temp;
-    //    [self showBrowserWithIndex:index];
+        for (int i=0;i<_info.Attach.count;i++) {
+            [temp addObject:[MWPhoto photoWithURL:[NSURL URLWithString:_info.Attach[i]]]];
+        }
+    
+        self.photos=temp;
+        [self showBrowserWithIndex:index];
+}
+
+
+-(void)showBrowserWithIndex:(NSInteger)index{
+    
+    //    self.thumbs = thumbs;
+    BOOL displayActionButton = YES;
+    BOOL displaySelectionButtons = NO;
+    BOOL displayNavArrows = NO;
+    BOOL enableGrid = YES;
+    BOOL startOnGrid = NO;
+    BOOL autoPlayOnAppear = NO;
+    // Create browser
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    browser.displayActionButton = displayActionButton;
+    browser.displayNavArrows = displayNavArrows;
+    browser.displaySelectionButtons = displaySelectionButtons;
+    browser.alwaysShowControls = displaySelectionButtons;
+    browser.zoomPhotosToFill = YES;
+    browser.enableGrid = enableGrid;
+    browser.startOnGrid = startOnGrid;
+    browser.enableSwipeToDismiss = NO;
+    browser.autoPlayOnAppear = autoPlayOnAppear;
+    [browser setCurrentPhotoIndex:index];
+    UIViewController *nav=[CommonFun viewControllerHasNavigation:self];
+    
+    [nav.navigationController pushViewController:browser animated:YES];
+}
+
+
+
+
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return _photos.count;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < _photos.count)
+        return [_photos objectAtIndex:index];
+    return nil;
+}
+
+- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
+    NSLog(@"Did start viewing photo at index %lu", (unsigned long)index);
 }
 
 -(void)dealloc{

@@ -44,6 +44,7 @@ static CGFloat image_Width=30;
     praiseL.font=[UIFont systemFontOfSize:12];
     praiseL.textColor=[UIColor darkGrayColor];
     [self addSubview:praiseL];
+    self.praiseL=praiseL;
     praiseL.text=@"看好";
     praiseL.textAlignment=NSTextAlignmentCenter;
     UILabel *praiseNumL=[[UILabel alloc] initWithFrame:CGRectMake(10, 26, 40, 18)];

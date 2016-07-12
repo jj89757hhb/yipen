@@ -102,7 +102,7 @@
     if (!cityTable) {
         float offX=50;
         float width=200;
-        cityTable=[[UITableView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH-width)/2,64 , width, 300) style:UITableViewStyleGrouped];
+        cityTable=[[UITableView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH-width)/2,0 , width, 300) style:UITableViewStyleGrouped];
         cityTable.delegate=self;
         cityTable.dataSource=self;
         [self.view addSubview:cityTable];
@@ -227,7 +227,7 @@
     [self.view addSubview:tabedSlideView];
     tabedSlideView.backgroundColor=WHITEColor;
     
-    [tabedSlideView setFrame:CGRectMake(0, 0+44+20, SCREEN_WIDTH, SCREEN_HEIGHT-64+20)];
+    [tabedSlideView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49)];
     tabedSlideView.baseViewController = self;
     tabedSlideView.delegate=self;
     tabedSlideView.tabItemNormalColor = MIDDLEBLACK;

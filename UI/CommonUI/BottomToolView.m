@@ -73,12 +73,27 @@
     [self addSubview:_collectBtn];
     [self addSubview:_commentBtn];
     [self addSubview:chatBtn];
-    UIView *line=[[UIView alloc] initWithFrame:CGRectMake(0, BottomToolView_Height-0.5, SCREEN_WIDTH, 0.5)];
-    [self addSubview:line];
-    line.backgroundColor=Line_Color;
+    topline=[[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
+    [self addSubview:topline];
+    topline.backgroundColor=Line_Color;
+    
+    UIView *downline=[[UIView alloc] initWithFrame:CGRectMake(0, BottomToolView_Height-0.5, SCREEN_WIDTH, 0.5)];
+    [self addSubview:downline];
+    downline.backgroundColor=Line_Color;
+    
 }
 
 
+//处理线条重复问题 废弃了
+-(void)setIsdetail:(BOOL)isdetail{
+    _isdetail=isdetail;
+//    if (isdetail) {
+//        [topline setHidden:NO];
+//    }
+//    else{
+//        [topline setHidden:YES];
+//    }
+}
 
 -(void)praiseAction:(UIButton*)sender{
     

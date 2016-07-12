@@ -7,21 +7,52 @@
 //
 
 #import "TuoGuanTableViewController.h"
-
+#import "TuoGuanTableViewCell.h"
+#import "TCTuoGuanDetailViewController.h"
 @interface TuoGuanTableViewController ()
-
+@property(nonatomic,strong)NSMutableArray *list;
 @end
 
 @implementation TuoGuanTableViewController
+static NSString *identify=@"identify";
+static NSInteger pageSize=10;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    [self.tableView registerClass:[TuoGuanTableViewCell class] forCellReuseIdentifier:identify];
+     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    self.list=[[NSMutableArray alloc] init];
+    currentPage=1;
+    [self queryData];
+    WS(weakSelf)
+    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+        [weakSelf queryData];
+    } ];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+-(void)queryData{
+    //[{"ID":"2","CityName":"杭州"},{"ID":"3","CityName":"绍兴"},{"ID":"6","CityName":"常州"},{"ID":"7","CityName":"苏州"},{"ID":"9","CityName":"上海"}]}
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:pageSize],@"PageSize",[NSNumber numberWithInteger:currentPage],@"Page",@"2",@"CityID", nil];
+    [HttpConnection GetHostingGardenList:dic WithBlock:^(id response, NSError *error) {
+        [self.tableView.header endRefreshing];
+        [self.tableView.footer endRefreshing];
+        if (!error) {
+            
+            if (![response objectForKey:KErrorMsg]) {
+                self.list=response[KDataList];
+                [self.tableView reloadData];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:[response objectForKey:KErrorMsg]];
+            }
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:ErrorMessage];
+        }
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -29,86 +60,48 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    float height=0;
+    //    XiangYuanTableViewCell *cell=[self.tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+    //       XiangYuanTableViewCell *cell=[self.tableView dequeueReusableCellWithIdentifier:identify];
+    //    [_prototypeCell updateConstraintsIfNeeded];
+    //    [_prototypeCell setNeedsDisplay];
+    //    height=[self.prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+    //    return height;
+    return 200+100;
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 #warning Incomplete implementation, return the number of sections
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete implementation, return the number of rows
-    return 0;
+    //    return _list.count;
+    return _list.count;
 }
 
-/*
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+    TuoGuanTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+    //    self.prototypeCell=cell;
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    //    ActivityInfo *info=_list[indexPath.row];
+    [cell setInfo:_list[indexPath.row]];
+    [cell updateConstraintsIfNeeded];
+    [cell setNeedsDisplay];
     return cell;
 }
-*/
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Table view delegate
-
-// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:<#@"Nib name"#> bundle:nil];
-    
-    // Pass the selected object to the new view controller.
-    
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    TCTuoGuanDetailViewController  *ctr=[[TCTuoGuanDetailViewController alloc] init];
+    ctr.info=_list[indexPath.row];
+    XMTabBarController *tabBar=(XMTabBarController*)self.tabBarController;
+    [tabBar xmTabBarHidden:YES animated:NO];
+    [self.navigationController pushViewController:ctr animated:YES];
 }
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

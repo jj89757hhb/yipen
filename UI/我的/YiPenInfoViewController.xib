@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YiPenInfoViewController">
@@ -70,7 +70,7 @@
                 <constraint firstAttribute="trailing" secondItem="tl9-vO-HQz" secondAttribute="trailing" id="AXj-ke-vsb"/>
                 <constraint firstAttribute="trailing" secondItem="Y0x-uu-8N2" secondAttribute="trailing" id="CvR-z4-0mY"/>
                 <constraint firstItem="tl9-vO-HQz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="LFH-ge-7sq"/>
-                <constraint firstItem="Y0x-uu-8N2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="74" id="R8B-ci-s7c"/>
+                <constraint firstItem="Y0x-uu-8N2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="10" id="R8B-ci-s7c"/>
                 <constraint firstItem="Y0x-uu-8N2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="a8v-h6-Lsy"/>
                 <constraint firstItem="tl9-vO-HQz" firstAttribute="top" secondItem="Y0x-uu-8N2" secondAttribute="bottom" constant="24" id="pnO-Lq-TTb"/>
             </constraints>

@@ -9,18 +9,29 @@
 #import "MySellTableViewController.h"
 #import "MySell1TableViewCell.h"
 #import "OrderDetailViewController.h"
+#import "EditExpressInfoViewController.h"
 @interface MySellTableViewController ()
 
 @end
 
 @implementation MySellTableViewController
 NSString *identify=@"identify";
+static NSInteger pageSize=10;
 - (void)viewDidLoad {
+    currentPage=1;
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"MySell1TableViewCell" bundle:nil] forCellReuseIdentifier:identify];
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    [self queryData];
 }
 
+
+-(void)queryData{
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:pageSize],@"PageSize",[NSNumber numberWithInteger:currentPage],@"Page", nil];
+    [HttpConnection GetMySale:dic WithBlock:^(id response, NSError *error) {
+        
+    }];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -45,6 +56,13 @@ NSString *identify=@"identify";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MySell1TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    [cell setMsgBlock:^(id sender){
+        
+    }];
+    
+    [cell setSendGoodsBlock:^(id sender){
+        [self editExpressInfo];
+    }];
 
     
     return cell;
@@ -55,6 +73,10 @@ NSString *identify=@"identify";
     [self.navigationController pushViewController:ctr animated:YES];
 }
 
+-(void)editExpressInfo{
+    EditExpressInfoViewController *ctr=[[EditExpressInfoViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:ctr animated:YES];
+}
 
 /*
 // Override to support conditional editing of the table view.

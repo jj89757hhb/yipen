@@ -23,7 +23,9 @@
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self=[super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.contentView.backgroundColor=VIEWBACKCOLOR;
         self.bgView=[[UIView alloc] init];
+        [_bgView setBackgroundColor:WHITEColor];
         self.headIV=[[UIImageView alloc] init];
         UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture)];
         [_headIV addGestureRecognizer:tap];
@@ -47,21 +49,31 @@
         self.addressL=[[UILabel alloc] init];
         self.titleL=[[UILabel alloc] init];
         self.contentL=[[UILabel alloc] init];
-        self.praiseL=[[UILabel alloc] init];
-        self.viewL=[[UILabel alloc] init];
-        _praiseL.textColor=[UIColor grayColor];
-        _viewL.textColor=[UIColor grayColor];
-        _praiseL.font=[UIFont systemFontOfSize:11];
-         _praiseL.textAlignment=NSTextAlignmentCenter;
-        _viewL.font=[UIFont systemFontOfSize:11];
-        _viewL.textAlignment=NSTextAlignmentCenter;
-       
+//        self.praiseL=[[UILabel alloc] init];
+//        self.viewL=[[UILabel alloc] init];
+//        _praiseL.textColor=[UIColor grayColor];
+//        _viewL.textColor=[UIColor grayColor];
+//        _praiseL.font=[UIFont systemFontOfSize:11];
+//         _praiseL.textAlignment=NSTextAlignmentCenter;
+//        _viewL.font=[UIFont systemFontOfSize:11];
+//        _viewL.textAlignment=NSTextAlignmentCenter;
+        
+        self.viewBtn=[[UIButton alloc] init];
+        self.praiseBtn=[[UIButton alloc] init];
+        self.collectBtn=[[UIButton alloc] init];
+        self.commentBtn=[[UIButton alloc] init];
+        
         
         
         
         [self.contentView addSubview:_bgView];
-        [_bgView addSubview:_praiseL];
-        [_bgView addSubview:_viewL];
+        [_bgView addSubview:_viewBtn];
+        [_bgView addSubview:_praiseBtn];
+        [_bgView addSubview:_collectBtn];
+        [_bgView addSubview:_commentBtn];
+        
+//        [_bgView addSubview:_praiseL];
+//        [_bgView addSubview:_viewL];
         [_bgView addSubview:_headIV];
         [_bgView addSubview:_nameL];
         [_bgView addSubview:_createTimeL];
@@ -76,11 +88,11 @@
         [_addressL setTextColor:MIDDLEBLACK];
         [_titleL setTextColor:DEEPBLACK];
         [_contentL setTextColor:MIDDLEBLACK];
-        _bgView.layer.borderColor=Tree_Line.CGColor;
-        _bgView.layer.borderWidth=1;
+//        _bgView.layer.borderColor=Tree_Line.CGColor;
+//        _bgView.layer.borderWidth=1;
      
         _titleL.font=[UIFont systemFontOfSize:16];
-        _contentL.font=[UIFont systemFontOfSize:14];
+        _contentL.font=[UIFont systemFontOfSize:activity_Content_Size];
         UIFont *font=[UIFont systemFontOfSize:12];
         _timeL.font=font;
         _priceL.font=font;
@@ -119,14 +131,14 @@
     _headIV.clipsToBounds=YES;
     _headIV.layer.cornerRadius=35/2.f;
     
-    [_viewL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.offset(-5);
-        make.top.offset(10);
-    }];
-    [_praiseL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.offset(-5);
-        make.top.equalTo(_viewL.mas_bottom).offset(1);
-    }];
+//    [_viewL mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.offset(-5);
+//        make.top.offset(10);
+//    }];
+//    [_praiseL mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.offset(-5);
+//        make.top.equalTo(_viewL.mas_bottom).offset(1);
+//    }];
     
     [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(offX);
@@ -147,7 +159,7 @@
     [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(offX);
         make.right.offset(-offX);
-        make.right.offset(-100);
+//        make.right.offset(-100);
         make.height.offset(20);
         make.top.equalTo(_treeIV.mas_bottom).offset(offY);
     }];
@@ -181,12 +193,40 @@
         make.top.equalTo(_addressL.mas_bottom).offset(0);
     }];
   
+    float offY2=15;
+    float offX2=10;
+    float width=50;
+    [_commentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.offset(-5);
+        make.height.offset(20);
+        make.top.offset(offY2);
+        make.width.offset(width);
+    }];
     
-//    [_joinNumL mas_makeConstraints:^(MASConstraintMaker *make) {
-//        //        make.left.offset(offX);
-//        make.right.offset(-offX);
-//        make.top.equalTo(_treeIV.mas_bottom).offset(offY);
-//    }];
+    [_collectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_commentBtn.mas_left).offset(offX2);
+        make.height.offset(20);
+        make.top.offset(offY2);
+        make.width.offset(width);
+    }];
+    
+    [_praiseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_collectBtn.mas_left).offset(offX2);
+        make.height.offset(20);
+        make.top.offset(offY2);
+        make.width.offset(width);
+    }];
+    
+    [_viewBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+       make.right.equalTo(_praiseBtn.mas_left).offset(offX2);
+        make.height.offset(20);
+        make.top.offset(offY2);
+        make.width.offset(width);
+    }];
+    
+    
+    
+
 }
 
 -(void)setInfo:(ActivityInfo *)info{
@@ -196,13 +236,39 @@
     _createTimeL.text=info.CreateTime;
     _nameL.text=info.userInfo.NickName;
     
-    NSString *url=info.Attach[0];
-    [_treeIV sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
-    _timeL.text=@"2016年2月10日-20日";
-    _addressL.text=@"杭州市西湖区孤山";
-    _priceL.text=@"费用: 50元/人";
-    [_viewL setText:@"120人浏览"];
-    [_praiseL setText:@"12人看好"];
+    if (info.Attach.count) {
+        NSString *url=info.Attach[0];
+        [_treeIV sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
+    }
+
+//    _timeL.text=@"2016年2月10日-20日";
+//    _addressL.text=@"杭州市西湖区孤山";
+//    _priceL.text=@"费用: 50元/人";
+//    [_viewL setText:@"120人浏览"];
+//    [_praiseL setText:@"12人看好"];
+    _timeL.text=[NSString stringWithFormat:@"%@-%@",info.STime,info.ETime];
+    _addressL.text=info.Address;
+    _priceL.text=[NSString stringWithFormat:@"费用: %@元/人",info.Cost];
+//    _praiseL.text=[NSString stringWithFormat:@"%@人看好",info.PraisedNum];
+//    _viewL.text=[NSString stringWithFormat:@"%@人浏览",info.BrowseNum];
+    [_commentBtn setImage:[UIImage imageNamed:@"评论icon"] forState:UIControlStateNormal];
+    [_commentBtn setTitle:[NSString stringWithFormat:@" %d",[info.CommentsNum intValue]] forState:UIControlStateNormal];
+    _commentBtn.titleLabel.font=[UIFont systemFontOfSize:12];
+    [_commentBtn setTitleColor:LIGHTBLACK forState:UIControlStateNormal];
+    
+    
+    [_viewBtn setImage:[UIImage imageNamed:@"阅读"] forState:UIControlStateNormal];
+    [_viewBtn setTitle:[NSString stringWithFormat:@" %d",[info.BrowseNum intValue]] forState:UIControlStateNormal];
+    _viewBtn.titleLabel.font=[UIFont systemFontOfSize:12];
+    [_viewBtn setTitleColor:LIGHTBLACK forState:UIControlStateNormal];
+    [_praiseBtn setImage:[UIImage imageNamed:@"赞"] forState:UIControlStateNormal];
+    [_praiseBtn setTitle:[NSString stringWithFormat:@" %d",[info.PraisedNum intValue]] forState:UIControlStateNormal];
+    _praiseBtn.titleLabel.font=[UIFont systemFontOfSize:12];
+    [_praiseBtn setTitleColor:LIGHTBLACK forState:UIControlStateNormal];
+    [_collectBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+    [_collectBtn setTitle:[NSString stringWithFormat:@" %d",[info.CollectionNum intValue]] forState:UIControlStateNormal];
+    _collectBtn.titleLabel.font=[UIFont systemFontOfSize:12];
+    [_collectBtn setTitleColor:LIGHTBLACK forState:UIControlStateNormal];
 }
 
 -(void)tapGesture{

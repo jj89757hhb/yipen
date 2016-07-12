@@ -41,28 +41,41 @@
     self.navigationItem.titleView=logoIV;
 }
 
--(void)initViewCtr{
-    self.switchView=[[SlideSwitchView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-64-44)];
-    self.switchView.slideSwitchViewDelegate=self;
-    self.switchView.topScrollView.backgroundColor = [UIColor whiteColor];
-    self.switchView.tabItemNormalColor = BLACKCOLOR;
-    self.switchView.tabItemSelectedColor = BLACKCOLOR;
-//    self.switchView.shadowImage = [UIImage imageNamed:@"TabSelectedBackground"];
-    [self.view addSubview:_switchView];
-    self.fenXiangCtr=[[FenXiangViewController alloc] initSlideSwitchView:self.switchView];
-    self.fenXiangCtr.title=@"分享";
-    self.guanZhuCtr=[[GuanZhuViewController alloc] initSlideSwitchView:self.switchView];
-    self.guanZhuCtr.title=@"关注";
-    self.panDaiFuCtr=[[PanDaiFuViewController alloc] initSlideSwitchView:self.switchView];
-    self.panDaiFuCtr.title=@"盘大夫";
-    self.panYuanCtr=[[PanYuanViewController alloc] initSlideSwitchView:self.switchView];
-    self.panYuanCtr.title=@"盘缘";
-    self.taoYiPanCtr=[[TaoYiPanViewController alloc] initSlideSwitchView:self.switchView];
-    self.taoYiPanCtr.title=@"淘一盘";
-    [_switchView buildUI];
-    
-    
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_line"] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage imageNamed:@"nav_line"];
+        [super hideTabBar:NO animated:NO];
 }
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@""] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage imageNamed:@""];
+}
+//-(void)initViewCtr{
+//    self.switchView=[[SlideSwitchView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-44)];
+//    self.switchView.slideSwitchViewDelegate=self;
+//    self.switchView.topScrollView.backgroundColor = [UIColor whiteColor];
+//    self.switchView.tabItemNormalColor = BLACKCOLOR;
+//    self.switchView.tabItemSelectedColor = BLACKCOLOR;
+////    self.switchView.shadowImage = [UIImage imageNamed:@"TabSelectedBackground"];
+//    [self.view addSubview:_switchView];
+//    self.fenXiangCtr=[[FenXiangViewController alloc] initSlideSwitchView:self.switchView];
+//    self.fenXiangCtr.title=@"分享";
+//    self.guanZhuCtr=[[GuanZhuViewController alloc] initSlideSwitchView:self.switchView];
+//    self.guanZhuCtr.title=@"关注";
+//    self.panDaiFuCtr=[[PanDaiFuViewController alloc] initSlideSwitchView:self.switchView];
+//    self.panDaiFuCtr.title=@"盘大夫";
+//    self.panYuanCtr=[[PanYuanViewController alloc] initSlideSwitchView:self.switchView];
+//    self.panYuanCtr.title=@"盘缘";
+//    self.taoYiPanCtr=[[TaoYiPanViewController alloc] initSlideSwitchView:self.switchView];
+//    self.taoYiPanCtr.title=@"淘一盘";
+//    [_switchView buildUI];
+//    
+//    
+//}
 
 
 -(void)initToolBar{
@@ -70,7 +83,7 @@
     [self.view addSubview:tabedSlideView];
     tabedSlideView.backgroundColor=WHITEColor;
     
-    [tabedSlideView setFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-49)];
+    [tabedSlideView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49)];
     tabedSlideView.baseViewController = self;
     tabedSlideView.delegate=self;
     tabedSlideView.tabItemNormalColor = [UIColor lightGrayColor];
@@ -129,10 +142,10 @@
     
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [super hideTabBar:NO animated:NO];
-}
+//-(void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//
+//}
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];

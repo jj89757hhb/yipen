@@ -34,34 +34,42 @@ static NSString *identity=@"identity";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+        currentPage=1;
     [self requestData];
     self.list=[[NSMutableArray alloc] init];
     [self.tableView registerClass:[FenXiangTableViewCell class] forCellReuseIdentifier:identity];
+      self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     // Do any additional setup after loading the view.
-    if (_slideSwitchView) {
-        _multiDelegate = [[AIMultiDelegate alloc] init];
-        [_multiDelegate addDelegate:self];
-        [_multiDelegate addDelegate:_slideSwitchView];
-        self.tableView.delegate = (id)_multiDelegate;
-    }
     WS(weakSelf)
     [self.tableView addLegendHeaderWithRefreshingBlock:^{
+            currentPage=1;
+        [weakSelf requestData];
+    }];
+    [self.tableView addLegendFooterWithRefreshingBlock:^{
         [weakSelf requestData];
     }];
 }
 
 
 -(void)requestData{
-    currentPage=1;
+
     //Type=3 淘一盆
     //    NSString *param=[NSString stringWithFormat:@"UID=%@&Page=%ld&PageSize=%ld",[DataSource sharedDataSource].userInfo.ID,currentPage,pageNum];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:currentPage],@"Page",[NSNumber numberWithInteger:pageNum],@"PageSize",@"3",@"Type", nil];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:currentPage],@"Page",[NSNumber numberWithInteger:pageNum],@"PageSize",@"3",@"Type",@"",SenShu,@"",LeiBie,@"",ChanDi,@"",PinZhong,@"",ShuXin,@"",ChiCun,@"",QiTa, nil];
     [HttpConnection GetBonsaiList:dic WithBlock:^(id response, NSError *error) {
         [self.tableView.header endRefreshing];
+         [self.tableView.footer endRefreshing];
         if (!error) {
             if (![response objectForKey:KErrorMsg]) {
-                self.list=response[KDataList];
+                if (currentPage==1) {
+                         self.list=response[KDataList];
+                }
+                else{
+                    [self.list addObjectsFromArray:response[KDataList]];
+                }
+           
                 [self.tableView reloadData];
+                currentPage++;
             }
             else{
                 
@@ -88,14 +96,17 @@ static NSString *identity=@"identity";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     PenJinInfo *info=_list[indexPath.row];
     float comment_Height=0;
+    float offY_Comment=4;
     if (info.Comment.count) {//计算评论高度
         for (int i=0; i<info.Comment.count; i++) {
             CommentInfo *comment=info.Comment[i];
-           comment_Height+=  [CommonFun sizeWithString:comment.Message font:[UIFont systemFontOfSize:comment_FontSize] size:CGSizeMake(SCREEN_WIDTH-15+10*2, MAXFLOAT)].height;
+            comment_Height+=  [CommonFun sizeWithString:comment.Message font:[UIFont systemFontOfSize:comment_FontSize] size:CGSizeMake(SCREEN_WIDTH-15-10*2, MAXFLOAT)].height;
+            comment_Height+=offY_Comment;
         }
-      
+        comment_Height-=2;
+        
     }
-    return 400+50+BottomToolView_Height+comment_Height;
+    return 400+30+BottomToolView_Height+comment_Height;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -157,7 +168,7 @@ static NSString *identity=@"identity";
 }
 
 
-
+//收藏 取消收藏
 -(void)collectAction:(PenJinInfo*)info{
     [SVProgressHUD show];
     if (![info.IsCollect boolValue]) {//收藏
@@ -228,7 +239,7 @@ static NSString *identity=@"identity";
 
 -(void)praisedAction:(PenJinInfo*)info{
     [SVProgressHUD show];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type", nil];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type",info.userInfo.ID,@"buid",nil];
     [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
         if (!error) {
           if ([[response objectForKey:@"ok"] boolValue]) {
@@ -236,6 +247,9 @@ static NSString *identity=@"identity";
             info.IsPraise=@"1";
             [self reloadTableAtIndex];
            }
+          else{
+              [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+          }
         }
         else{
             [SVProgressHUD showErrorWithStatus:ErrorMessage];

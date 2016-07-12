@@ -15,6 +15,8 @@
 //    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(payTypeAction)];
 //     [self.bg3 addGestureRecognizer:tap];
 //    tap.cancelsTouchesInView=NO;
+    
+//    [self.selectAddressBtn addTarget:self action:@selector(selectAddressAction) forControlEvents:UIControlEventTouchUpInside];
   
 }
 
@@ -24,7 +26,9 @@
     // Configure the view for the selected state
 }
 
-
+-(void)selectAddressAction{
+    
+}
 //-(void)payTypeAction{
 //    
 //}

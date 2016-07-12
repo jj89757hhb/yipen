@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MySellTableViewController : UITableViewController
+@interface MySellTableViewController : UITableViewController{
+    NSInteger currentPage;
+}
 
 @end

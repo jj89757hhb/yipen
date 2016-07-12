@@ -26,50 +26,35 @@ static NSInteger pageSize=10;
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.tableView registerClass:[YouYuanTableViewCell class] forCellReuseIdentifier:identify];
+    self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     self.list=[[NSMutableArray alloc] init];
     currentPage=1;
-    [self queryStoreList];
+    [self queryData];
     WS(weakSelf)
     [self.tableView addLegendHeaderWithRefreshingBlock:^{
-        [weakSelf queryStoreList];
+        [weakSelf queryData];
     } ];
     
 }
 
--(void)queryStoreList{
+-(void)queryData{
     //[{"ID":"2","CityName":"杭州"},{"ID":"3","CityName":"绍兴"},{"ID":"6","CityName":"常州"},{"ID":"7","CityName":"苏州"},{"ID":"9","CityName":"上海"}]}
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:pageSize],@"PageSize",[NSNumber numberWithInteger:currentPage],@"Page",@"3",@"CityID", nil];
-    [HttpConnection getStoreList:dic WithBlock:^(id response, NSError *error) {
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:pageSize],@"PageSize",[NSNumber numberWithInteger:currentPage],@"Page",@"2",@"CityID", nil];
+    [HttpConnection GetFriendsList:dic WithBlock:^(id response, NSError *error) {
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
         if (!error) {
-            if ([response[@"ok"] isEqualToString:@"TRUE"]) {
-                NSArray *records=response[@"records"];
-                NSMutableArray *array=[[NSMutableArray alloc] init];
-                for (NSDictionary *dic in records) {
-                    NSDictionary *activtyDic=dic[@"Store"];
-                    ActivityInfo *info=[[ActivityInfo alloc] initWithKVCDictionary:activtyDic];
-                    NSMutableArray *Attachs=activtyDic[@"Attach"];//图片路径
-                    NSMutableArray *_Attachs=[[NSMutableArray alloc] init];
-                    for (NSDictionary *dic in  Attachs) {//解析图片地址
-                        [_Attachs addObject:dic[@"Path"]];
-                    }
-                    NSDictionary *userDic=dic[@"user"];
-                    YPUserInfo *userInfo=[[YPUserInfo alloc] initWithKVCDictionary:userDic];
-                    info.Attach=_Attachs;
-                    info.userInfo=userInfo;
-                    [array addObject:info];
-                }
-                if (currentPage==1) {
-                    [self.list removeAllObjects];
-                }
-                NSArray *temp=[[NSArray alloc] initWithArray:array];
-                [self.list addObjectsFromArray:temp];
+            
+            if (![response objectForKey:KErrorMsg]) {
+                self.list=response[KDataList];
                 [self.tableView reloadData];
             }
             else{
-                [SVProgressHUD showErrorWithStatus:response[@"reason"]];
+                [SVProgressHUD showInfoWithStatus:[response objectForKey:KErrorMsg]];
             }
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:ErrorMessage];
         }
         
     }];
@@ -81,7 +66,10 @@ static NSInteger pageSize=10;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 200+100;
+    ActivityInfo *info=_list[indexPath.row];
+    float content_Height=0;
+     content_Height+=  [CommonFun sizeWithString:info.Message font:[UIFont systemFontOfSize:content_FontSize_YouYuan] size:CGSizeMake(SCREEN_WIDTH-10*2-10*2, MAXFLOAT)].height;
+    return 200+60+content_Height;
 }
 #pragma mark - Table view data source
 
@@ -93,7 +81,7 @@ static NSInteger pageSize=10;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete implementation, return the number of rows
 //    return _list.count;
-    return 1;
+    return _list.count;
 }
 
 
@@ -102,7 +90,7 @@ static NSInteger pageSize=10;
     YouYuanTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
 //    ActivityInfo *info=_list[indexPath.row];
-    [cell setInfo:nil];
+    [cell setInfo:_list[indexPath.row]];
     [cell updateConstraintsIfNeeded];
     [cell setNeedsDisplay];
     return cell;
@@ -110,6 +98,7 @@ static NSInteger pageSize=10;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     YouYuanDetailViewController *ctr=[[YouYuanDetailViewController alloc] init];
+    ctr.info=_list[indexPath.row];
     XMTabBarController *tabBar=(XMTabBarController*)self.tabBarController;
     [tabBar xmTabBarHidden:YES animated:NO];
     [self.navigationController pushViewController:ctr animated:YES];

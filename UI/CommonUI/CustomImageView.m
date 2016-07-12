@@ -32,5 +32,13 @@
     
 }
 
+-(id)init{
+    self=[super init];
+    if (self) {
+        self.contentMode=UIViewContentModeScaleAspectFill;
+        self.clipsToBounds=YES;
+    }
+    return self;
+}
 
 @end

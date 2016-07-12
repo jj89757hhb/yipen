@@ -29,6 +29,7 @@
     _info=info;
     [_headIV sd_setImageWithURL:[NSURL URLWithString:info.UserHeader] placeholderImage:Default_Image];
     _nickNameL.text=info.NickName;
+   
     if ([info.IsFocus boolValue]) {
         [_attentionBtn setTitle:@"已关注" forState:UIControlStateNormal];
         
@@ -39,4 +40,17 @@
     [_levelIV setImage:[UIImage imageNamed:[NSString stringWithFormat:@"lv%@",info.Levels]]];
     
 }
+
+
+-(void)layoutSubviews{
+    [super layoutSubviews];
+     [_nickNameL sizeToFit];
+    [_memberIV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_nickNameL.mas_right).offset(5);
+        
+    }];
+    
+}
+
+
 @end

@@ -52,33 +52,43 @@ static NSInteger pageSize=10;
         [self.tableView.footer endRefreshing];
         [self.tableView.header endRefreshing];
         if (!error) {
-            if ([response[@"ok"] isEqualToString:@"TRUE"]) {
-                NSArray *records=response[@"records"];
-                NSMutableArray *array=[[NSMutableArray alloc] init];
-                for (NSDictionary *dic in records) {
-                    NSDictionary *activtyDic=dic[@"Activty"];
-                    ActivityInfo *info=[[ActivityInfo alloc] initWithKVCDictionary:activtyDic];
-                    NSMutableArray *Attachs=activtyDic[@"Attach"];//图片路径
-                    NSMutableArray *_Attachs=[[NSMutableArray alloc] init];
-                    for (NSDictionary *dic in  Attachs) {//解析图片地址
-                        [_Attachs addObject:dic[@"Path"]];
-                    }
-                    NSDictionary *userDic=dic[@"user"];
-                    YPUserInfo *userInfo=[[YPUserInfo alloc] initWithKVCDictionary:userDic];
-                    info.Attach=_Attachs;
-                    info.userInfo=userInfo;
-                    [array addObject:info];
-                }
-                if (currentPage==1) {
-                    [self.list removeAllObjects];
-                }
-                NSArray *temp=[[NSArray alloc] initWithArray:array];
-                [self.list addObjectsFromArray:temp];
+//            if ([response[@"ok"] isEqualToString:@"TRUE"]) {
+//                NSArray *records=response[@"records"];
+//                NSMutableArray *array=[[NSMutableArray alloc] init];
+//                for (NSDictionary *dic in records) {
+//                    NSDictionary *activtyDic=dic[@"Activty"];
+//                    ActivityInfo *info=[[ActivityInfo alloc] initWithKVCDictionary:activtyDic];
+//                    NSMutableArray *Attachs=activtyDic[@"Attach"];//图片路径
+//                    NSMutableArray *_Attachs=[[NSMutableArray alloc] init];
+//                    for (NSDictionary *dic in  Attachs) {//解析图片地址
+//                        [_Attachs addObject:dic[@"Path"]];
+//                    }
+//                    NSDictionary *userDic=dic[@"user"];
+//                    YPUserInfo *userInfo=[[YPUserInfo alloc] initWithKVCDictionary:userDic];
+//                    info.Attach=_Attachs;
+//                    info.userInfo=userInfo;
+//                    [array addObject:info];
+//                }
+//                if (currentPage==1) {
+//                    [self.list removeAllObjects];
+//                }
+//                NSArray *temp=[[NSArray alloc] initWithArray:array];
+//                [self.list addObjectsFromArray:temp];
+//                [self.tableView reloadData];
+//            }
+//            else{
+//                [SVProgressHUD showErrorWithStatus:response[@"reason"]];
+//            }
+            if (![response objectForKey:KErrorMsg]) {
+                self.list=response[KDataList];
                 [self.tableView reloadData];
             }
             else{
-                [SVProgressHUD showErrorWithStatus:response[@"reason"]];
+                [SVProgressHUD showInfoWithStatus:[response objectForKey:KErrorMsg]];
             }
+        }
+        else{
+                 [SVProgressHUD showInfoWithStatus:ErrorMessage];
         }
         
     }];
@@ -89,7 +99,11 @@ static NSInteger pageSize=10;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 200+100;
+    
+    float content_Height=0;
+    ActivityInfo *info=_list[indexPath.row];
+    content_Height+=  [CommonFun sizeWithString:info.Message font:[UIFont systemFontOfSize:activity_Content_Size] size:CGSizeMake(SCREEN_WIDTH-10*4, MAXFLOAT)].height;
+    return 200+90+content_Height;
 }
 #pragma mark - Table view data source
 

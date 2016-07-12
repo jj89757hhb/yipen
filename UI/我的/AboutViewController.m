@@ -19,7 +19,7 @@
     self.title=@"关于易盆";
     self.list=[[NSMutableArray alloc] initWithObjects:@"欢迎页",@"欢迎易盆",@"问题反馈",@"创作人员",@"客服热线",nil];
     [self initTable];
-    copyrightL=[[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60, SCREEN_WIDTH, 20)];
+    copyrightL=[[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60-64, SCREEN_WIDTH, 20)];
     companyL=[[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(copyrightL.frame), SCREEN_WIDTH, 20)];
     copyrightL.font=[UIFont boldSystemFontOfSize:15];
      companyL.font=[UIFont systemFontOfSize:14];
@@ -46,7 +46,7 @@
 
 
 -(void)initTable{
-    myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-60) style:UITableViewStyleGrouped];
+    myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
     myTable.delegate=self;
     myTable.dataSource=self;
     [self.view addSubview:myTable];
@@ -77,6 +77,7 @@
         UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@""];
         if (!cell) {
             cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
 //            float width=50;
              float width=451/2;
             UIImageView *imageView=[[UIImageView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH-width)/2, 60, width, 458/2)];

@@ -40,7 +40,7 @@
     [self.view addSubview:tabedSlideView];
     tabedSlideView.backgroundColor=WHITEColor;
     
-    [tabedSlideView setFrame:CGRectMake(0, 0+44+20, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    [tabedSlideView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     tabedSlideView.baseViewController = self;
     tabedSlideView.delegate=self;
     tabedSlideView.tabItemNormalColor = MIDDLEBLACK;

@@ -7,9 +7,9 @@
 //
 
 #import "BaseViewController.h"
-
+#import "ActivityInfo.h"
 @interface YouYuanDetailViewController : BaseViewController{
     UITableView *myTable;
 }
-
+@property(nonatomic,strong)ActivityInfo *info;
 @end

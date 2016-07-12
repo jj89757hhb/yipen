@@ -10,7 +10,6 @@
 #import "WXApiRequestHandler.h"
 #import "WXApiManager.h"
 #import "Order.h"
-#import "Order.h"
 #import "DataSigner.h"
 //#import "Product.h"
 #import <AlipaySDK/AlipaySDK.h>
@@ -81,7 +80,7 @@
     /*============================================================================*/
     NSString *partner = @"2088221379614269";
     NSString *seller = @"imyipen@qq.com";
-    NSString *privateKey = @"";
+    NSString *privateKey = ZFB_privateKey;
     /*============================================================================*/
     /*============================================================================*/
     /*============================================================================*/
@@ -120,7 +119,8 @@
     order.showUrl = @"m.alipay.com";
     
     //应用注册scheme,在AlixPayDemo-Info.plist定义URL types
-    NSString *appScheme = @"alisdkdemo";
+//    NSString *appScheme = @"alisdkdemo";
+        NSString *appScheme = @"yiPen";
     
     //将商品信息拼接成字符串
     NSString *orderSpec = [order description];

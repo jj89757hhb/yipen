@@ -85,7 +85,7 @@ static float BottomInputView_Height=50;
 
 -(void)refreshBottomView{
     if ([_info.IsCollect boolValue]) {
-        [_bottomToolView.collectBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+        [_bottomToolView.collectBtn setImage:[UIImage imageNamed:@"收藏（已点）"] forState:UIControlStateNormal];
     }
     else {
         [_bottomToolView.collectBtn setImage:[UIImage imageNamed:@"收藏（未点）"] forState:UIControlStateNormal];
@@ -109,7 +109,7 @@ static float BottomInputView_Height=50;
                 [myTable reloadData];
             }
             else{
-                [SVProgressHUD showInfoWithStatus:[response objectForKey:KErrorMsg]];
+//                [SVProgressHUD showInfoWithStatus:[response objectForKey:KErrorMsg]];
             }
         }
     } ];
@@ -117,6 +117,8 @@ static float BottomInputView_Height=50;
 
 -(void)initSaleView{
     self.buyView=[[BuyView alloc] init];
+//    NSInteger enterType=
+    self.buyView.enterType = [_info.IsMarksPrice boolValue]? 0:1;
     [self.view addSubview:_buyView];
     [_buyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(0);
@@ -124,7 +126,8 @@ static float BottomInputView_Height=50;
         make.height.offset(buyView_Height);
         make.bottom.offset(-(BottomToolView_Height));
     }];
-    [_buyView.negotiateBtn addTarget:self action:@selector(negotiateAction) forControlEvents:UIControlEventTouchUpInside];
+    [_buyView.negotiateBtn addTarget:self action:@selector(negotiateAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_buyView.askPriceBtn addTarget:self action:@selector(negotiateAction:) forControlEvents:UIControlEventTouchUpInside];
     [_buyView.buyBtn addTarget:self action:@selector(buyAction) forControlEvents:UIControlEventTouchUpInside];
     
 }
@@ -149,20 +152,26 @@ static float BottomInputView_Height=50;
 }
 
 
-//议价
--(void)negotiateAction{
-    NegotiatePriceView *view=[[NegotiatePriceView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    [view initViewWithPrice:_info.Price];
-    view.backgroundColor=[BLACKCOLOR colorWithAlphaComponent:0.7];
-    [AppDelegateInstance.window addSubview:view];
-    [view setNegotiatePriceBlock:^(id sender){
+//议价 或 询价
+-(void)negotiateAction:(UIButton *)sender{
+    if ([[DataSource sharedDataSource].userInfo.ID isEqualToString:_info.UID]) {
+        [SVProgressHUD showInfoWithStatus:@"不能购买自己的商品"];
+        return;
+    }
+    Negotiate_Type negotiate_Type=KAsk_Price_buyer;
+    Buy_Result result=KNegotiate;
+    NSString *msg=@"已提交议价，请耐心等待对方的答复";
+    if ([sender isEqual:_buyView.askPriceBtn]) {//询价
+//        negotiate_Type=KAsk_Price_buyer;
+        msg=@"已提交询价，请耐心等待对方的答复";
         [SVProgressHUD show];
-        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:_info.userInfo.ID,@"SalerID",_info.ID,@"BID",[DataSource sharedDataSource].userInfo.ID,@"BuyerID",sender,@"OfferPrice",[NSNumber numberWithInt:2],@"Bidder",[NSNumber numberWithInt:1],@"Result", [NSNumber numberWithInt:3],@"Status",nil];
+        //tranNo  IsMark
+        int tranNo=-1;//交易号,首次询价填-1，以后回价根据系统返回串号
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:_info.userInfo.ID,@"toUser",_info.ID,@"BID",[DataSource sharedDataSource].userInfo.ID,@"fromUser",[NSNumber numberWithInt:result],@"Result", [NSNumber numberWithInt:negotiate_Type],@"Status",_info.IsMarksPrice,@"IsMark",[NSNumber numberWithInt:tranNo],@"tranNo",@"0",@"OfferPrice", nil];
         [HttpConnection PostBargaining:dic WithBlock:^(id response, NSError *error) {
             if (!error) {
                 if ([[response objectForKey:@"ok"] boolValue]) {
-                    [SVProgressHUD showInfoWithStatus:@"已提交议价，请耐心等待对方的答复"];
-                    [view removeFromSuperview];
+                    [SVProgressHUD showInfoWithStatus:msg];
                 }
                 else{
                     [SVProgressHUD showInfoWithStatus:[response objectForKey:@"reason"]];
@@ -173,29 +182,112 @@ static float BottomInputView_Height=50;
             }
             
         }];
-    }];
-}
+
+    }
+    else{
+        NegotiatePriceView *view=[[NegotiatePriceView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        [view initViewWithPrice:_info.Price isNegotiate:YES];
+        view.backgroundColor=[BLACKCOLOR colorWithAlphaComponent:0.7];
+        [AppDelegateInstance.window addSubview:view];
+        [view setNegotiatePriceBlock:^(id sender){
+            [SVProgressHUD show];
+            //tranNo  IsMark
+            
+            int tranNo=-1;//交易号,首次询价填-1，以后回价根据系统返回串号
+            NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:_info.userInfo.ID,@"toUser",_info.ID,@"BID",[DataSource sharedDataSource].userInfo.ID,@"fromUser",sender,@"OfferPrice",[NSNumber numberWithInt:result],@"Result", [NSNumber numberWithInt:negotiate_Type],@"Status",_info.IsMarksPrice,@"IsMark",[NSNumber numberWithInt:tranNo],@"tranNo", nil];
+            [HttpConnection PostBargaining:dic WithBlock:^(id response, NSError *error) {
+                if (!error) {
+                    if ([[response objectForKey:@"ok"] boolValue]) {
+                        [SVProgressHUD showInfoWithStatus:msg];
+                        [view removeFromSuperview];
+                    }
+                    else{
+                        [SVProgressHUD showInfoWithStatus:[response objectForKey:@"reason"]];
+                    }
+                }
+                else{
+                    [SVProgressHUD showInfoWithStatus:ErrorMessage];
+                }
+                
+            }];
+        }];
+
+    }
+   }
 
 //购买
 -(void)buyAction{
+    if ([[DataSource sharedDataSource].userInfo.ID isEqualToString:_info.UID]) {
+        [SVProgressHUD showInfoWithStatus:@"不能购买自己的商品"];
+        return;
+    }
     WillBuyViewController *ctr=[[WillBuyViewController alloc] init];
     ctr.info=_info;
+    ctr.saleUser=_info.userInfo;
+    ctr.totalPrice=[NSString stringWithFormat:@"%.2f",[_info.Price floatValue] + [_info.MailFee floatValue]];
     [self.navigationController pushViewController:ctr animated:YES];
 }
 
 
 
 -(void)praiseAction:(UIButton*)sender{
-    
+    [SVProgressHUD show];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",@"1",@"Type",_info.userInfo.ID,@"buid", nil];
+    [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            if ([[response objectForKey:@"ok"] boolValue]) {
+                [SVProgressHUD showInfoWithStatus:@"已赞"];
+                _info.IsPraise=@"1";
+                [self refreshBottomView];
+                
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+            }
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+        }
+        
+    }];
 }
 
 -(void)collectAction:(UIButton*)sender{
+    [SVProgressHUD show];
+    if (![_info.IsCollect boolValue]) {
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",@"1",@"Type", nil];
+        [HttpConnection Collection:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                [SVProgressHUD showInfoWithStatus:@"已收藏"];
+                _info.IsCollect=@"1";
+                [self refreshBottomView];
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+    else{
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",@"1",@"Type", nil];
+        [HttpConnection DelCollect:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                [SVProgressHUD showInfoWithStatus:@"已取消收藏"];
+                _info.IsCollect=@"0";
+                [self refreshBottomView];
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    };
     
 }
 
 -(void)commentAction:(UIButton*)sender{
     if (!_inputTextBottom) {
-        self.inputTextBottom=[[InputTextBottom alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-BottomInputView_Height, SCREEN_WIDTH, BottomInputView_Height)];
+        self.inputTextBottom=[[InputTextBottom alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-BottomInputView_Height-64, SCREEN_WIDTH, BottomInputView_Height)];
         [self.view addSubview:_inputTextBottom];
         _inputTextBottom.backgroundColor=WHITEColor;
         [_inputTextBottom.inputText becomeFirstResponder];
@@ -225,11 +317,19 @@ static float BottomInputView_Height=50;
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {
                 [SVProgressHUD showSuccessWithStatus:@"评论成功"];
-                _inputTextBottom.inputText=nil;
+                CommentInfo *info=[[CommentInfo alloc] init];
+                info.Message= _inputTextBottom.inputText.text;
+                info.NickName=[DataSource sharedDataSource].userInfo.NickName;
+                [self.info.Comment addObject:info];
+                [myTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
                 [_inputTextBottom.inputText resignFirstResponder];
+                   _inputTextBottom.inputText.text=@"";
+              
+          
+                
             }
             else{
-                [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"Reason"]];
+                [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"reason"]];
             }
         }
         else{
@@ -341,25 +441,27 @@ static float BottomInputView_Height=50;
             [self.navigationController pushViewController:ctr animated:YES];
             
         }];
-        [cell setPraiseBlock:^(id sender){
-            NSLog(@"setPraiseBlock");
-            self.indexPath=indexPath;
-            [self praisedAction:_info];
-        }];
+//        [cell setPraiseBlock:^(id sender){
+//            NSLog(@"setPraiseBlock");
+//            self.indexPath=indexPath;
+//            [self praisedAction:_info];
+//        }];
         
-        [cell setCollectBlock:^(id sender){
-            NSLog(@"setCollectBlock");
-        }];
+//        [cell setCollectBlock:^(id sender){
+//            NSLog(@"setCollectBlock");
+//            self.indexPath=indexPath;
+//            [self collectAction:_info];
+//        }];
         
         [cell setCommentBlock:^(id sender){
             NSLog(@"setCommentBlock");
         }];
         
-        [cell setChatBlock:^(id sender){
-            NSLog(@"setChatBlock");
-//            self.indexPath=indexPath;
-            [self msgAction:nil];
-        }];
+//        [cell setChatBlock:^(id sender){
+//            NSLog(@"setChatBlock");
+////            self.indexPath=indexPath;
+//            [self msgAction:nil];
+//        }];
         [cell updateConstraintsIfNeeded];
         [cell layoutIfNeeded];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
@@ -459,7 +561,7 @@ static float BottomInputView_Height=50;
     [UIView setAnimationDuration:animationDuration];
     
     //    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, _inputTextBottom.frame.origin.y-kbSize.height, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
-    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
+    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
     
     
     [UIView commitAnimations];
@@ -552,7 +654,7 @@ static float BottomInputView_Height=50;
 
 -(void)praisedAction:(PenJinInfo*)info{
     [SVProgressHUD show];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type", nil];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type",info.userInfo.ID,@"buid", nil];
     [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {
@@ -560,6 +662,9 @@ static float BottomInputView_Height=50;
                  info.IsPraise=@"1";
                 [self reloadTableAtIndex];
                
+            }
+            else{
+                 [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
             }
         }
         else{

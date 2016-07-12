@@ -10,6 +10,7 @@
 
 @interface PenYuanOfWishChangeViewController : BaseViewController{
      UITableView *myTable;
+    NSInteger currentPage;
 }
 
 @end

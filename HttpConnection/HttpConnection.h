@@ -24,7 +24,7 @@
 +(void)getDownCityWithParameter:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)postSameCityInfos:(id)parameter pics:(NSMutableArray*)pics WithBlock:(void (^)(id response, NSError *error))block;
 +(void)getActivtyList:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
-+(void)getStoreList:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)GetStoreList:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)SetPayPassword:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)topUp:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)withDrawal:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
@@ -40,9 +40,11 @@
 +(void)DelCollect:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)Praised:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)getCodeOfPayPsw:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
-+(void)MemberCertifi:(id)parameter pic1:(NSData*)pic1 pic2:(NSData*)pic2 pic3:(NSData*)pic3 WithBlock:(void (^)(id response, NSError *error))block;
++(void)MemberCertifiPicture:(id)parameter pic1:(NSData*)pic1 pic2:(NSData*)pic2 pic3:(NSData*)pic3 count:(int)count WithBlock:(void (^)(id response, NSError *error))block;
++(void)MemberCertifiInfo:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)DownBaseInfo:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)PostBasins:(id)parameter pics:(NSMutableArray*)pics WithBlock:(void (^)(id response, NSError *error))block;
++(void)PostBasins2:(id)parameter pics:(NSData*)pic WithBlock:(void (^)(id response, NSError *error))block;
 +(void)PostBasinsFate:(id)parameter pics:(NSMutableArray*)pics WithBlock:(void (^)(id response, NSError *error))block;
 +(void)AddAddress:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)EditAddress:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
@@ -56,16 +58,25 @@
 +(void)FindPwd:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)FindPwdTwo:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetBonsaiList:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)GetFriendsList:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)GetShareGardenList:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)GetHostingGardenList:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetFocus:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetFans:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)PostAuction:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetAuctionRecord:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)PostBargaining:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)GetBargainingRecord:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetBonsaiFate:(id)parameter WithBlock:(void (^)(id response, NSError *error))block
 ;
 +(void)PostBonsaiFate:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 
 +(void)GetMyCollect:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)JoinActivity:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 
 +(void)getToken:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)GetMyBonsaiFate:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)GetMyJoinBonsaiFate:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)GetTradingDetail:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)GetExperts:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 @end

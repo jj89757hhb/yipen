@@ -12,7 +12,25 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    
+    [self.sendGoodsBtn addTarget:self action:@selector(sendGoodsAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.msgBtn addTarget:self action:@selector(msgAction) forControlEvents:UIControlEventTouchUpInside];
 }
+
+-(void)sendGoodsAction{
+    if (_sendGoodsBlock) {
+        _sendGoodsBlock(nil);
+    }
+    
+}
+
+-(void)msgAction{
+    if (_msgBlock) {
+        _msgBlock(nil);
+    }
+}
+
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

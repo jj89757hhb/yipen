@@ -13,6 +13,7 @@
 #import "ActivityCommentTableViewCell.h"
 #import "InputTextBottom.h"
 #import "MWPhotoBrowser.h"
+#import "ActivityDetailBottomView.h"
 @interface ActivityDetailViewController ()<UITableViewDataSource,UITableViewDelegate,ImagePlayerViewDelegate,MWPhotoBrowserDelegate>
 @property (nonatomic, strong)ImagePlayerView *bannerView;
 @property(nonatomic,strong)UIButton *collectBtn;
@@ -29,6 +30,7 @@ static float BottomInputView_Height=50;
 static NSString *identify1=@"identify1";
 static NSString *identify3=@"identify3";
 static NSString *identify4=@"identify4";
+static NSString *identify5=@"identify5";
 static float banner_Height=150;
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,7 +40,7 @@ static float banner_Height=150;
     [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"返回"] withBlock:^(id sender) {
         [weakSelf backAction];
     }];
-    [self initBottomView];
+//    [self initBottomView];
     [self registerForKeyboardNotifications];
 }
 
@@ -85,7 +87,7 @@ static float banner_Height=150;
     [UIView setAnimationDuration:animationDuration];
     
 //    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, _inputTextBottom.frame.origin.y-kbSize.height, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
-    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
+    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
    
     
     [UIView commitAnimations];
@@ -126,7 +128,7 @@ static float banner_Height=150;
     float offX2=(SCREEN_WIDTH-offX*2-width*3)/3;
     UIFont *font=[UIFont systemFontOfSize:13];
     UIColor *textColor=GRAYCOLOR;
-    self.bootomView=[[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-BottomToolView_Height, SCREEN_WIDTH, BottomToolView_Height)];
+    self.bootomView=[[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-BottomToolView_Height-64, SCREEN_WIDTH, BottomToolView_Height)];
     _bootomView.backgroundColor=WHITEColor;
     self.collectBtn=[[UIButton alloc] initWithFrame:CGRectMake(offX, offY, width, 40)];
     [_collectBtn addTarget:self action:@selector(collectAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -149,6 +151,14 @@ static float banner_Height=150;
     [joinBtn setTitle:@"参加" forState:UIControlStateNormal];
     [joinBtn setImage:[UIImage imageNamed:@"参加"] forState:UIControlStateNormal];
     self.joinBtn=joinBtn;
+    if ([_info.isJoin boolValue]) {
+        [_joinBtn setTitle:@"已参加" forState:UIControlStateNormal];
+        [_joinBtn setUserInteractionEnabled:NO];
+    }
+    if ([_info.IsCollect boolValue]) {
+        [_collectBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+        [_collectBtn setUserInteractionEnabled:NO];
+    }
     //
     [_bootomView addSubview:_collectBtn];
     [_bootomView addSubview:_commentBtn];
@@ -166,28 +176,58 @@ static float banner_Height=150;
 -(void)collectAction:(UIButton*)sender{
     [SVProgressHUD show];
     Collect_Type type=KCollect_Activity;
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID ,@"BID" ,[NSNumber numberWithInt:type],@"Type",nil];
-    [HttpConnection Collection:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            if ([[response objectForKey:@"ok"] boolValue]) {
-                [SVProgressHUD showSuccessWithStatus:@"已收藏"];
+       NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID ,@"BeID" ,[NSNumber numberWithInt:type],@"Type",nil];
+    if (![_info.IsCollect boolValue]) {
+        [HttpConnection Collection:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showSuccessWithStatus:@"已收藏"];
+                    _info.IsCollect=@"1";
+                    //                [_collectBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+                    //                [_collectBtn setUserInteractionEnabled:NO];
+                    NSIndexSet *set=[NSIndexSet indexSetWithIndex:4];
+                    [myTable reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
             }
             else{
-                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"Reason"]];
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
             }
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
-       
-        
-    }];
+            
+            
+        }];
+    }
+    else{
+        [HttpConnection DelCollect:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showSuccessWithStatus:@"已取消收藏"];
+                    _info.IsCollect=@"0";
+                    //                [_collectBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+                    //                [_collectBtn setUserInteractionEnabled:NO];
+                    NSIndexSet *set=[NSIndexSet indexSetWithIndex:4];
+                    [myTable reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+            
+        }];
+    }
+  
 }
 
 //评论
 -(void)commentAction:(UIButton*)sender{
     if (!_inputTextBottom) {
-        self.inputTextBottom=[[InputTextBottom alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-BottomInputView_Height, SCREEN_WIDTH, BottomInputView_Height)];
+        self.inputTextBottom=[[InputTextBottom alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-BottomInputView_Height-64, SCREEN_WIDTH, BottomInputView_Height)];
         [self.view addSubview:_inputTextBottom];
         _inputTextBottom.backgroundColor=WHITEColor;
         [_inputTextBottom.inputText becomeFirstResponder];
@@ -219,11 +259,18 @@ static float banner_Height=150;
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {
                 [SVProgressHUD showSuccessWithStatus:@"评论成功"];
-                _inputTextBottom.inputText=nil;
+                CommentInfo *commentInfo=[[CommentInfo alloc] init];
+                commentInfo.NickName=[DataSource sharedDataSource].userInfo.NickName;
+                commentInfo.Message=_inputTextBottom.inputText.text;
+                [_info.Comment addObject:commentInfo];
+
+    
                 [_inputTextBottom.inputText resignFirstResponder];
+                _inputTextBottom.inputText.text=nil;
+                [myTable reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationNone];
             }
             else{
-                [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"Reason"]];
+                [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"reason"]];
             }
         }
         else{
@@ -235,6 +282,29 @@ static float banner_Height=150;
 
 //参加
 -(void)joinAction:(UIButton*)sender{
+    [SVProgressHUD show];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"AID",nil];
+    [HttpConnection JoinActivity:dic WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            if ([[response objectForKey:@"ok"] boolValue]) {
+                [SVProgressHUD showSuccessWithStatus:@"已参加"];
+//                [_joinBtn setTitle:@"已参加" forState:UIControlStateNormal];
+//                [_joinBtn setUserInteractionEnabled:NO];
+                _info.isJoin=@"1";
+                
+                NSIndexSet *set=[NSIndexSet indexSetWithIndex:4];
+                [myTable reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
+                
+            }
+            else{
+                [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"reason"]];
+            }
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+        }
+        
+    }];
 
 }
 -(void)backAction{
@@ -249,7 +319,8 @@ static float banner_Height=150;
 
 -(void)initTable{
 //    myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+    myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-20) style:UITableViewStyleGrouped];
+    myTable.separatorStyle=UITableViewCellSeparatorStyleNone;
     myTable.delegate=self;
     myTable.dataSource=self;
     [self.view addSubview:myTable];
@@ -275,18 +346,27 @@ static float banner_Height=150;
         return banner_Height;
     }
     else if(indexPath.section==2){
-        return 150+50;
+        float content_Height=0;
+//        ActivityInfo *info=_list[indexPath.row];
+        content_Height+=  [CommonFun sizeWithString:_info.Message font:[UIFont systemFontOfSize:activity_Content_Size] size:CGSizeMake(SCREEN_WIDTH-8*2, MAXFLOAT)].height;
+        return 150+30+content_Height;
     }
-    return 45;
+    else if(indexPath.section==4){
+        return 60;
+    }
+    return 30;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (section==3) {
+        return _info.Comment.count;
+    }
     return 1;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
 //    return 3;
-    return 2+1+1;
+    return 2+1+1+1;
 }
 
 
@@ -302,6 +382,10 @@ static float banner_Height=150;
 //            NSArray *nibs = [[NSBundle mainBundle]loadNibNamed:@"HeaderTableViewCell" owner:nil options:nil];
 //            cell = [nibs lastObject];
 //        }
+        [cell setAttentionBlock:^(id sender){
+            [self attentionAction:nil];
+        }];
+        [cell setInfo:_info];
         return cell;
     }
     else if(indexPath.section==1){
@@ -324,12 +408,65 @@ static float banner_Height=150;
     }
     else if(indexPath.section==3){
         ActivityCommentTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identify4 forIndexPath:indexPath];
+        cell.indexPath=indexPath;
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        [cell setInfo:_info.Comment[indexPath.row]];
+        return cell;
+    }
+    else if(indexPath.section==4){
+        
+        
+        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identify5]
+        ;
+        if (!cell) {
+            cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify5];
+            ActivityDetailBottomView *bottom=[[ActivityDetailBottomView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60)];
+            [bottom setInfo:_info];
+            [cell addSubview:bottom];
+            WS(weakSelf)
+            [bottom setCommentBlock:^(id sender){
+                [weakSelf commentAction:nil];
+            }];
+            
+            [bottom setJoinBlock:^(id sender){
+                [weakSelf joinAction:nil];
+            }];
+            
+            [bottom setCollectBlock:^(id sender){
+                [weakSelf collectAction:nil];
+            }];
+        }
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+
         return cell;
     }
     return nil;
     
 }
+
+-(void)attentionAction:(id)info{
+    [SVProgressHUD show];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.userInfo.ID,@"BUID", nil];
+    [HttpConnection Focus:dic WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            if ([[response objectForKey:@"ok"] boolValue]) {
+                [SVProgressHUD showInfoWithStatus:@"已关注"];
+                _info.userInfo.IsFocus=@"1";
+//                [self reloadTableAtIndex];
+                [myTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+            }
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+        }
+        
+    }];
+}
+
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [_inputTextBottom.inputText resignFirstResponder];

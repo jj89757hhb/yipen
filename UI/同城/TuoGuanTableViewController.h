@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TuoGuanTableViewController : UITableViewController
+@interface TuoGuanTableViewController : UITableViewController{
+    NSInteger currentPage;
+}
 
 @end

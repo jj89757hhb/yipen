@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "StoreInfo.h"
+//#import "StoreInfo.h"
+#import "ActivityInfo.h"
+static float content_FontSize_Store=14;
 @interface StoreTableViewCell : UITableViewCell{
     
 }
@@ -26,5 +28,5 @@
 @property(nonatomic,strong)UILabel *joinNumL;//参加
 @property(nonatomic,strong)UIImageView *positionIV;
 
-@property(nonatomic,strong)StoreInfo *info;
+@property(nonatomic,strong)ActivityInfo *info;
 @end

@@ -22,7 +22,30 @@ static NSString *identify=@"identify";
     [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"返回"] withBlock:^(id sender) {
         [weakSelf backAction];
     }];
+    [self requestData];
 
+}
+
+-(void)requestData{
+    if (![DataSource sharedDataSource].userInfo.ID) {
+        return;
+    }
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID", nil];
+    [HttpConnection GetTradingDetail:dic WithBlock:^(id response, NSError *error) {
+        if (!error ) {
+            if ([response[@"ok"] boolValue]) {
+                
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:response[@"reason"]];
+            }
+            
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+        }
+        
+    }];
 }
 
 -(void)backAction{

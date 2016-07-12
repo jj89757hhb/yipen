@@ -27,7 +27,8 @@
 }
 
 
--(void)initViewWithPrice:(NSString*)price{
+//议价 或 回价 界面初始化
+-(void)initViewWithPrice:(NSString*)price isNegotiate:(BOOL)isNegotiate{
     float offX=15;
     float height=200-20;
     float offY=150;
@@ -44,7 +45,13 @@
     UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeViewAction)];
     [self addGestureRecognizer:tap];
     UILabel *label1=[[UILabel alloc] initWithFrame:CGRectMake(0, 10, bgView.frame.size.width, 20)];
-    label1.text=@"议价";
+    if (isNegotiate) {
+            label1.text=@"议价";
+    }
+    else{
+            label1.text=@"回价";
+    }
+
     
     UILabel *label2=[[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label1.frame)+10, bgView.frame.size.width, 20)];
     label2.textColor=[UIColor grayColor];
@@ -56,7 +63,12 @@
     
     UILabel *label3=[[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label2.frame)+5, bgView.frame.size.width, 20)];
     label3.textColor=[UIColor grayColor];
-    label3.text=@"(仅一次议价机会)";
+    if (isNegotiate) {
+       label3.text=@"(仅一次议价机会)";
+    }
+    else{
+       label3.text=@"(仅一次回价机会)";
+    }
     label3.font=[UIFont systemFontOfSize:12];
     label3.textAlignment=NSTextAlignmentCenter;
     label3.textAlignment=NSTextAlignmentCenter;
@@ -64,7 +76,12 @@
     
     priceTF=[[UITextField alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(label3.frame)+15, bgView.frame.size.width-15*2, 35)];
     priceTF.borderStyle=UITextBorderStyleRoundedRect;
-    priceTF.placeholder=@"请输入您的出价";
+    if (isNegotiate) {
+       priceTF.placeholder=@"请输入您的出价";
+    }
+    else{
+        priceTF.placeholder=@"请输入您的回价";
+    }
     priceTF.keyboardType=UIKeyboardTypeNumberPad;
     [priceTF becomeFirstResponder];
     
