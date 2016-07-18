@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "PenJinInfo.h"
+#import "YPUserInfo.h"
 @interface MessageCommentTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *treeIV;
@@ -18,4 +19,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
 @property (weak, nonatomic) IBOutlet UILabel *replyL;
 @property (weak, nonatomic) IBOutlet UILabel *contentL;
+@property (weak, nonatomic) IBOutlet UILabel *nickNameL;
+@property(nonatomic,strong)PenJinInfo *info;
 @end

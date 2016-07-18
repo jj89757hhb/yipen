@@ -819,6 +819,86 @@
 }
 
 
+//获取评论
++(void)GetComment:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/GetComment",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    //    manager.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //        NSLog(@"Collection：%@",responseObject);
+        //        NSDictionary* json = responseObject;
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"GetComment：%@",json);
+        //        block(json,nil);
+        if ([[json objectForKey:@"ok"] boolValue]) {
+            NSArray *list=json[@"records"];
+            NSMutableArray *dataList=[[NSMutableArray alloc] init];
+            for (NSDictionary *dic in list) {
+                NSDictionary *Bonsai=dic[@"Comment"];//盆景实体
+                NSArray *Attach=Bonsai[@"attach"];
+                NSMutableArray *pics=[[NSMutableArray alloc] init];
+                for (NSDictionary *picDic in Attach) {
+                    [pics addObject:[picDic objectForKey:@"Path"]];
+                }
+                NSArray *comments=Bonsai[@"Comment"];
+                NSMutableArray *commentList=[[NSMutableArray alloc] init];
+                NSDictionary *CommUser=dic[@"CommUser"];//评论用户
+                NSDictionary *PostUser=dic[@"PostUser"];//原贴用户
+                YPUserInfo *commUser=[[YPUserInfo alloc] initWithKVCDictionary:CommUser];
+                YPUserInfo *postUser=[[YPUserInfo alloc] initWithKVCDictionary:PostUser];
+                for (NSDictionary *dic in comments) {
+                    CommentInfo *comment=[[CommentInfo alloc] initWithKVCDictionary:dic];
+                    [commentList addObject:comment];
+                }
+                
+                NSArray *Praised=Bonsai[@"Praised"];
+                NSMutableArray *Praiseds=[[NSMutableArray alloc] init];
+                for (NSDictionary *dic in Praised) {
+                    YPUserInfo *userInfo=[[YPUserInfo alloc] initWithKVCDictionary:dic];
+                    [Praiseds addObject:userInfo];
+                }
+                //                NSDictionary *user=dic[@"user"];
+                //                YPUserInfo *userInfo=[[YPUserInfo alloc] initWithKVCDictionary:user];
+//                ExchangeInfo *exchange=[[ExchangeInfo alloc] initWithKVCDictionary:dic];
+//                exchange.BuyUser=buyUser;
+//                exchange.SaleUser=saleUser;
+                
+                PenJinInfo *info=[[PenJinInfo alloc] initWithKVCDictionary:Bonsai];
+                info.CommUser=commUser;
+                info.PostUser=postUser;
+                info.Attach=pics;
+                info.Comment=commentList;
+                info.Praised=Praiseds;
+                [dataList addObject:info];
+                
+            }
+            NSDictionary *dic =[[NSDictionary alloc] initWithObjectsAndKeys:dataList,KDataList ,nil];
+            block(dic,nil);
+        }
+        else{
+            NSDictionary *dic =[[NSDictionary alloc] initWithObjectsAndKeys:json[@"reason"],KErrorMsg ,nil];
+            block(dic,nil);
+        }
+        
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+}
+
+
 
 //获取分享列表
 +(void)GetMyShareWithParameter:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{

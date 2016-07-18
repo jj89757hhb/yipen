@@ -17,6 +17,7 @@
     self.aggreeBtn.layer.borderWidth=0.5;
     self.aggreeBtn.layer.borderColor=GRAYCOLOR.CGColor;
     self.aggreeBtn.layer.cornerRadius=3;
+    [_aggreeBtn addTarget:self action:@selector(aggreeAction) forControlEvents:UIControlEventTouchUpInside];
     
     self.refuseBtn.clipsToBounds=YES;
     self.refuseBtn.layer.borderWidth=0.5;
@@ -30,6 +31,7 @@
     [_replyPriceBtn addTarget:self action:@selector(replyPriceAction) forControlEvents:UIControlEventTouchUpInside];
     
     self.orderBtn=[[UIButton alloc] init];
+    [_orderBtn addTarget:self action:@selector(orderAction) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_orderBtn];
     [_orderBtn setTitle:@"查看订单" forState:UIControlStateNormal];
     [_orderBtn setTitleColor:WHITEColor forState:UIControlStateNormal];
@@ -49,6 +51,16 @@
     _negotiatedBtn.clipsToBounds=YES;
     _negotiatedBtn.layer.cornerRadius=3;
     _negotiatedBtn.titleLabel.font=[UIFont systemFontOfSize:13];
+    
+    self.negotiatedFailBtn=[[UIButton alloc] init];
+    [self.contentView addSubview:_negotiatedFailBtn];
+    [_negotiatedFailBtn setTitle:@"议价失败" forState:UIControlStateNormal];
+    [_negotiatedFailBtn setTitleColor:WHITEColor forState:UIControlStateNormal];
+    [_negotiatedFailBtn setBackgroundColor:GRAYCOLOR];
+    _negotiatedFailBtn.clipsToBounds=YES;
+    _negotiatedFailBtn.layer.cornerRadius=3;
+    _negotiatedFailBtn.titleLabel.font=[UIFont systemFontOfSize:12];
+    
     
     self.buyBtn=[[UIButton alloc] init];
     [self.contentView addSubview:_buyBtn];
@@ -73,6 +85,8 @@
     _offerPriceBtn.layer.borderWidth=0.5;
     _offerPriceBtn.layer.borderColor=GRAYCOLOR.CGColor;
     
+    [_refuseBtn addTarget:self action:@selector(refuseAction) forControlEvents:UIControlEventTouchUpInside];
+    
     
     
 }
@@ -85,8 +99,11 @@
 
 -(void)setInfo:(ExchangeInfo *)info{
     _info=info;
-    _priceL.text=[NSString stringWithFormat:@"议价:%@",info.NAmount];
-    _originPriceL.text=[NSString stringWithFormat:@"原价:%@",info.Bonsai.Price];
+    _priceL.text=[NSString stringWithFormat:@"议价:¥%@",info.NAmount];
+    _originPriceL.text=[NSString stringWithFormat:@"原价:¥%@",info.Bonsai.Price];
+    if (![_info.Bonsai.IsMarksPrice boolValue]) {//不明价
+        _originPriceL.text=@"原价:不明价";
+    }
     _titleL.text=info.Bonsai.Title;
     _contentL.text=info.Bonsai.Descript;
     if (info.Bonsai.Attach.count) {
@@ -95,11 +112,14 @@
     _viewL.text=[NSString stringWithFormat:@"浏览%@",info.Bonsai.BrowseNum];
     _praiseL.text=[NSString stringWithFormat:@"赞%@",info.Bonsai.PraisedNum];
     _commentL.text=[NSString stringWithFormat:@"评论%@",info.Bonsai.CommentsNum];
-    [_orderBtn addTarget:self action:@selector(orderAction) forControlEvents:UIControlEventTouchUpInside];
+
     NSLog(@"1111:%d",info.Result);
  
     _timeL.text=info.CreateTime;
-
+    [_negotiatedFailBtn setHidden:YES];
+    [_buyBtn setTitle:@"购 买" forState:UIControlStateNormal];
+    _buyBtn.titleLabel.font=[UIFont systemFontOfSize:13];
+     _replyL.text=@"接受对宝贝的议价";
     //我是购买者
     if ([_info.BuyUser.ID isEqualToString:[DataSource  sharedDataSource].userInfo.ID]) {
        
@@ -121,7 +141,13 @@
         }
         else if (_info.Result==Kgiveup) {
             [_orderBtn setHidden:YES];
-            [_buyBtn setHidden:YES];
+            [_buyBtn setHidden:NO];
+            [_buyBtn setTitle:@"原价购买" forState:UIControlStateNormal];
+            _buyBtn.titleLabel.font=[UIFont systemFontOfSize:12];
+              _replyL.text=@"拒绝对宝贝的议价";
+            [_negotiatedFailBtn setHidden:NO];
+            
+            
         }
         else if (_info.Result==KAgree) {
              _replyL.text=@"接受对宝贝的议价";
@@ -131,11 +157,26 @@
             [_replyPriceBtn setHidden:YES];
             [_negotiatedBtn setHidden:YES];
             
+            
         }
         else{
             
         }
-        if ([_info.Phase integerValue]==2&&![_info.Bonsai.IsMarksPrice boolValue]) {//不明价的 此时买家操作： 购买 放弃  议价
+        if ([_info.Phase integerValue]==1&&[_info.Bonsai.IsMarksPrice boolValue]) {//明价的：买家已经议价
+//             _replyL.text=@"对宝贝进行了议价";
+            [_replyL setHidden:YES];
+            [_negotiatedBtn setHidden:NO];
+            _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@",_info.Bonsai.Price];
+            _priceL.text=[NSString stringWithFormat:@"议价：¥%@",_info.NAmount];
+            [_orderBtn setHidden:YES];
+            [_aggreeBtn setHidden:YES];
+            [_refuseBtn setHidden:YES];
+            [_replyPriceBtn setHidden:YES];
+            [_buyBtn setHidden:YES];
+            
+        }
+        
+       else if ([_info.Phase integerValue]==2&&![_info.Bonsai.IsMarksPrice boolValue]) {//不明价的 此时买家操作： 购买 放弃  议价
             _replyL.text=@"对宝贝进行了报价";
             [_orderBtn setHidden:YES];
             [_aggreeBtn setHidden:NO];
@@ -165,8 +206,23 @@
             
             
         }
+        
+        else if([_info.Phase integerValue]==4&&[_info.Bonsai.IsMarksPrice boolValue]){//明价 卖家已回价
+            _replyL.text=@"对宝贝议价进行了回价";
+            [_orderBtn setHidden:YES];
+            [_aggreeBtn setHidden:YES];
+            [_refuseBtn setHidden:NO];
+            [_replyPriceBtn setHidden:YES];
+            [_negotiatedBtn setHidden:YES];
+            [_buyBtn setHidden:NO];
+            _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@",_info.Bonsai.Price];
+            //            [_priceL setHidden:YES];
+            _priceL.text=[NSString stringWithFormat:@"议价：¥%@>回价：¥%@",_info.NAmount,_info.NAmount];
+            
+            
+        }
     }
-    else{
+    else{//我是卖方
       
         [_headIV sd_setImageWithURL:[NSURL URLWithString:info.BuyUser.UserHeader] placeholderImage:Default_Image];
         _nameL.text=info.BuyUser.NickName;
@@ -178,7 +234,21 @@
             [_refuseBtn setHidden:YES];
             [_replyPriceBtn setHidden:YES];
             [_negotiatedBtn setHidden:NO];
-            if (![_info.Bonsai.IsMarksPrice boolValue]&&[_info.Phase integerValue]==2) {//不明价的 买家已询价
+            
+            if ([_info.Phase integerValue]==1&&[_info.Bonsai.IsMarksPrice boolValue]) {//明价的：买家已经议价
+                 _replyL.text=@"对宝贝进行了议价";
+//                [_replyL setHidden:YES];
+                [_negotiatedBtn setHidden:NO];
+                _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@",_info.Bonsai.Price];
+                _priceL.text=[NSString stringWithFormat:@"议价：¥%@",_info.NAmount];
+                [_negotiatedBtn setHidden:YES];
+                [_aggreeBtn setHidden:NO];
+                [_refuseBtn setHidden:NO];
+                [_replyPriceBtn setHidden:NO];
+                [_buyBtn setHidden:YES];
+                
+            }
+          else  if (![_info.Bonsai.IsMarksPrice boolValue]&&[_info.Phase integerValue]==2) {//不明价的 买家已询价
                   _replyL.text=@"对宝贝进行了询价";
                 [_offerPriceBtn setHidden:NO];
                 _originPriceL.text=@"原价:不明价";
@@ -210,13 +280,43 @@
                     _priceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",_info.Bonsai.Price,_info.NAmount];
                 
             }
+            
+          else  if ([_info.Phase integerValue]==4&&[_info.Bonsai.IsMarksPrice boolValue]) {//明价的：买家已经议价
+                _replyL.text=@"对宝贝进行了议价";
+                //                [_replyL setHidden:YES];
+                [_negotiatedBtn setHidden:NO];
+              [_negotiatedBtn setTitle:@"已回价" forState:UIControlStateNormal];
+                _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@",_info.Bonsai.Price];
+                _priceL.text=[NSString stringWithFormat:@"议价：¥%@>回价：¥%@",_info.OldAmount,_info.NAmount];
+                [_aggreeBtn setHidden:YES];
+                [_refuseBtn setHidden:YES];
+                [_replyPriceBtn setHidden:YES];
+                [_buyBtn setHidden:YES];
+                
+            }
+           
             else{
                   _replyL.text=@"对宝贝进行了议价";
             }
         }
-        else if (_info.Result==Kgiveup) {
+        else if (_info.Result==Kgiveup) {//拒绝
             [_orderBtn setHidden:YES];
             [_buyBtn setHidden:YES];
+            if ([_info.Phase integerValue]==2&&[_info.Bonsai.IsMarksPrice boolValue]) {//明价的：买家已经议价
+                _replyL.text=@"对宝贝进行了议价";
+                //                [_replyL setHidden:YES];
+                [_negotiatedBtn setHidden:NO];
+                _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@",_info.Bonsai.Price];
+                _priceL.text=[NSString stringWithFormat:@"议价：¥%@",_info.NAmount];
+                [_negotiatedBtn setHidden:NO];
+                [_negotiatedBtn setTitle:@"已拒绝" forState:UIControlStateNormal];
+                [_aggreeBtn setHidden:YES];
+                [_refuseBtn setHidden:YES];
+                [_replyPriceBtn setHidden:YES];
+                [_buyBtn setHidden:YES];
+                
+            }
+         
         }
         else if (_info.Result==KAgree) {
             [_orderBtn setHidden:NO];
@@ -224,6 +324,14 @@
             [_refuseBtn setHidden:YES];
             [_replyPriceBtn setHidden:YES];
             [_negotiatedBtn setHidden:YES];
+            if(![_info.Bonsai.IsMarksPrice boolValue]&&[_info.Phase integerValue]==4){//不明价 卖家已经接受议价
+                [_offerPriceBtn setHidden:YES];
+                _replyL.text=@"对宝贝报价进行了议价";
+                _originPriceL.text=@"原价:不明价";
+                [_priceL setHidden:NO];
+                _priceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",_info.Bonsai.Price,_info.NAmount];
+                
+            }
             
         }
         else{
@@ -244,6 +352,15 @@
         
     }];
     
+    [_negotiatedFailBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.offset(-70);
+        make.top.offset(20);
+        make.width.offset(50);
+        make.height.offset(30);
+        
+    }];
+    
+    
     [_negotiatedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.offset(-10);
         make.top.offset(20);
@@ -252,13 +369,34 @@
         
     }];
     
-    [_buyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    if([_info.Phase integerValue]==4&&[_info.Bonsai.IsMarksPrice boolValue]){
+        [_buyBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.offset(-70);
+            make.top.offset(20);
+            make.width.offset(50);
+            make.height.offset(30);
+            
+        }];
+        [_refuseBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.right.offset(-10);
+            make.top.offset(20);
+            make.width.offset(50);
+            make.height.offset(30);
+            
+        }];
+        [_refuseBtn setTitle:@"放 弃" forState:UIControlStateNormal];
+    }
+    else{
+    [_buyBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.right.offset(-10);
         make.top.offset(20);
         make.width.offset(50);
         make.height.offset(30);
         
     }];
+          [_refuseBtn setTitle:@"拒 绝" forState:UIControlStateNormal];
+    }
+    
     
     //offerPriceBtn
     [_offerPriceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -282,9 +420,10 @@
     }
 }
 
+//查询订单
 -(void)orderAction{
     if (_orderBlock) {
-        _orderBlock(nil);
+        _orderBlock(_index);
     }
 }
 
@@ -301,4 +440,17 @@
     }
 }
 
+//接受
+-(void)aggreeAction{
+    if (_aggreeBlock) {
+        _aggreeBlock(_index);
+    }
+}
+
+//拒绝
+-(void)refuseAction{
+    if (_refuseBlock) {
+        _refuseBlock(_index);
+    }
+}
 @end

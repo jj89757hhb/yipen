@@ -79,4 +79,5 @@
 +(void)GetMyJoinBonsaiFate:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetTradingDetail:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetExperts:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)GetComment:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 @end

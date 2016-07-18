@@ -11,7 +11,9 @@
 #import "PenJinInfo.h"
 typedef void(^SendGoodsBlock)(id sender);
 typedef void (^MsgBlock)(id sender);
-@interface MySell1TableViewCell : UITableViewCell
+@interface MySellOrderTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *originalPriceL;
+@property (weak, nonatomic) IBOutlet UILabel *priceL;
 @property (weak, nonatomic) IBOutlet UILabel *orderNumL;
 @property (weak, nonatomic) IBOutlet UILabel *sendStatusL;
 @property (weak, nonatomic) IBOutlet UIImageView *treeIV;

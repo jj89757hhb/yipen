@@ -23,13 +23,18 @@ static NSInteger pageSize=10;
     [self.tableView registerNib:[UINib nibWithNibName:@"MySell1TableViewCell" bundle:nil] forCellReuseIdentifier:identify];
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self queryData];
+    WS(weakSelf)
+    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+        [weakSelf queryData];
+    }];
 }
 
 
 -(void)queryData{
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:pageSize],@"PageSize",[NSNumber numberWithInteger:currentPage],@"Page", nil];
     [HttpConnection GetMySale:dic WithBlock:^(id response, NSError *error) {
-        
+        [self.tableView.header endRefreshing];
+        [self.tableView.footer endRefreshing];
     }];
 }
 - (void)didReceiveMemoryWarning {

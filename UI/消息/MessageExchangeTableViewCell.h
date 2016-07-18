@@ -12,6 +12,8 @@ typedef void(^ReplyPriceBlock)(id sender);
 typedef void(^OrderBlock)(id sender);
 typedef void(^OfferPriceBlock)(id sender);
 typedef void(^BuyBlock)(id sender);
+typedef void(^AggreeBlock)(id sender);
+typedef void(^RefuseBlock)(id sender);
 @interface MessageExchangeTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *treeIV;
 @property (weak, nonatomic) IBOutlet UIImageView *headIV;
@@ -37,10 +39,13 @@ typedef void(^BuyBlock)(id sender);
 @property (nonatomic,copy) OrderBlock orderBlock;
 @property (nonatomic,copy) OfferPriceBlock offerPriceBlock;
 @property (nonatomic,copy) BuyBlock buyBlock;
+@property(nonatomic,copy)AggreeBlock aggreeBlock;
+@property(nonatomic,copy)RefuseBlock refuseBlock;
 @property(nonatomic,strong)ExchangeInfo *info;
 @property(nonatomic,strong)UIButton *orderBtn;//查询订单
 @property(nonatomic,strong)UIButton *buyBtn;//购买
 @property(nonatomic,strong)UIButton *negotiatedBtn;//已议价
+@property(nonatomic,strong)UIButton *negotiatedFailBtn;//议价失败
 @property(nonatomic,strong)UIButton *offerPriceBtn;//报价
 @property(nonatomic,strong)NSIndexPath *index;
 

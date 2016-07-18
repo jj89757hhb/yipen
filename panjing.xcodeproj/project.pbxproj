@@ -95,6 +95,7 @@
 		FE333E431C7492E700725666 /* MyQRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE333E411C7492E700725666 /* MyQRCodeViewController.m */; };
 		FE333E441C7492E700725666 /* MyQRCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE333E421C7492E700725666 /* MyQRCodeViewController.xib */; };
 		FE38F7901D332F3F003CE522 /* ExchangeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE38F78F1D332F3F003CE522 /* ExchangeInfo.m */; };
+		FE3CF22D1D35D6660060CEB2 /* RemainingPayView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3CF22C1D35D6660060CEB2 /* RemainingPayView.m */; };
 		FE45402C1C56127500BD10B8 /* SendTreePictureTableViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = FE45402A1C56127500BD10B8 /* SendTreePictureTableViewCell2.m */; };
 		FE45402D1C56127500BD10B8 /* SendTreePictureTableViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE45402B1C56127500BD10B8 /* SendTreePictureTableViewCell2.xib */; };
 		FE4AF2C81C72C8D90094F1DF /* libBlocksKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FE4AF2C71C72C8D90094F1DF /* libBlocksKit.a */; };
@@ -366,6 +367,9 @@
 		FEC532591CA11A7D00CB3CD0 /* CommentInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC532581CA11A7D00CB3CD0 /* CommentInfo.m */; };
 		FEC5325D1CA11CD300CB3CD0 /* PJCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC5325B1CA11CD300CB3CD0 /* PJCommentTableViewCell.m */; };
 		FEC5325E1CA11CD300CB3CD0 /* PJCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEC5325C1CA11CD300CB3CD0 /* PJCommentTableViewCell.xib */; };
+		FEC7BE161D37243600A830E4 /* SellerOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC7BE151D37243600A830E4 /* SellerOrderDetailViewController.m */; };
+		FEC7BE1A1D372BAB00A830E4 /* MySellOrderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC7BE181D372BAB00A830E4 /* MySellOrderTableViewCell.m */; };
+		FEC7BE1B1D372BAB00A830E4 /* MySellOrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEC7BE191D372BAB00A830E4 /* MySellOrderTableViewCell.xib */; };
 		FED266861C83DCCE00454700 /* YouYuanTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FED266851C83DCCE00454700 /* YouYuanTableViewCell.m */; };
 		FED266891C83DCF700454700 /* XiangYuanTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FED266881C83DCF700454700 /* XiangYuanTableViewCell.m */; };
 		FED2668C1C83DD1000454700 /* TuoGuanTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FED2668B1C83DD1000454700 /* TuoGuanTableViewCell.m */; };
@@ -652,6 +656,8 @@
 		FE333E421C7492E700725666 /* MyQRCodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyQRCodeViewController.xib; sourceTree = "<group>"; };
 		FE38F78E1D332F3F003CE522 /* ExchangeInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExchangeInfo.h; sourceTree = "<group>"; };
 		FE38F78F1D332F3F003CE522 /* ExchangeInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExchangeInfo.m; sourceTree = "<group>"; };
+		FE3CF22B1D35D6660060CEB2 /* RemainingPayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemainingPayView.h; sourceTree = "<group>"; };
+		FE3CF22C1D35D6660060CEB2 /* RemainingPayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemainingPayView.m; sourceTree = "<group>"; };
 		FE4540291C56127500BD10B8 /* SendTreePictureTableViewCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendTreePictureTableViewCell2.h; sourceTree = "<group>"; };
 		FE45402A1C56127500BD10B8 /* SendTreePictureTableViewCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendTreePictureTableViewCell2.m; sourceTree = "<group>"; };
 		FE45402B1C56127500BD10B8 /* SendTreePictureTableViewCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendTreePictureTableViewCell2.xib; sourceTree = "<group>"; };
@@ -1163,6 +1169,11 @@
 		FEC5325A1CA11CD300CB3CD0 /* PJCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PJCommentTableViewCell.h; sourceTree = "<group>"; };
 		FEC5325B1CA11CD300CB3CD0 /* PJCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PJCommentTableViewCell.m; sourceTree = "<group>"; };
 		FEC5325C1CA11CD300CB3CD0 /* PJCommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PJCommentTableViewCell.xib; sourceTree = "<group>"; };
+		FEC7BE141D37243600A830E4 /* SellerOrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SellerOrderDetailViewController.h; sourceTree = "<group>"; };
+		FEC7BE151D37243600A830E4 /* SellerOrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SellerOrderDetailViewController.m; sourceTree = "<group>"; };
+		FEC7BE171D372BAB00A830E4 /* MySellOrderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySellOrderTableViewCell.h; sourceTree = "<group>"; };
+		FEC7BE181D372BAB00A830E4 /* MySellOrderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySellOrderTableViewCell.m; sourceTree = "<group>"; };
+		FEC7BE191D372BAB00A830E4 /* MySellOrderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MySellOrderTableViewCell.xib; sourceTree = "<group>"; };
 		FED266841C83DCCE00454700 /* YouYuanTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YouYuanTableViewCell.h; sourceTree = "<group>"; };
 		FED266851C83DCCE00454700 /* YouYuanTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YouYuanTableViewCell.m; sourceTree = "<group>"; };
 		FED266871C83DCF700454700 /* XiangYuanTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XiangYuanTableViewCell.h; sourceTree = "<group>"; };
@@ -1803,6 +1814,8 @@
 				FE65B80F1CA4E8C10021A2DE /* CustomImageView.m */,
 				FE2EBF801CC4AEBB00D0D045 /* CommentLabel.h */,
 				FE2EBF811CC4AEBB00D0D045 /* CommentLabel.m */,
+				FE3CF22B1D35D6660060CEB2 /* RemainingPayView.h */,
+				FE3CF22C1D35D6660060CEB2 /* RemainingPayView.m */,
 			);
 			path = CommonUI;
 			sourceTree = "<group>";
@@ -2170,6 +2183,9 @@
 		FEB1E6A41C323A4E00AEEBBA /* 我的 */ = {
 			isa = PBXGroup;
 			children = (
+				FEC7BE171D372BAB00A830E4 /* MySellOrderTableViewCell.h */,
+				FEC7BE181D372BAB00A830E4 /* MySellOrderTableViewCell.m */,
+				FEC7BE191D372BAB00A830E4 /* MySellOrderTableViewCell.xib */,
 				FE83CDB11D2A3E7300BCEEBA /* 收藏列表 */,
 				FE6575EF1C74779400241D59 /* 设置 */,
 				FEB1E6B01C323B5200AEEBBA /* MyViewController.h */,
@@ -2364,6 +2380,8 @@
 				FE5DC24E1C7C0EF20024CDE7 /* MessageExchange2TableViewCell.h */,
 				FE5DC24F1C7C0EF20024CDE7 /* MessageExchange2TableViewCell.m */,
 				FE5DC2511C7C0F170024CDE7 /* MessageExchange2TableViewCell.xib */,
+				FEC7BE141D37243600A830E4 /* SellerOrderDetailViewController.h */,
+				FEC7BE151D37243600A830E4 /* SellerOrderDetailViewController.m */,
 			);
 			path = "消息";
 			sourceTree = "<group>";
@@ -2839,6 +2857,7 @@
 				FE8A3EFB1C8FB2C8000FE4D7 /* ZiFuBaoWithdrawViewController.xib in Resources */,
 				FE8D58351C8581F400C31D91 /* UIBarButtonItemArrowRight@2x.png in Resources */,
 				FEAFB1CA1C7EC8B100395099 /* PersonalSendTreeTableViewCell.xib in Resources */,
+				FEC7BE1B1D372BAB00A830E4 /* MySellOrderTableViewCell.xib in Resources */,
 				FED266A91C84364900454700 /* SendXiangYuanTableViewCell.xib in Resources */,
 				FE5DC24C1C7BF4730024CDE7 /* MessageExchangeTableViewCell.xib in Resources */,
 				FE65953B1C71CEEB00600E7D /* MyBuyTableViewController.xib in Resources */,
@@ -2993,6 +3012,7 @@
 				FE156C9D1CBB4AEE009E4B03 /* DataSigner.m in Sources */,
 				FEB1E6E61C3268F200AEEBBA /* SKTagButton.m in Sources */,
 				FE6575F31C7477AB00241D59 /* AboutViewController.m in Sources */,
+				FEC7BE1A1D372BAB00A830E4 /* MySellOrderTableViewCell.m in Sources */,
 				FEB1E6F21C326B0C00AEEBBA /* SVTopScrollView.m in Sources */,
 				FE81D7971C75C46000063093 /* SameCitySendTableViewCell.m in Sources */,
 				FE2DCA641C8697FD0056B809 /* SelectHeightViewController.m in Sources */,
@@ -3024,6 +3044,7 @@
 				FE4AF2E51C72D23F0094F1DF /* AFURLSessionManager.m in Sources */,
 				FEAFB1B81C7E95EF00395099 /* CommonFun.m in Sources */,
 				FE2994D01BF96EEF0045969D /* MyTabBarController.m in Sources */,
+				FEC7BE161D37243600A830E4 /* SellerOrderDetailViewController.m in Sources */,
 				FE2B0CFD1CCA01AD00F0EB63 /* TCTuoGuanDetailTableViewCell.m in Sources */,
 				FEAFB1D11C7EDFAB00395099 /* SendYouYuanViewController.m in Sources */,
 				FEEE2A2D1C8D2531004AADDE /* SlidingViewManager.m in Sources */,
@@ -3031,6 +3052,7 @@
 				FED266991C83E79900454700 /* ImagePlayerView.m in Sources */,
 				FE1D09241C706AB7002B4479 /* AFAppDotNetAPIClient.m in Sources */,
 				FE83D9FA1C6EEE2800F36255 /* YouYuanTableViewController.m in Sources */,
+				FE3CF22D1D35D6660060CEB2 /* RemainingPayView.m in Sources */,
 				FE156CA21CBB4AEE009E4B03 /* RSADataSigner.m in Sources */,
 				FE5DC2491C7BF40B0024CDE7 /* MessageExchangeTableViewCell.m in Sources */,
 				FEAFB1EA1C7EF30500395099 /* OrderDetailTableViewCell.m in Sources */,

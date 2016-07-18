@@ -13,9 +13,11 @@
 #import "WXApiManager.h"
 #import "Order.h"
 #import "DataSigner.h"
-#import "AddressManagerViewController.h"
-//#import "Product.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import "AddressManagerViewController.h"
+#import "RemainingPayView.h"
+//#import "Product.h"
+
 @interface WillBuyViewController ()<UITableViewDataSource,UITableViewDelegate>{
     Pay_Type pay_Type;
 }
@@ -174,6 +176,19 @@ static float Bottom_Height=50;
 -(void)payAction{
     if (pay_Type==KZFB_Pay) {
          [self alipay];
+    }
+    else if(pay_Type==KYuE_Pay){
+        RemainingPayView *view=[[RemainingPayView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        [view initViewWithPrice:_info.Price];
+        view.backgroundColor=[BLACKCOLOR colorWithAlphaComponent:0.7];
+        [AppDelegateInstance.window addSubview:view];
+        __weak UIView  *tempView =view;
+        [view setPayBlock:^(id sender){
+            NSLog(@"密码 %@",sender);
+            [tempView removeFromSuperview];
+            
+        }];
+      
     }
    
 }

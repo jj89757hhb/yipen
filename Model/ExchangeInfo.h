@@ -22,6 +22,7 @@
 @property(nonatomic,strong)NSString *SalerID;
 @property(nonatomic,strong)NSString *TranNo;
 @property(nonatomic,strong)NSString *Type;
+@property(nonatomic,strong)NSString *OldAmount;//原价
 @property(nonatomic,strong)YPUserInfo *BuyUser;//买家
 @property(nonatomic,strong)YPUserInfo *SaleUser;//卖家
 @property(nonatomic,strong)PenJinInfo *Bonsai;//盆景

@@ -73,5 +73,11 @@
 //@property(nonatomic,strong)NSString *TranNo;
 //@property(nonatomic,strong)NSString *Type;
 //@property(nonatomic,strong)NSString *UserHeader;
+//评论
+@property(nonatomic,strong)NSString *Message;//评论
+@property(nonatomic,strong)NSString *CommentTime;//评论时间
+@property(nonatomic,strong)YPUserInfo *CommUser;//评论用户
+@property(nonatomic,strong)YPUserInfo *PostUser;//原贴用户
+
 - (id)initWithKVCDictionary:(NSDictionary *)KVCDic;
 @end
