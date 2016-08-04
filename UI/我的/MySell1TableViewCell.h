@@ -11,6 +11,7 @@
 #import "PenJinInfo.h"
 typedef void(^SendGoodsBlock)(id sender);
 typedef void (^MsgBlock)(id sender);
+typedef void (^RefundBlock)(id sender);
 @interface MySell1TableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *orderNumL;
 @property (weak, nonatomic) IBOutlet UILabel *sendStatusL;
@@ -22,9 +23,12 @@ typedef void (^MsgBlock)(id sender);
 @property (weak, nonatomic) IBOutlet UILabel *expressNameL;
 @property (weak, nonatomic) IBOutlet UILabel *expressNumL;
 @property (weak, nonatomic) IBOutlet UILabel *buyTypeL;
-@property (weak, nonatomic) IBOutlet UIButton *msgBtn;
-@property (weak, nonatomic) IBOutlet UIButton *sendGoodsBtn;
+@property (nonatomic, nonatomic)  UIButton *msgBtn;
+@property (nonatomic, nonatomic)  UIButton *sendGoodsBtn;
+@property(nonatomic,strong)UIButton *refundBtn;//退款
 @property(nonatomic,copy)SendGoodsBlock sendGoodsBlock;
 @property(nonatomic,copy)MsgBlock msgBlock;
-@property(nonatomic,strong)ExchangeInfo *exchangeInfo;
+@property(nonatomic,copy)RefundBlock  refundBlock;//同意退款
+@property(nonatomic,strong)ExchangeInfo *info;
+@property(nonatomic,weak)NSIndexPath *indexPath;
 @end

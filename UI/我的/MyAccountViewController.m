@@ -72,7 +72,9 @@
             cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         UILabel *numL=[[UILabel alloc] initWithFrame:CGRectMake(0, 60, SCREEN_WIDTH, 20)];
         numL.textColor=[UIColor redColor];
-        numL.text=@"¥20";
+//        numL.text=@"¥20";
+        ;
+        numL.text=[NSString stringWithFormat:@"¥%@",[DataSource sharedDataSource].userInfo.Balance];
         numL.textAlignment=NSTextAlignmentCenter;
         numL.font=[UIFont boldSystemFontOfSize:22];
         UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(numL.frame)+5, SCREEN_WIDTH, 20)];

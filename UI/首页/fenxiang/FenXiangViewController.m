@@ -33,16 +33,8 @@ static NSInteger pageNum=10;//每页
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.list=[[NSMutableArray alloc] init];
-        currentPage=1;
     [SVProgressHUD show];
-        [self requestData];
-    // Do any additional setup after loading the view from its nib.
-//    if (_slideSwitchView) {
-//        _multiDelegate = [[AIMultiDelegate alloc] init];
-//        [_multiDelegate addDelegate:self];
-//        [_multiDelegate addDelegate:_slideSwitchView];
-//        self.tableView.delegate = (id)_multiDelegate;
-//    }
+    [self requestDataIsRefresh:YES];
 
     [self.tableView registerClass:[FenXiangTableViewCell class] forCellReuseIdentifier:identity];
 //    self.tableView.backgroundColor=VIEWBACKCOLOR;
@@ -50,11 +42,11 @@ static NSInteger pageNum=10;//每页
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self.tableView addLegendHeaderWithRefreshingBlock:^{
         currentPage=1;
-        [weakSelf requestData];
+        [weakSelf requestDataIsRefresh:YES];
     }];
     
     [self.tableView addLegendFooterWithRefreshingBlock:^{
-          [weakSelf requestData];
+          [weakSelf requestDataIsRefresh:NO];
     }];
     self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"返回"] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
     
@@ -74,7 +66,10 @@ static NSInteger pageNum=10;//每页
 
 
 
--(void)requestData{
+-(void)requestDataIsRefresh:(BOOL)isRefresh{
+    if (isRefresh ) {
+        currentPage=1;
+    }
 //    currentPage=1;
     //Type=3 淘一盆
 //    NSString *param=[NSString stringWithFormat:@"UID=%@&Page=%ld&PageSize=%ld",[DataSource sharedDataSource].userInfo.ID,currentPage,pageNum];

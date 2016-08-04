@@ -37,25 +37,27 @@ static NSInteger pageNum=10;
     self.list=[[NSMutableArray alloc] init];
     currentPage=1;
     [SVProgressHUD show];
-    [self requestData];
+    [self requestDataIsRefresh:YES];
     [self.tableView registerClass:[FenXiangTableViewCell class] forCellReuseIdentifier:identity];
     WS(weakSelf)
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self.tableView addLegendHeaderWithRefreshingBlock:^{
         currentPage=1;
-        [weakSelf requestData];
+        [weakSelf requestDataIsRefresh:YES];
     }];
     
     [self.tableView addLegendFooterWithRefreshingBlock:^{
-        [weakSelf requestData];
+        [weakSelf requestDataIsRefresh:NO];
     }];
 
 
 }
 
 
--(void)requestData{
-    //    currentPage=1;
+-(void)requestDataIsRefresh:(BOOL)isRefresh{
+    if (isRefresh) {
+          currentPage=1;
+    }
     //Type=3 淘一盆
     //    NSString *param=[NSString stringWithFormat:@"UID=%@&Page=%ld&PageSize=%ld",[DataSource sharedDataSource].userInfo.ID,currentPage,pageNum];
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:currentPage],@"Page",[NSNumber numberWithInteger:pageNum],@"PageSize",@"2",@"Type",@"",SenShu,@"",LeiBie,@"",ChanDi,@"",PinZhong,@"",ShuXin,@"",ChiCun,@"",QiTa, nil];

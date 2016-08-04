@@ -8,6 +8,7 @@
 
 #import "FansViewController.h"
 #import "AttentionTableViewCell.h"
+#import "PersonalHomeViewController.h"
 @interface FansViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)NSMutableArray *list;
 @end
@@ -99,12 +100,50 @@ static NSString *identify=@"identify";
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     AttentionTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
     [cell setInfo:_list[indexPath.row]];
+    cell.index=indexPath;
+    WS(weakSelf)
+    [cell setAttentionBlock:^(id sender){
+        [weakSelf attentionAction:sender];
+    }];
     return cell;
 }
+
+-(void)attentionAction:(NSIndexPath*)index{
+    YPUserInfo *info=_list[index.row];
+    [SVProgressHUD show];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.UserId,@"BUID", nil];
+    [HttpConnection Focus:dic WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            if ([[response objectForKey:@"ok"] boolValue]) {
+                [SVProgressHUD showInfoWithStatus:@"已关注"];
+                 info.IsFocus=@"1";
+                [myTable reloadData];
+                
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+            }
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+        }
+        
+    }];
+}
+
+
+
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    YPUserInfo *info=_list[indexPath.row];
+    info.ID=info.UserId;//又是数据不统一！！！
+    PersonalHomeViewController *ctr=[[PersonalHomeViewController alloc] init];
+    ctr.userInfo=info;
+    [self hideTabBar:YES animated:NO];
+    [self.navigationController pushViewController:ctr animated:YES];
 }
 
 

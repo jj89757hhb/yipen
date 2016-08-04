@@ -8,6 +8,7 @@
 
 #import "AttentionViewController.h"
 #import "AttentionTableViewCell.h"
+#import "PersonalHomeViewController.h"
 @interface AttentionViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)NSMutableArray *list;
 @end
@@ -106,6 +107,12 @@ static NSString *identify=@"identify";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    YPUserInfo *info=_list[indexPath.row];
+    info.ID=info.BeID;//又是数据不统一！！！
+    PersonalHomeViewController *ctr=[[PersonalHomeViewController alloc] init];
+    ctr.userInfo=info;
+    [self hideTabBar:YES animated:NO];
+    [self.navigationController pushViewController:ctr animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

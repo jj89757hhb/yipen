@@ -17,4 +17,6 @@
 +(NSMutableAttributedString*)timerFireMethod:(long long)time;
 +(CGSize)sizeWithString:(NSString *)string font:(UIFont *)font size:(CGSize)contentSize;
 + (UIViewController *)viewControllerHasNavigation:(UIView *)view;
++ (NSString *)delDecimal:(NSString *)inputNum;
++ (UIViewController *)viewControllerHasNavgation:(UIView *)aView;
 @end

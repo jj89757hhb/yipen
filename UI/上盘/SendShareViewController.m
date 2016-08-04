@@ -111,17 +111,18 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
     }
     [SVProgressHUD show];
     NSMutableDictionary *dic=nil;
-
+    NSString *isSale=@"0";//1-出售 0-不出售
     // IsAuction非拍卖传0
     if (self.enterType==1) {//分享
 //        dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", _treeHeightCell.heightTF.text, @"Hight",_treeHeightCell.widthTF.text,@"Width",_treeHeightCell.zhijinTF.text,@"Diameter",_treeHeightCell.ageTF.text,@"Old", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:1],@"Type",_sort.CodeValue,@"Varieties",[NSNumber numberWithInt:0],@"IsAuction", nil];
-              dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", _treeHeightCell.heightTF.text, @"Hight",_treeHeightCell.widthTF.text,@"Width",_treeHeightCell.zhijinTF.text,@"Diameter",_treeHeightCell.ageTF.text,@"Old", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:1],@"Type",[NSNumber numberWithInt:0],@"IsAuction", nil];
+              dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", _treeHeightCell.heightTF.text, @"Hight",_treeHeightCell.widthTF.text,@"Width",_treeHeightCell.zhijinTF.text,@"Diameter",_treeHeightCell.ageTF.text,@"Old", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:1],@"Type",[NSNumber numberWithInt:0],@"IsAuction",isSale,@"isSale", nil];
         if (sortDic2.allKeys.count) {
                   [dic setValuesForKeysWithDictionary:sortDic2];
         }
   
     }
     else if(self.enterType==2){//出售
+        isSale=@"1";
         if ([_cell2.treePriceTF.text length]==0&&[_IsMarksPrice isEqualToString:@"1"]) {
               [SVProgressHUD showErrorWithStatus:@"请填写价格"];
             return;
@@ -135,13 +136,14 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
             return;
         }
         
-        dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", _treeHeightCell.heightTF.text, @"Hight",_treeHeightCell.widthTF.text,@"Width",_treeHeightCell.zhijinTF.text,@"Diameter",_treeHeightCell.ageTF.text,@"Old", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:2],@"Type",self.IsMarksPrice,@"IsMarksPrice",_cell2.treePriceTF.text.length?_cell2.treePriceTF.text:@"0",@"Price",_cell2.numTF.text,@"Num", _IsMailed,@"IsMailed",_cell2.expressTF.text.length?_cell2.expressTF.text:@"0",@"MailFee",[NSNumber numberWithInt:0],@"IsAuction",nil];
+        dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", _treeHeightCell.heightTF.text, @"Hight",_treeHeightCell.widthTF.text,@"Width",_treeHeightCell.zhijinTF.text,@"Diameter",_treeHeightCell.ageTF.text,@"Old", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:2],@"Type",self.IsMarksPrice,@"IsMarksPrice",_cell2.treePriceTF.text.length?_cell2.treePriceTF.text:@"0",@"Price",_cell2.numTF.text,@"Num", _IsMailed,@"IsMailed",_cell2.expressTF.text.length?_cell2.expressTF.text:@"0",@"MailFee",[NSNumber numberWithInt:0],@"IsAuction",isSale,@"isSale",nil];
         
         if (sortDic2.allKeys.count) {
             [dic setValuesForKeysWithDictionary:sortDic2];
         }
     }
     else if(self.enterType==3){//拍卖
+//        isSale=@"1";
         if (_cell3.auctionPriceTF.text.length==0) {//
             [SVProgressHUD showErrorWithStatus:@"请填写起拍价"];
             return;
@@ -580,6 +582,7 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
 /*退出日期选取器*/
 -(void)quitDatePickerView
 {
+    [self.view endEditing:YES];
     [_svm slideViewOut];
 }
 

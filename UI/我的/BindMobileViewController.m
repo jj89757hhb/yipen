@@ -8,7 +8,9 @@
 
 #import "BindMobileViewController.h"
 #import "BindMobile2ViewController.h"
+#import "MyWebViewViewController.h"
 @interface BindMobileViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *aggreL;
 
 @end
 
@@ -27,6 +29,16 @@
     [self.nextBtn addTarget:self action:@selector(nextAction) forControlEvents:UIControlEventTouchUpInside];
 //    self.nextBtn.layer.borderWidth=1;
     self.title=@"修改绑定手机";
+    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(aggreementAction)];
+    [_aggreL setUserInteractionEnabled:YES];
+    [_aggreL addGestureRecognizer:tap];
+}
+
+-(void)aggreementAction{
+    MyWebViewViewController *ctr=[[MyWebViewViewController alloc] init];
+    ctr.urlStr=user_agreement_Url;
+    ctr.title=@"服务协议";
+    [self.navigationController pushViewController:ctr animated:YES];
 }
 
 

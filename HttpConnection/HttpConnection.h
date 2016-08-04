@@ -20,7 +20,7 @@
 +(void)getOwnerInfoWithParameter:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 + (NSString*)dictionaryToJson:(NSDictionary *)dic;
 + (NSDictionary *)jsonStringToDictionary:(NSString *)jsonString ;
-+(void)GetMyShareWithParameter:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)GetMyShareList:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)getDownCityWithParameter:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)postSameCityInfos:(id)parameter pics:(NSMutableArray*)pics WithBlock:(void (^)(id response, NSError *error))block;
 +(void)getActivtyList:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
@@ -58,6 +58,7 @@
 +(void)FindPwd:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)FindPwdTwo:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetBonsaiList:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)GetMyBonsaiDoctor:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetFriendsList:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetShareGardenList:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetHostingGardenList:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
@@ -67,6 +68,7 @@
 +(void)GetAuctionRecord:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)PostBargaining:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetBargainingRecord:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)SendTrad:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetBonsaiFate:(id)parameter WithBlock:(void (^)(id response, NSError *error))block
 ;
 +(void)PostBonsaiFate:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
@@ -80,4 +82,11 @@
 +(void)GetTradingDetail:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetExperts:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetComment:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)PaySuccess:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)WeChatPay:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)AliPay:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)ShippingAddress:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)PutCourier:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)DelMyShare:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)PayPwdAuthe:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 @end

@@ -7,11 +7,12 @@
 //
 
 #import "BaseViewController.h"
-
+#import "ExchangeInfo.h"
 @interface OrderDetailViewController : BaseViewController{
     UITableView *myTable;
     UIView *bottomView;
     UIButton *chatBtn;
 }
-
+@property(nonatomic,strong)ExchangeInfo *info;
+@property(nonatomic,assign)NSInteger enterType;//0 我买的 1  我卖的
 @end

@@ -10,13 +10,19 @@
 #import "PersonalHomeHeadTableViewCell.h"
 #import "PersonalSendTreeTableViewCell.h"
 #import <RongIMKit/RongIMKit.h>
-@interface PersonalHomeViewController ()<UITableViewDataSource,UITableViewDelegate>
-
+#import "FenXiangDetailViewController.h"
+#import "ShareView.h"
+@interface PersonalHomeViewController ()<UITableViewDataSource,UITableViewDelegate>{
+    NSInteger Page;
+    ShareView *_shareView;
+}
+@property(nonatomic,strong)NSMutableArray *list;
 @end
 
 @implementation PersonalHomeViewController
 static NSString *identify=@"identify";
 static NSString *identify2=@"identify2";
+static NSInteger PageSize=10;
 - (void)viewDidLoad {
     [super viewDidLoad];
     WS(weakSelf)
@@ -28,6 +34,7 @@ static NSString *identify2=@"identify2";
 //    [HttpConnection getOwnerInfoWithParameter:param2 WithBlock:^(id response, NSError *error) {
 //        
 //    }];
+    [self requestDataIsRefresh:YES];
     [self.navigationController.navigationBar setAlpha:0.6];
 }
 
@@ -43,7 +50,55 @@ static NSString *identify2=@"identify2";
     [self.view addSubview:myTable];
     [myTable registerNib:[UINib nibWithNibName:@"PersonalHomeHeadTableViewCell" bundle:nil] forCellReuseIdentifier:identify];
     [myTable registerNib:[UINib nibWithNibName:@"PersonalSendTreeTableViewCell" bundle:nil] forCellReuseIdentifier:identify2];
+    WS(weakSelf)
+    [myTable addLegendHeaderWithRefreshingBlock:^{
+        [weakSelf requestDataIsRefresh:YES];
+    }];
+    [myTable addLegendFooterWithRefreshingBlock:^{
+        [weakSelf requestDataIsRefresh:NO];
+    }];
 }
+
+
+-(void)requestDataIsRefresh:(BOOL)isRefresh{
+    if (isRefresh) {
+        Page=1;
+    }
+    if (!_userInfo.ID.length) {
+        _userInfo.ID=_userInfo.UserId;
+    }
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:_userInfo.ID,@"UID",[NSNumber numberWithInteger:Page],@"Page",[NSNumber numberWithInteger:PageSize],@"PageSize", nil];
+    [HttpConnection GetMyShareList:dic WithBlock:^(id response, NSError *error) {
+        [SVProgressHUD dismiss];
+        [myTable.header endRefreshing];
+        [myTable.footer endRefreshing];
+        if (!error) {
+            if (![response objectForKey:KErrorMsg]) {
+                if (Page==1) {
+                    self.list=response[KDataList];
+                }
+                else{
+                    [self.list addObjectsFromArray:response[KDataList]];
+                }
+                
+                [myTable reloadData];
+                Page++;
+            }
+            else{
+                
+                [SVProgressHUD showInfoWithStatus:[response objectForKey:KErrorMsg]];
+            }
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:ErrorMessage];
+        }
+        
+        
+    }];
+    
+}
+
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.01;
@@ -57,7 +112,7 @@ static NSString *identify2=@"identify2";
     if (section==0) {
         return 1;
     }
-    return 4;
+    return _list.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -96,10 +151,26 @@ static NSString *identify2=@"identify2";
             [cell.msgBtn setHidden:YES];
             [cell.attentionBtn setHidden:YES];
         }
+//        if ([_userInfo.Levels integerValue]==1) {
+            [cell.levelL setText:[NSString stringWithFormat:@"等级: LV0%@",_userInfo.Levels]];
+//        }
+        if (![_userInfo.IsCertifi boolValue]) {
+            [cell.verifyL setText:@"认证: 暂无"];
+        }
+        else{
+              [cell.verifyL setText:[NSString stringWithFormat:@"认证: %@",_userInfo.CertifiInfo]];
+        }
+        cell.fansL.text=[NSString stringWithFormat:@"粉丝: %@",_userInfo.Fans];
         return cell;
     }
     else{
         PersonalSendTreeTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identify2 forIndexPath:indexPath];
+        [cell setInfo:_list[indexPath.row]];
+        cell.index=indexPath;
+        WS(weakSelf)
+        [cell setShareBlock:^(id sender){
+            [weakSelf shareWithIndex:sender];
+        }];
         return cell;
         
     }
@@ -128,6 +199,13 @@ static NSString *identify2=@"identify2";
     }];
 }
 
+-(void)shareWithIndex:(NSIndexPath*)index{
+    _shareView=[[ShareView alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _shareView.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    _shareView.imageUrls=_info.Attach;
+    [[UIApplication sharedApplication].keyWindow  addSubview:_shareView];
+}
+
 -(void)msgAction:(UIButton*)sender{
     if ([_userInfo.ID isEqualToString:[DataSource sharedDataSource].userInfo.ID]) {
         return;
@@ -145,6 +223,16 @@ static NSString *identify2=@"identify2";
 }
 
 
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(indexPath.section==0){
+        return;
+    }
+    [myTable deselectRowAtIndexPath:indexPath animated:NO];
+    FenXiangDetailViewController *ctr=[[FenXiangDetailViewController alloc] init];
+    ctr.info=_list[indexPath.row];
+    [self.navigationController pushViewController:ctr animated:YES];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

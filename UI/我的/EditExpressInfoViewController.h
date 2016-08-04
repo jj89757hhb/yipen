@@ -8,6 +8,8 @@
 
 #import "BaseViewController.h"
 
-@interface EditExpressInfoViewController : BaseViewController
-
+@interface EditExpressInfoViewController : BaseViewController{
+    
+}
+@property(nonatomic,strong)NSString *tranNo;
 @end

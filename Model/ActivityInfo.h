@@ -38,6 +38,7 @@
 @property(nonatomic,strong)NSString *BrowseNum;//浏览数
 @property(nonatomic,strong)NSString *Mobile;
 @property(nonatomic,strong)NSString *Contact;//联系人
+@property(nonatomic,strong)NSString *Num;//库存
 //@property(nonatomic,strong)NSString *UserHeader;
 - (id)initWithKVCDictionary:(NSDictionary *)KVCDic;
 @end

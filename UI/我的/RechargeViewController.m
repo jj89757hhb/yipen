@@ -15,7 +15,7 @@
 #import <AlipaySDK/AlipaySDK.h>
 
 @interface RechargeViewController ()
-
+@property(nonatomic,strong)NSString *tranNo;//服务端返回的交易流水
 @end
 
 @implementation RechargeViewController
@@ -39,18 +39,55 @@
 
 -(void)willPayAction{
     if (_selectBtn.isSelected) {
-        NSString *res = [WXApiRequestHandler jumpToBizPay];
-        if( ![@"" isEqual:res] ){
-            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"支付失败" message:res delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            
-            [alter show];
-        }
+        [self weiXinPay];
     }
     else{
-        [self alipay];
+        [self aliWillPay];
     }
   
 }
+
+
+//微信支付
+-(void)weiXinPay{
+    [SVProgressHUD show];
+    Pay_Type_Weixin pay_Type=KChongZhi;
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:@"-1",@"tranNo",@"1",@"money",@"易盘账户充值", @"body",[DataSource sharedDataSource].userInfo.ID, @"uid",@"empty",@"Touid",[NSNumber numberWithInteger:pay_Type],@"payType",nil];
+    [HttpConnection WeChatPay:dic WithBlock:^(id response, NSError *error) {
+//
+        if (!error) {
+            if ([[response objectForKey:@"ok"] boolValue]) {
+                 [SVProgressHUD dismiss];
+                //                [SVProgressHUD showInfoWithStatus:@"购买成功"];
+                NSString *appid=response[@"appid"];
+                NSString *mch_id=response[@"mch_id"];
+                NSString *nonce_str=response[@"nonce_str"];
+                NSString *out_trade_no=response[@"out_trade_no"];
+                NSString *prepay_id=response[@"prepay_id"];
+                NSString *sign=response[@"sign"];
+                NSString *timestamp=response[@"timestamp"];
+                NSString *trade_type=response[@"trade_type"];
+                
+                //调起微信支付
+                PayReq* req             = [[PayReq alloc] init];
+                req.partnerId           = mch_id;
+                req.prepayId            = prepay_id;
+                req.nonceStr            = nonce_str;
+                req.timeStamp           = [timestamp intValue];
+                req.package             = trade_type;
+                req.sign                = sign;
+                [WXApi sendReq:req];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:[response objectForKey:@"reason"]];
+            }
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:ErrorMessage];
+        }
+    }];
+}
+
 
 
 -(void)selectWeixPay{
@@ -67,6 +104,30 @@
     [_select2Btn setSelected:YES];
 }
 
+
+//支付宝预支付
+-(void)aliWillPay{
+    Pay_Type_Weixin pay_TypeWX=KChongZhi;// money 1表示1分钱
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:@"-1",@"tranNo",@"0.01",@"money",@"易盆账号充值", @"body",[DataSource sharedDataSource].userInfo.ID, @"uid",@"empty",@"Touid",[NSNumber numberWithInteger:pay_TypeWX],@"payType",nil];
+    [HttpConnection AliPay:dic WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            if ([[response objectForKey:@"ok"] boolValue]) {
+                self.tranNo=[response objectForKey:@"tranNo"];
+                NSLog(@"订单号:%@",_tranNo);
+                [self alipay];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:[response objectForKey:@"reason"]];
+            }
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:ErrorMessage];
+        }
+        
+    }];
+
+}
+
 -(void)alipay{
 //    Product *product = [self.productList objectAtIndex:indexPath.row];
     
@@ -78,10 +139,10 @@
     /*============================================================================*/
     /*=======================需要填写商户app申请的===================================*/
     /*============================================================================*/
-    NSString *partner = @"2088221379614269";
-    NSString *seller = @"imyipen@qq.com";
+    NSString *partner = ZFB_partner;
+    NSString *seller = ZFB_seller;
     NSString *privateKey = ZFB_privateKey;
-    /*============================================================================*/
+    /*===================================================F=========================*/
     /*============================================================================*/
     /*============================================================================*/
     
@@ -106,11 +167,11 @@
     Order *order = [[Order alloc] init];
     order.partner = partner;
     order.seller = seller;
-    order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）
-    order.productName =@"test购买"; //商品标题
-    order.productDescription = @"易盘商品"; //商品描述
+    order.tradeNO = _tranNo; //订单ID（由商家自行制定）
+    order.productName =@"易盘账户充值"; //商品标题
+    order.productDescription = @"empty"; //商品描述
     order.amount = [NSString stringWithFormat:@"%.2f",0.01]; //商品价格
-    order.notifyURL =  @"http://www.xxx.com"; //回调URL
+    order.notifyURL = ZFB_CallBack_Url; //回调URL
     
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
@@ -120,7 +181,7 @@
     
     //应用注册scheme,在AlixPayDemo-Info.plist定义URL types
 //    NSString *appScheme = @"alisdkdemo";
-        NSString *appScheme = @"yiPen";
+        NSString *appScheme = AppScheme;
     
     //将商品信息拼接成字符串
     NSString *orderSpec = [order description];

@@ -40,19 +40,26 @@ static NSInteger pageNum=10;
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     WS(weakSelf)
     [self.tableView addLegendHeaderWithRefreshingBlock:^{
-        [weakSelf requestData];
+        [weakSelf requestDataIsRefresh:YES];
     }];
-    [self requestData];
+    [self.tableView addLegendFooterWithRefreshingBlock:^{
+            [self requestDataIsRefresh:NO];
+    }];
+    [self requestDataIsRefresh:YES];
 }
 
 
--(void)requestData{
-    currentPage=1;
+-(void)requestDataIsRefresh:(BOOL)isRefresh{
+    if (isRefresh) {
+           currentPage=1;
+    }
+ 
     //Type=3 淘一盆
     //    NSString *param=[NSString stringWithFormat:@"UID=%@&Page=%ld&PageSize=%ld",[DataSource sharedDataSource].userInfo.ID,currentPage,pageNum];
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:currentPage],@"Page",[NSNumber numberWithInteger:pageNum],@"PageSize",@"4",@"Type",@"",SenShu,@"",LeiBie,@"",ChanDi,@"",PinZhong,@"",ShuXin,@"",ChiCun,@"",QiTa, nil];
     [HttpConnection GetBonsaiList:dic WithBlock:^(id response, NSError *error) {
         [self.tableView.header endRefreshing];
+        [self.tableView.footer endRefreshing];
         if (!error) {
             if (![response objectForKey:KErrorMsg]) {
                 self.list=response[KDataList];
@@ -62,6 +69,7 @@ static NSInteger pageNum=10;
                 
                 [SVProgressHUD showInfoWithStatus:[response objectForKey:KErrorMsg]];
             }
+                currentPage++;
         }
         else{
             [SVProgressHUD showInfoWithStatus:ErrorMessage];

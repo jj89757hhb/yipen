@@ -10,6 +10,7 @@
 #import "ZYQAssetPickerController.h"
 #import "TreeSort.h"
 #import "SelectTagViewController.h"
+#import "ExpertViewController.h"
 @interface SendPenDaiFuViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UINavigationControllerDelegate, ZYQAssetPickerControllerDelegate,UIImagePickerControllerDelegate>
 @property(nonatomic,strong)UITextField *titleTF;
 @property(nonatomic,strong)UITextView *contentTV;
@@ -209,13 +210,20 @@
         [self.navigationController pushViewController:ctr animated:YES];
     }
     else if(indexPath.section==1){
-        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInteger:1],@"Page",[NSNumber numberWithInteger:10],@"PageSize", nil];
-        [HttpConnection GetExperts:dic WithBlock:^(id response, NSError *error) {
-            
-        }];
+//        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInteger:1],@"Page",[NSNumber numberWithInteger:10],@"PageSize", nil];
+//        [HttpConnection GetExperts:dic WithBlock:^(id response, NSError *error) {
+//            
+//        }];
+        [self queryExpert];
     }
 }
 
+
+//查询专家
+-(void)queryExpert{
+    ExpertViewController *ctr=[[ExpertViewController alloc] init];
+    [self.navigationController pushViewController:ctr animated:YES];
+}
 
 //发布
 -(void)sendAction{
@@ -248,7 +256,7 @@
     [SVProgressHUD show];
     NSMutableDictionary *dic=nil;
     // IsAuction非拍卖传0
-    dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:4],@"Type",[NSNumber numberWithInt:0],@"IsAuction", nil];
+    dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_titleTF.text,@"Title",_contentTV.text,@"Message", [DataSource sharedDataSource].userInfo.ID,@"Uid",[NSNumber numberWithInt:5],@"Type",[NSNumber numberWithInt:0],@"IsAuction", nil];
     if (sortDic2.allKeys.count) {
         [dic setValuesForKeysWithDictionary:sortDic2];
     }

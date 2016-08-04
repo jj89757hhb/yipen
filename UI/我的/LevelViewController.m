@@ -28,7 +28,8 @@
     scoreL.text=@"当前积分";
     scoreL.font=[UIFont systemFontOfSize:13];
     scoreNumL=[[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(scoreL.frame), scoreL.frame.origin.y, 80, 20)];
-    scoreNumL.text=@"100";
+//    scoreNumL.text=@"100";
+    scoreNumL.text=[DataSource sharedDataSource].userInfo.Integral;
     scoreNumL.textColor=[UIColor redColor];
     scoreNumL.font=[UIFont systemFontOfSize:13];
     [bgView addSubview:scoreL];
@@ -63,7 +64,8 @@
     [bgView addSubview:arrowIV];
     
     levelIV=[[UIImageView alloc] initWithFrame:CGRectMake(offX, CGRectGetMaxY(arrowIV.frame)+4, 40, 14)];
-    levelIV.image=[UIImage imageNamed:@"lv1"];
+//    levelIV.image=[UIImage imageNamed:@"lv1"];
+    levelIV.image=[UIImage imageNamed:[NSString stringWithFormat:@"lv%@",[DataSource sharedDataSource].userInfo.Levels]];
     [bgView addSubview:levelIV];
     
     levelRuleBtn=[[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-90, CGRectGetMaxY(scoreNumL.frame)+80, 70, 30)];

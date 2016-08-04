@@ -48,6 +48,7 @@
 @property(nonatomic,strong)NSString *IsCollect;
 @property(nonatomic,strong)NSString *IsSale;
 @property(nonatomic,strong)NSString *IsAuction;
+@property(nonatomic,strong)NSString *Num;//库存
 
 @property(nonatomic,strong)NSMutableArray *Comment;//评论
 

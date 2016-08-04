@@ -135,6 +135,7 @@ static float BottomInputView_Height=50;
 -(void)shareAction{
         _shareView=[[ShareView alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         _shareView.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.5];
+       _shareView.imageUrls=_info.Attach;
         [[UIApplication sharedApplication].keyWindow  addSubview:_shareView];
 }
 -(void)initAuctionView{
@@ -601,6 +602,7 @@ static float BottomInputView_Height=50;
     
     view.backgroundColor=[BLACKCOLOR colorWithAlphaComponent:0.7];
     [AppDelegateInstance.window addSubview:view];
+    WS(weakSelf)
     [view setOfferPriceBlock:^(id sender){
         if ([sender floatValue]<[_info.APrice floatValue]) {
             [SVProgressHUD showInfoWithStatus:@"出价不能低于当前最高价"];
@@ -612,6 +614,8 @@ static float BottomInputView_Height=50;
             if (!error) {
                 if ([[response objectForKey:@"ok"] boolValue]) {
                      [SVProgressHUD showInfoWithStatus:@"出价成功"];
+                    [view removeFromSuperview];
+                    [weakSelf queryOfferPriceList];//再次刷新
                 }
                 else{
                      [SVProgressHUD showInfoWithStatus:[response objectForKey:@"reason"]];

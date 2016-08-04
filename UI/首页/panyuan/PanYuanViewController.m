@@ -60,10 +60,15 @@
     bgView.layer.borderWidth=1;
     bgView.clipsToBounds=YES;
     [self.view addSubview:bgView];
-    UISwipeGestureRecognizer *swipe=[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeAction:)];
-    [swipe setDirection:UISwipeGestureRecognizerDirectionLeft|UISwipeGestureRecognizerDirectionRight];
-    swipe.delegate=self;
-    [self.view addGestureRecognizer:swipe];
+    UISwipeGestureRecognizer *leftswipe=[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeAction:)];
+    [leftswipe setDirection:UISwipeGestureRecognizerDirectionLeft];
+    
+    UISwipeGestureRecognizer *rightswipe=[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeAction:)];
+    [rightswipe setDirection:UISwipeGestureRecognizerDirectionRight];
+
+//    swipe.delegate=self;
+    [self.view addGestureRecognizer:leftswipe];
+    [self.view addGestureRecognizer:rightswipe];
     imageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height-bottom_Height)];
     [bgView addSubview:imageView];
     NSString *url=@"http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1106/26/c2/8138154_1309077121193_1024x1024it.jpg";
@@ -218,6 +223,12 @@
     NSString *result=[NSString stringWithFormat:@"%@,%@,%@",_info.ID,[NSNumber numberWithInteger:type],_info.UID];
     NSDictionary *dic3=[[NSDictionary alloc] initWithObjectsAndKeys:result,@"result" ,[DataSource sharedDataSource].userInfo.ID,@"UID",nil];
     [HttpConnection PostBonsaiFate:dic3 WithBlock:^(id response, NSError *error) {
+        if (error) {
+            [SVProgressHUD showInfoWithStatus:ErrorMessage];
+        }
+        else{
+            
+        }
         
     }];
     
@@ -242,13 +253,27 @@
     if (index>2) {
         index=0;
     }
-    CATransition *animation = [CATransition animation];
-    [animation setDuration:0.6];
-    [animation setFillMode:kCAFillModeForwards];
-    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-    [animation setType:@"pageCurl"];// rippleEffect
-    [animation setSubtype:kCATransitionFromTop];
-    [imageView.layer addAnimation:animation forKey:nil];
+    if (sender.direction==UISwipeGestureRecognizerDirectionLeft||sender.direction==UISwipeGestureRecognizerDirectionUp) {
+        CATransition *animation = [CATransition animation];
+        [animation setDuration:0.6];
+        [animation setFillMode:kCAFillModeForwards];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+        [animation setType:@"pageCurl"];// rippleEffect
+        [animation setSubtype:kCATransitionFromTop];
+        [imageView.layer addAnimation:animation forKey:nil];
+        NSLog(@"左边");
+    }
+    else if(sender.direction==UISwipeGestureRecognizerDirectionRight||sender.direction==UISwipeGestureRecognizerDirectionDown){
+        CATransition *animation = [CATransition animation];
+        [animation setDuration:0.6];
+        [animation setFillMode:kCAFillModeBackwards];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+        [animation setType:@"pageCurl"];// rippleEffect
+        [animation setSubtype:kCATransitionFromBottom];
+        [imageView.layer addAnimation:animation forKey:nil];
+        NSLog(@"右边");
+    }
+
 //    NSString *url=_imageUrls[index];
 //    NSString *url=@"http://www.photo0086.com/member/751/pic/201204191650075075.JPG";
     //http://www.photo0086.com/member/751/pic/201204191650075075.JPG

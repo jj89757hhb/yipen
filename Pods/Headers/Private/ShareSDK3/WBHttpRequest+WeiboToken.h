@@ -1,1 +1,1 @@
-../../../ShareSDK3/libraries/extends/SinaWeiboSDK/WBHttpRequest+WeiboToken.h
+../../../ShareSDK3/ShareSDK/Support/PlatformSDK/SinaWeiboSDK/WBHttpRequest+WeiboToken.h

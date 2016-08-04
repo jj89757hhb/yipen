@@ -16,6 +16,8 @@
 #import "NegotiatePriceView.h"
 #import "WillBuyViewController.h"
 #import "SellerOrderDetailViewController.h"
+#import "OrderDetailViewController.h"
+#import "BDetail.h"
 @interface MessageExchangeViewController ()<UITableViewDelegate,UITableViewDataSource>{
     NSInteger currentPage;
     
@@ -30,8 +32,8 @@ static NSInteger pageSize = 10;
 - (void)viewDidLoad {
     [super viewDidLoad];
     currentPage=1;
-     [self initTable];
-    [self requestData];
+    [self initTable];
+    [self requestDataIsRefresh:YES];
 }
 
 -(void)initTable{
@@ -44,20 +46,33 @@ static NSInteger pageSize = 10;
     WS(weakSelf)
     
     [myTable addLegendHeaderWithRefreshingBlock:^{
-        [weakSelf requestData];
+        [weakSelf requestDataIsRefresh:YES];
+    }];
+    [myTable addLegendFooterWithRefreshingBlock:^{
+        [weakSelf requestDataIsRefresh:NO];
     }];
 }
 
 
--(void)requestData{
+-(void)requestDataIsRefresh:(BOOL)isRefresh{
+    if (isRefresh) {
+        currentPage=1;
+    }
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:pageSize],@"PageSize",[NSNumber numberWithInteger:currentPage],@"Page",[DataSource sharedDataSource].userInfo.ID,@"BuyerID", nil];
     [HttpConnection GetBargainingRecord:dic WithBlock:^(id response, NSError *error) {
         [myTable.footer endRefreshing];
         [myTable.header endRefreshing];
         if (!error) {
             if (![response objectForKey:KErrorMsg]) {
-                self.list=response[KDataList];
+                if (currentPage==1) {
+                    self.list=response[KDataList];
+                }
+                else{
+                    [self.list addObjectsFromArray:response[KDataList]];
+                }
+
                 [myTable reloadData];
+                currentPage++;
             }
             else{
                 [SVProgressHUD showInfoWithStatus:[response objectForKey:KErrorMsg]];
@@ -123,6 +138,8 @@ static NSInteger pageSize = 10;
     [cell setRefuseBlock:^(id sender){
         [self refuseWithIndex:sender];
     }];
+    [cell updateConstraintsIfNeeded];
+    [cell layoutIfNeeded];
         return cell;
 //    }
 //    else{
@@ -145,19 +162,47 @@ static NSInteger pageSize = 10;
 -(void)showReplyPriceWithIndex:(NSIndexPath*)index{
     ExchangeInfo *info=_list[index.row];
     NSString *msg=@"已提交议价，请耐心等待对方的答复";
-    Negotiate_Type negotiate_Type=KNegotiate_buyer;
+    Negotiate_Type negotiate_Type=KOffer_Price_Seller;
     Buy_Result result=KNegotiate;
     BOOL isNegotiate=YES;
-    if ([info.Phase integerValue]==3&&![info.Bonsai.IsMarksPrice boolValue] ) {//不明价 卖家回价
+    if ([info.Bonsai.IsMarksPrice boolValue]) {//明价的
+        if([info.Phase integerValue]==1){//明价 卖家回价
+//            msg=@"已提交回价，请耐心等待对方的答复";
+            negotiate_Type=KOffer_Price_Seller;
+//            isNegotiate=NO;
+        }
+        else if([info.Phase integerValue]==2){
+//            msg=@"已提交回价，请耐心等待对方的答复";
+            negotiate_Type=KNegotiate_buyer;
+//            isNegotiate=NO;
+        }
+    }
+    else{
+        if([info.Phase integerValue]==1){//不明价 卖家报价
+            //            msg=@"已提交回价，请耐心等待对方的答复";
+            negotiate_Type=KOffer_Price_Seller;
+            //            isNegotiate=NO;
+        }
+        else if([info.Phase integerValue]==2){//议价
+//            msg=@"已提交回价，请耐心等待对方的答复";
+            negotiate_Type=KNegotiate_buyer;
+//            isNegotiate=NO;
+        }
+        else if ([info.Phase integerValue]==3) {//不明价 卖家回价
+         
+            negotiate_Type=KNegotiate_Seller;
+//               msg=@"已提交回价，请耐心等待对方的答复";
+//            isNegotiate=NO;
+        }
+    }
+    //我是卖方
+    if ([info.SalerID isEqualToString:[DataSource sharedDataSource].userInfo.ID]) {
         msg=@"已提交回价，请耐心等待对方的答复";
-        negotiate_Type=KNegotiate_Seller;
         isNegotiate=NO;
     }
-    else if([info.Phase integerValue]==1&&[info.Bonsai.IsMarksPrice boolValue] ){//明价 卖家回价
-        msg=@"已提交回价，请耐心等待对方的答复";
-        negotiate_Type=KNegotiate_Seller;
-        isNegotiate=NO;
-    }
+    
+   
+   
     NegotiatePriceView *view=[[NegotiatePriceView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     [view initViewWithPrice:info.NAmount isNegotiate:isNegotiate];
     view.backgroundColor=[BLACKCOLOR colorWithAlphaComponent:0.7];
@@ -172,11 +217,13 @@ static NSInteger pageSize = 10;
             tranNo=info.TranNo;
         }
         NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:info.SalerID,@"toUser",info.Bonsai.ID ,@"BID",[DataSource sharedDataSource].userInfo.ID,@"fromUser",sender,@"OfferPrice",[NSNumber numberWithInt:result],@"Result", [NSNumber numberWithInt:negotiate_Type],@"Status",info.Bonsai.IsMarksPrice,@"IsMark",tranNo,@"tranNo", nil];
+        WS(weakSelf)
         [HttpConnection PostBargaining:dic WithBlock:^(id response, NSError *error) {
             if (!error) {
                 if ([[response objectForKey:@"ok"] boolValue]) {
                     [SVProgressHUD showInfoWithStatus:msg];
                     [view removeFromSuperview];
+                    [weakSelf requestDataIsRefresh:YES];//即时刷新
                 }
                 else{
                     [SVProgressHUD showInfoWithStatus:[response objectForKey:@"reason"]];
@@ -190,6 +237,7 @@ static NSInteger pageSize = 10;
     }];
 
 }
+
 
 //卖家报价
 -(void)offerPriceWithIndex:(NSIndexPath*)index{
@@ -216,11 +264,13 @@ static NSInteger pageSize = 10;
     if ([info.TranNo integerValue]) {//有交易码就传交易码
         tranNo=info.TranNo;
     }
+    WS(weakSelf)
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:info.BuyerID,@"toUser",info.Bonsai.ID,@"BID",[DataSource sharedDataSource].userInfo.ID,@"fromUser",[NSNumber numberWithInt:result],@"Result", [NSNumber numberWithInt:negotiate_Type],@"Status",info.Bonsai.IsMarksPrice,@"IsMark",tranNo,@"tranNo",price,@"OfferPrice", nil];
     [HttpConnection PostBargaining:dic WithBlock:^(id response, NSError *error) {
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {
                 [SVProgressHUD showInfoWithStatus:msg];
+                  [weakSelf requestDataIsRefresh:YES];//即时刷新
             }
             else{
                 [SVProgressHUD showInfoWithStatus:[response objectForKey:@"reason"]];
@@ -241,7 +291,15 @@ static NSInteger pageSize = 10;
     XMTabBarController *tabBar=(XMTabBarController*)self.tabBarController;
     [tabBar xmTabBarHidden:YES animated:NO];
     ctr.info=info.Bonsai;
-    ctr.totalPrice=info.NAmount;
+    ctr.exchangeInfo=info;
+    if ([info.Bonsai.IsMailed boolValue]) {//包邮
+            ctr.totalPrice=info.NAmount;
+    }
+    else{
+        float total=[info.NAmount floatValue]+[info.Bonsai.MailFee floatValue];
+         ctr.totalPrice=[NSString stringWithFormat:@"%.2f",total];
+    }
+
     ctr.saleUser=info.SaleUser;
 //    //修改实际价格的传参
 //    if ([info.NAmount integerValue]) {
@@ -258,17 +316,49 @@ static NSInteger pageSize = 10;
     [SVProgressHUD show];
     //tranNo  IsMark
     NSString *tranNo=@"-1";//交易号,首次询价填-1，以后回价根据系统返回串号
-    Negotiate_Type negotiate_Type=KNegotiate_Seller;
+    Negotiate_Type negotiate_Type=KOffer_Price_Seller;
     Buy_Result result=KAgree;
     ExchangeInfo *info=_list[index.row];
+    
+    if (![info.Bonsai.IsMarksPrice boolValue]) {//不明价商品
+        if ([info.Phase integerValue]==1) {
+            negotiate_Type=KOffer_Price_Seller;
+        }
+        else if ([info.Phase integerValue]==2) {
+            negotiate_Type=KNegotiate_buyer;
+        }
+        else if ([info.Phase integerValue]==3) {
+            negotiate_Type=KNegotiate_Seller;
+        }
+        else if ([info.Phase integerValue]==4) {
+            negotiate_Type=KFinal_Price;
+        }
+        //         msg=@"您已放弃此交易";
+    }
+    else{
+        if ([info.Phase integerValue]==1) {
+            negotiate_Type=KOffer_Price_Seller;
+        }
+        else if ([info.Phase integerValue]==2) {
+            negotiate_Type=KNegotiate_buyer;
+        }
+        else if ([info.Phase integerValue]==3) {
+            negotiate_Type=KNegotiate_Seller;
+        }
+        else if ([info.Phase integerValue]==4) {
+            negotiate_Type=KFinal_Price;
+        }
+    }
     if ([info.TranNo integerValue]) {//有交易码就传交易码
         tranNo=info.TranNo;
     }
+    WS(weakSelf)
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:info.BuyerID,@"toUser",info.Bonsai.ID,@"BID",[DataSource sharedDataSource].userInfo.ID,@"fromUser",[NSNumber numberWithInt:result],@"Result", [NSNumber numberWithInt:negotiate_Type],@"Status",info.Bonsai.IsMarksPrice,@"IsMark",tranNo,@"tranNo",info.NAmount,@"OfferPrice", nil];
     [HttpConnection PostBargaining:dic WithBlock:^(id response, NSError *error) {
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {
                 [SVProgressHUD showInfoWithStatus:msg];
+                [weakSelf requestDataIsRefresh:YES];//即时刷新
             }
             else{
                 [SVProgressHUD showInfoWithStatus:[response objectForKey:@"reason"]];
@@ -288,22 +378,64 @@ static NSInteger pageSize = 10;
     [SVProgressHUD show];
     //tranNo  IsMark
     NSString *tranNo=@"-1";//交易号,首次询价填-1，以后回价根据系统返回串号
-    Negotiate_Type negotiate_Type=KOffer_Price_Seller;
+
     
     Buy_Result result=Kgiveup;
     ExchangeInfo *info=_list[index.row];
+    Negotiate_Type negotiate_Type=KOffer_Price_Seller;//明价商品、卖家拒绝
+    if (![info.Bonsai.IsMarksPrice boolValue]) {//不明价商品
+        if ([info.Phase integerValue]==1) {
+            negotiate_Type=KOffer_Price_Seller;
+        }
+        else if ([info.Phase integerValue]==2) {
+             negotiate_Type=KNegotiate_buyer;
+        }
+        else if ([info.Phase integerValue]==3) {
+             negotiate_Type=KNegotiate_Seller;
+        }
+        else if ([info.Phase integerValue]==4) {
+             negotiate_Type=KFinal_Price;
+        }
+//         msg=@"您已放弃此交易";
+    }
+    else{
+        if ([info.Phase integerValue]==1) {
+            negotiate_Type=KOffer_Price_Seller;
+        }
+        else if ([info.Phase integerValue]==2) {
+            negotiate_Type=KNegotiate_buyer;
+        }
+        else if ([info.Phase integerValue]==3) {
+            negotiate_Type=KNegotiate_Seller;
+        }
+        else if ([info.Phase integerValue]==4) {
+            negotiate_Type=KFinal_Price;
+        }
+    }
     if ([info.TranNo integerValue]) {//有交易码就传交易码
         tranNo=info.TranNo;
     }
-    if([info.Phase integerValue]==4&&[info.Bonsai.IsMarksPrice boolValue]){//买家放弃
-        negotiate_Type=KNegotiate_buyer;
-         msg=@"您已放弃此交易";
+    NSString *price=nil;
+    if (info.BDetails.count>=2) {
+        BDetail *bDetail=info.BDetails[info.BDetails.count-2];
+        price=bDetail.NAmount;//获取最后一个价格
     }
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:info.BuyerID,@"toUser",info.Bonsai.ID,@"BID",[DataSource sharedDataSource].userInfo.ID,@"fromUser",[NSNumber numberWithInt:result],@"Result", [NSNumber numberWithInt:negotiate_Type],@"Status",info.Bonsai.IsMarksPrice,@"IsMark",tranNo,@"tranNo",info.Bonsai.Price,@"OfferPrice", nil];
+    else{
+        price=info.Bonsai.Price;
+    }
+   
+    
+//    if([info.Phase integerValue]==4&&[info.Bonsai.IsMarksPrice boolValue]){//买家放弃
+////        negotiate_Type=KNegotiate_buyer;
+//         msg=@"您已放弃此交易";
+//    }
+    WS(weakSelf)
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:info.BuyerID,@"toUser",info.Bonsai.ID,@"BID",[DataSource sharedDataSource].userInfo.ID,@"fromUser",[NSNumber numberWithInt:result],@"Result", [NSNumber numberWithInt:negotiate_Type],@"Status",info.Bonsai.IsMarksPrice,@"IsMark",tranNo,@"tranNo",price,@"OfferPrice", nil];
     [HttpConnection PostBargaining:dic WithBlock:^(id response, NSError *error) {
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {
                 [SVProgressHUD showInfoWithStatus:msg];
+                  [weakSelf requestDataIsRefresh:YES];//即时刷新
             }
             else{
                 [SVProgressHUD showInfoWithStatus:[response objectForKey:@"reason"]];
@@ -320,11 +452,20 @@ static NSInteger pageSize = 10;
 //查看订单
 -(void)orderWithIndex:(NSIndexPath*)index{
     ExchangeInfo *info=_list[index.row];
-    XMTabBarController *tabBar=(XMTabBarController*)self.tabBarController;
-    [tabBar xmTabBarHidden:YES animated:NO];
-    SellerOrderDetailViewController *ctr=[[SellerOrderDetailViewController alloc] init];
-    ctr.info=info;
-    [self.navigationController pushViewController:ctr animated:YES];
+    if ([info.SalerID isEqualToString:[DataSource sharedDataSource].userInfo.ID]) {//我是卖家
+        XMTabBarController *tabBar=(XMTabBarController*)self.tabBarController;
+        [tabBar xmTabBarHidden:YES animated:NO];
+        SellerOrderDetailViewController *ctr=[[SellerOrderDetailViewController alloc] init];
+        ctr.info=info;
+        [self.navigationController pushViewController:ctr animated:YES];
+    }
+    else{
+        OrderDetailViewController *ctr=[[OrderDetailViewController alloc] init];
+        ctr.enterType=0;
+        ctr.info=_list[index.row];
+        [self.navigationController pushViewController:ctr animated:YES];
+    }
+  
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

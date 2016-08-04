@@ -9,6 +9,7 @@
 #import "BaseViewController.h"
 
 @interface CertificationViewController : BaseViewController
+@property (weak, nonatomic) IBOutlet UIImageView *memberIV;
 @property (weak, nonatomic) IBOutlet UIImageView *headIV;
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
 @property (weak, nonatomic) IBOutlet UIImageView *verifyIV;

@@ -43,7 +43,7 @@
     UILabel *label2=[[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label1.frame)+10, bgView.frame.size.width, 20)];
     label2.textColor=[UIColor grayColor];
     //    label2.text=@"对方报价：¥100";
-    label2.text=[NSString stringWithFormat:@"支付：¥%@ 余额：¥0",price];
+    label2.text=[NSString stringWithFormat:@"支付：¥%@ 余额：¥%@",price,[DataSource sharedDataSource ].userInfo.Balance];
     label2.font=[UIFont systemFontOfSize:14];
     label1.textAlignment=NSTextAlignmentCenter;
     label2.textAlignment=NSTextAlignmentCenter;

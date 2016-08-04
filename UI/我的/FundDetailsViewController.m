@@ -8,20 +8,25 @@
 
 #import "FundDetailsViewController.h"
 #import "FundDetailsTableViewCell.h"
-@interface FundDetailsViewController ()<UITableViewDataSource,UITableViewDelegate>
-
+@interface FundDetailsViewController ()<UITableViewDataSource,UITableViewDelegate>{
+    NSInteger Page;
+}
+@property(nonatomic,strong)NSMutableArray *list;
 @end
 
 @implementation FundDetailsViewController
 static NSString *identify=@"identify";
+static NSInteger PageSize=50;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"资金明细";
+    self.list=[[NSMutableArray alloc] init];
     [self initTable];
     WS(weakSelf)
     [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"返回"] withBlock:^(id sender) {
         [weakSelf backAction];
     }];
+    Page=1;
     [self requestData];
 
 }
@@ -30,11 +35,14 @@ static NSString *identify=@"identify";
     if (![DataSource sharedDataSource].userInfo.ID) {
         return;
     }
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID", nil];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:Page],@"Page",[NSNumber numberWithInteger:PageSize],@"PageSize", nil];
     [HttpConnection GetTradingDetail:dic WithBlock:^(id response, NSError *error) {
+        [myTable.header endRefreshing];
+        [myTable.footer endRefreshing];
         if (!error ) {
-            if ([response[@"ok"] boolValue]) {
-                
+            if (!response[KErrorMsg]) {
+                self.list=response[KDataList];
+                [myTable reloadData];
             }
             else{
                 [SVProgressHUD showErrorWithStatus:response[@"reason"]];
@@ -61,13 +69,17 @@ static NSString *identify=@"identify";
     myTable.delegate=self;
     myTable.dataSource=self;
     [myTable registerNib:[UINib nibWithNibName:@"FundDetailsTableViewCell" bundle:nil] forCellReuseIdentifier:identify];
+    WS(weakSelf)
+    [myTable addLegendHeaderWithRefreshingBlock:^{
+        [weakSelf requestData];
+    }];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.01f;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return _list.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -79,6 +91,7 @@ static NSString *identify=@"identify";
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     FundDetailsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+    [cell setInfo:_list[indexPath.row]];
     return cell;
 }
 - (void)didReceiveMemoryWarning {

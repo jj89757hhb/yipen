@@ -8,6 +8,9 @@
 
 #import "PraiseView.h"
 #import "YPUserInfo.h"
+#import "CustomImageView.h"
+#import "PersonalHomeViewController.h"
+#import "BaseTableViewController.h"
 @implementation PraiseView
 static CGFloat image_Width=30;
 /*
@@ -57,12 +60,22 @@ static CGFloat image_Width=30;
 
 //    [praiseBtn setBackgroundImage:[UIImage imageNamed:@"点赞-列表"] forState:UIControlStateNormal];
 //    [self addSubview:praiseBtn];
+    self.users=users;
     for (int i=0; i<users.count; i++) {
         YPUserInfo *info=users[i];
-        UIImageView *userIV=[[UIImageView alloc] initWithFrame:CGRectMake(10+40+10*i+image_Width*i, 10, image_Width, image_Width)];
+        CustomImageView *userIV=[[CustomImageView alloc] initWithFrame:CGRectMake(10+40+10*i+image_Width*i, 10, image_Width, image_Width)];
+        userIV.index=i;
         userIV.layer.cornerRadius=15;
-        userIV.clipsToBounds=YES;
+//        userIV.clipsToBounds=YES;
         [self addSubview:userIV];
+        WS(weakSelf)
+        
+        [userIV setTapBlock:^(id sender){
+            NSLog(@"下标:%ld",[sender integerValue]);
+            [weakSelf gotoPersonalView:[sender integerValue]];
+
+            
+        }];
 //        if (i==0) {
 //            userIV.image=[UIImage imageNamed:@"点赞-列表"];
 //        }
@@ -85,6 +98,15 @@ static CGFloat image_Width=30;
     }
    
     
+}
+
+-(void)gotoPersonalView:(NSInteger)index{
+    YPUserInfo *info=_users[index];
+     BaseTableViewController *viewCtr=[CommonFun viewControllerHasNavgation:self];
+    PersonalHomeViewController *ctr=[[PersonalHomeViewController alloc] init];
+    [viewCtr hideTabBar:YES animated:NO];
+    ctr.userInfo=info;
+    [viewCtr.navigationController pushViewController:ctr animated:YES];
 }
 
 @end

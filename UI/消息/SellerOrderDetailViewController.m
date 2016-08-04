@@ -4,7 +4,7 @@
 //
 //  Created by 华斌 胡 on 16/7/14.
 //  Copyright © 2016年 华斌 胡. All rights reserved.
-//
+//  卖家订单详情
 
 #import "SellerOrderDetailViewController.h"
 #import "MySellOrderTableViewCell.h"

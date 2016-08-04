@@ -1,1 +1,1 @@
-../../../ShareSDK3/libraries/extends/WeChatSDK/WechatAuthSDK.h
+../../../ShareSDK3/ShareSDK/Support/PlatformSDK/WeChatSDK/WechatAuthSDK.h

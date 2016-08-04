@@ -10,8 +10,9 @@
 #import "MySell1TableViewCell.h"
 #import "OrderDetailViewController.h"
 #import "EditExpressInfoViewController.h"
+#import <RongIMKit/RongIMKit.h>
 @interface MySellTableViewController ()
-
+@property(nonatomic,strong)NSMutableArray *list;
 @end
 
 @implementation MySellTableViewController
@@ -35,6 +36,18 @@ static NSInteger pageSize=10;
     [HttpConnection GetMySale:dic WithBlock:^(id response, NSError *error) {
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
+        if (!error) {
+            if (![response objectForKey:KErrorMsg]) {
+                self.list=response[KDataList];
+                [self.tableView reloadData];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:[response objectForKey:KErrorMsg]];
+            }
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:ErrorMessage];
+        }
     }];
 }
 - (void)didReceiveMemoryWarning {
@@ -54,20 +67,28 @@ static NSInteger pageSize=10;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete implementation, return the number of rows
-    return 8;
+    return _list.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MySell1TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
+    cell.indexPath=indexPath;
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    WS(weakSelf)
     [cell setMsgBlock:^(id sender){
-        
+        [weakSelf msgAction:sender];
     }];
     
     [cell setSendGoodsBlock:^(id sender){
-        [self editExpressInfo];
+        [weakSelf editExpressInfo:sender];
     }];
+    [cell setInfo:_list[indexPath.row]];
+    [cell setRefundBlock:^(id sender){
+        [weakSelf refundAction:sender];
+    }];
+    [cell updateConstraintsIfNeeded];
+    [cell layoutIfNeeded];
 
     
     return cell;
@@ -75,14 +96,56 @@ static NSInteger pageSize=10;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     OrderDetailViewController *ctr=[[OrderDetailViewController alloc] init];
+    ctr.enterType=1;
+      ctr.info=_list[indexPath.row];
     [self.navigationController pushViewController:ctr animated:YES];
 }
 
--(void)editExpressInfo{
+-(void)editExpressInfo:(NSIndexPath*)index{
+    ExchangeInfo *info=  _list[index.row];
     EditExpressInfoViewController *ctr=[[EditExpressInfoViewController alloc] initWithNibName:nil bundle:nil];
+    ctr.tranNo=info.TradingNo;
     [self.navigationController pushViewController:ctr animated:YES];
 }
 
+-(void)msgAction:(NSIndexPath*)index{
+     ExchangeInfo *info=  _list[index.row];
+    //新建一个聊天会话View Controller对象
+    RCConversationViewController *chat = [[RCConversationViewController alloc]init];
+    //设置会话的类型，如单聊、讨论组、群聊、聊天室、客服、公众服务会话等
+    chat.conversationType = ConversationType_PRIVATE;
+    //设置会话的目标会话ID。（单聊、客服、公众服务会话为对方的ID，讨论组、群聊、聊天室为会话的ID）
+    chat.targetId = info.BuyerID;
+    //设置聊天会话界面要显示的标题
+    chat.title = info.BuyUser.NickName;
+    //显示聊天会话界面
+//    [self hideTabBar:YES animated:NO];
+    [self.navigationController pushViewController:chat animated:YES];
+}
+
+
+-(void)refundAction:(NSIndexPath*)index{
+     ExchangeInfo *info=  _list[index.row];
+    [SVProgressHUD show];
+    Order_Status status=KRefunded;
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.TradingNo,@"TradingNo",[NSNumber numberWithInteger:status],@"Status",info.BuyUser.ID,@"ToUID", nil];
+    [HttpConnection SendTrad:dic WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            if (!response[KErrorMsg]) {
+                [SVProgressHUD showSuccessWithStatus:@"已同意退款"];
+                
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:response[KErrorMsg]];
+            }
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+        }
+        
+        
+    }];
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

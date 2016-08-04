@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "PenJinInfo.h"
 @interface PenDaiFuTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *headIV;
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
@@ -22,5 +22,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *viewL;
 @property (weak, nonatomic) IBOutlet UILabel *praiseL;
 @property (weak, nonatomic) IBOutlet UILabel *commentL;
+@property(nonatomic,strong)PenJinInfo *info;
 
 @end

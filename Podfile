@@ -1,6 +1,7 @@
 #pod 'AFNetworking', '~> 3.0'
 #pod 'AFNetworking'
 platform :ios, "7.0"
+target "panjing" do
 pod 'ShareSDK3'
 pod 'Masonry'
 pod 'MBProgressHUD'
@@ -15,8 +16,14 @@ pod 'ZYQAssetPickerController'
 pod 'SBJson', '~> 4.0.1'
 #pod 'MJRefresh'
 #pod 'SBJson'
-pod 'MOBFoundation'
+#pod 'MOBFoundation'
 pod 'RongCloudIMKit', '2.4.8'
 #pod ' Baidu-Maps-iOS-SDK', '~> 2.10.1'
 pod 'BaiduMapKit'
+#pod 'Reachability'
+#pod 'getui-sdk-ios-cocoapods'
 #pod 'ZBarSDK'
+pod 'GTSDK'
+pod 'SMSSDK'
+pod 'MOBFoundation_IDFA'
+end

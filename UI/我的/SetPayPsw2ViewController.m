@@ -35,8 +35,8 @@
 }
 
 -(void)subAction{
-    if ([_payPsw1.text length]==0) {
-        [SVProgressHUD showErrorWithStatus:@"请输入支付密码"];
+    if ([_payPsw1.text length]!=6) {
+        [SVProgressHUD showErrorWithStatus:@"请输入6位长度的支付密码"];
         return;
     }
     if ([_payPsw2.text length]==0) {

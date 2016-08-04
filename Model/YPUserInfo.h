@@ -17,7 +17,8 @@
 @property(nonatomic,strong)NSString *DeviceID;
 @property(nonatomic,strong)NSString *Fans;
 @property(nonatomic,strong)NSString *ID;
-@property(nonatomic,strong)NSString *Integral;
+@property(nonatomic,strong)NSString *BeID;//用户id(一下是本用户 一下又是对方用户)
+@property(nonatomic,strong)NSString *Integral;//积分
 @property(nonatomic,strong)NSString *IsCertifi;
 @property(nonatomic,strong)NSString *Levels;
 @property(nonatomic,strong)NSString *LoginName;
@@ -39,6 +40,7 @@
 @property(nonatomic,strong)NSString *praiseNum;
 @property(nonatomic,strong)NSString *Descript;//个人介绍
 @property(nonatomic,strong)NSString *IsFocus;//用户是否被关注了
+@property(nonatomic,strong)NSString *CertifiInfo;
 
 @property(nonatomic,strong)NSString *UserId;// 赞列表使用
 

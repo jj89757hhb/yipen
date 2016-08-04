@@ -4,6 +4,7 @@
 #define kDistributionTag                (2)//1为开发环境  2为生产环境
 //测试环境
 #define kServerAddress                   (kDistributionTag == 1 ? @"http://112.74.124.35/Api/": @"http://112.74.124.35/Api/")
+#define ZFB_CallBack_Url  @"http://112.74.124.35/Api/HandlerAliPayRet.ashx/HandlerAliPayRet"//支付宝回调地址
 #define  kTimeOutInterval 10
 
 #define Register_Agreement_url @"http://www.ec54.com:8000/agreement/register"
@@ -13,7 +14,11 @@ static NSString *shareUrl=@"http://www.edianshang.com";
 #define SeparatedByString1 @"[^end^]"//帖子图片与文本的分割符号
 #define Default_Image [UIImage imageNamed:@"logo_home"]
 //#define SeparatedByString2 @"\" _src=\""//处理服务端字符
-static NSString *ZFB_privateKey = @"MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBALG+0rEZCCVhudeoq2WqaHOxWeOB14HRGK4CpWFGauiKaDGgaxw6JUCYuSZRIEmf9ksIqS2wPWJGjph1mN7xZf/6+V49xOkkJCfDTKqh+5TSD/JxrtLWqC99YXTNkFI+m0Ibivii7yNSbp6replnL0QUs6WD4HVJpYa/s6fg+Ns3AgMBAAECgYAyDtTVjYAuzvQA2X7T1gcutf7jxNiFtfamYxZia+uF7BzmBRDFVVbSd3CFawmV0pgRj7HdrSnMeKSGKXBRMVkRIwb2EhE8/JmnY+QGHofKhc73+ysfv4a8nNuGwAlTkb4KvjbRgntResMvTcocNwIWASlEvF0rVe/z7un/QWeV8QJBAOXw0BtgtISZ82xMUYHXp6+9RCgOh+It/lYF9aZ7DPF5zFVe8vJEFkqEpRbI/DcRPG/9wysLHpb0G7wtFPeym38CQQDF46/r5EDb3aWfgiTpMDbmk+acsUx1MuJO1/VU775mZLywMahFXyP4jPKJAmvH9nVWoc096bCzEENuMAIkx3xJAkBLTBmJ7ZgPmC5rd251e35RAUSRbXi362HPH7J6qu7pIH52MlqSVROLoXZCSNy217EX51yC+ugwfI2ciJLGLjnXAkBc6o/Lvx0FH4mI397c7xqYIZICuO0hiobgZl53RyqrgVlnkallCUsmhWfMFSrudTabOtXX4EZrjZNbxYb8Jf6hAkAU8U9Y/h0zUzKK8YcNDDzgpCuwd3onygTAB0Bh2ujwAWMa0RHNJWxd6dKmugmrxLjQomMgyHJG10PrD8WMPEa/";
+
+static NSString *ZFB_privateKey = @"MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAKApV0oAC+Br1ZDJfIuavFda6KAReiDgwZU/5NoC4AG0xnuZSg8AcwOnA/xyvUQcfbkAYzqajdhHnw+6HR7jF+YRRSBf9SfXZO4Vxt8iEYYSxJwi/5AVDduHrw5VIBPts45HrQ8szJ8kTgcVp5lIgrVHobuZEZMNk1KFvHhB8U+3AgMBAAECgYA08hWyF9vVP7ClIYZznB6A/kOCjuSBs+sqzKl5zJOC3OD0gRMzbGGZJoAx1zhsKMMDAnbLK8aSZfLWPx9bU5VVahvLXSdWAKbWfsRLZKsBOuUtnCH5Hlwl39LUi4G1kI0WdgPLHoh2D0NjtFXimXAsuLll20fSl9DIm1ar9bMaGQJBAM9bldBk6u2B0z69u0KqziGpiuLVVx/6gIozvRCKDxvOGCb78kfhLONTDOyjAtSFNHdr441+Oo+hfqHEt2jqIW0CQQDFu3zRrdwLNgGX3kfRehkz8hglzsXyBhtJ8sypVy3Ou9IXu2pDcXWvDj/8Z4nCMXIabVONi/lK2LaMmEYtreMzAkBssgOcU+paSf2kG+z3i3W2a5tkQJUFLFkJGQn4i4ZT+vrqJJPiXgUbvMM/oEuxf4n7N9D2sL6d3/fzcJz8IA8ZAkAVyJXzs6euRIDgbkiTN1RXeLBYWfNMuod/GhSaA1S0ldSLcMZAL9u7MWKzN+ThU/kyGCFAUs9gA4f47T2uAp4pAkAalcWLQLhdSSOrJi+hb9EIelDrPx/5p+HSm1NdwbKBOJDPyWl4ckNXHWGcrfl96QGV7OIjwZkWC2A3ftEx6UOz";
+static NSString *ZFB_partner =@"2088221379614269";
+static NSString *ZFB_seller =@"imyipen@qq.com";
+static NSString *AppScheme =@"yipen";
 
 
 /*宏方法*/
@@ -143,7 +148,7 @@ typedef enum{
     
 }Collect_Type;
 
-//议价或询价类型 当前状态 1-询价/议价 2-卖家报价3-买家议价4-卖家议价 5-买家最终裁决
+//议价或询价类型 当前状态 1-询价/议价 2-卖家报价3-买家议价4-卖家议价 5-买家最终裁决（这个是按步骤来的  备注说明不正确的！！！！）
 
 typedef enum{
     KAsk_Price_buyer=1,
@@ -177,6 +182,30 @@ typedef enum{
     
 }Pay_Type;
 
+//1-未付款2-已付款 3-已发货 4-已取消(该状态变更) 5-已退款 6-已收货(该状态变更)
+typedef enum{
+    KNo_Pay=1,
+    KPay_Finish,
+    KSend_Goods,
+    KCancel,
+    KRefunded,
+    KTakedGoods
+}Order_Status;
+
+//微信支付请求  1-充值 2-认证个人 3-认证商家 4-支付交易
+
+typedef enum{
+    KChongZhi=1,
+    KVerify_Personal,
+    KVerify_Business,
+    KGoods_Pay
+}
+Pay_Type_Weixin;
+//成交来源
+//typedef enum{
+//    
+//}
+//Deal_Source;
 
 //----第三方使用的key Secret-----
 #define RONGCLOUD_IM_APPKEY @"8brlm7ufrnor3"//融云
@@ -186,6 +215,8 @@ typedef enum{
 
 static NSString *AppKey_ShareSDK =@"fb8559f7b43c";
 static NSString *AppSecret_ShareSDK =@"4f6280818e441cc004866b181602256d";
+static NSString *AppKey_sms=@"15af9885da4a4";
+static NSString *AppSecret_sms=@"5e0ea33ec32d371ea887dfdabd6219ab";
 //新浪
 static NSString *AppKey_Sina =@"2816195495";
 static NSString *AppSecret_Sina =@"d3ebadb7351c3eb755323cfbca9952ee";
@@ -214,6 +245,8 @@ static NSString *KLogin                        =@"KLogin";//登录
 static NSString *KResetPsw                      =@"KResetPsw";//重置密码
 static NSString *KModifyPsw                      =@"KModifyPsw";//修改密码
 static NSString *KloginOutNotify         =@"KloginOutNotify";//退出登录
+static NSString *ZFB_Pay_Success_Noti         =@"ZFB_Pay_Success";//支付宝支付成功
+static NSString *WeiXin_Pay_Success_Noti         =@"WeiXin_Pay_Success_Noti";//微信支付成功
 
 
 

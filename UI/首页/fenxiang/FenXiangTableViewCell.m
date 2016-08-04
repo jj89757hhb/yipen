@@ -121,7 +121,8 @@ static float image_offX =10;
         
         [self.contentView addSubview:_generalGB];
         [self.contentView addSubview:_headView];
-        [_headView addSubview:_certificateIV];
+//        [_headView addSubview:_certificateIV];
+        [self.contentView addSubview:_certificateIV];
         [self.contentView addSubview:_memberIV];
           [self.contentView addSubview:_imageScrollView];
           [self.contentView addSubview:_nickNameL];
@@ -310,6 +311,9 @@ static float image_offX =10;
         if (_isDetail) {
                 [imageView addTapAction]; 
         }
+        else{
+            [imageView setUserInteractionEnabled:NO];
+        }
    
         imageView.tag=100+i;
         [imageView sd_setImageWithURL:[NSURL URLWithString:_info.Attach[i]] placeholderImage:nil];
@@ -353,7 +357,7 @@ static float image_offX =10;
     }
  
     for (UIView *temp in self.contentView.subviews) {
-        if (temp.tag==200||temp.tag==201||temp.tag==202||temp.tag==203||temp.tag==204||temp.tag==205) {
+        if (temp.tag==200||temp.tag==201||temp.tag==202||temp.tag==203||temp.tag==204||temp.tag==205||temp.tag==206||temp.tag==207) {
             [temp removeFromSuperview];
         }
     }
@@ -553,7 +557,7 @@ static float image_offX =10;
 //    if (self.enterType==2) {
         if ([_info.InfoType integerValue]==2) {//出售
             _saleStatusL.text=@"出售中";
-            _priceL.text=[NSString stringWithFormat:@"%@元",_info.Price];
+            _priceL.text=[NSString stringWithFormat:@"%@元",[CommonFun delDecimal:_info.Price]];
         
             if ([_info.IsMailed boolValue]) {
                 [_isExpressL setText:@"包邮"];
@@ -600,7 +604,7 @@ static float image_offX =10;
         }
         else if ([_info.InfoType integerValue]==3) {//拍卖
                 _saleStatusL.text=@"拍卖中";
-            _priceL.text=[NSString stringWithFormat:@"%@元",_info.APrice];
+            _priceL.text=[NSString stringWithFormat:@"%@元",[CommonFun delDecimal:_info.APrice]];
             if ([_info.IsMailed boolValue]) {
                 [_isExpressL setText:@"包邮"];
                 [_priceL mas_remakeConstraints:^(MASConstraintMaker *make) {

@@ -35,7 +35,7 @@ static NSString *identity=@"identity";
 - (void)viewDidLoad {
     [super viewDidLoad];
         currentPage=1;
-    [self requestData];
+    [self requestDataIsRefresh:YES];
     self.list=[[NSMutableArray alloc] init];
     [self.tableView registerClass:[FenXiangTableViewCell class] forCellReuseIdentifier:identity];
       self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
@@ -43,15 +43,18 @@ static NSString *identity=@"identity";
     WS(weakSelf)
     [self.tableView addLegendHeaderWithRefreshingBlock:^{
             currentPage=1;
-        [weakSelf requestData];
+        [weakSelf requestDataIsRefresh:YES];
     }];
     [self.tableView addLegendFooterWithRefreshingBlock:^{
-        [weakSelf requestData];
+        [weakSelf requestDataIsRefresh:NO];
     }];
 }
 
 
--(void)requestData{
+-(void)requestDataIsRefresh:(BOOL)isRefresh{
+    if (isRefresh) {
+        currentPage=1;
+    }
 
     //Type=3 淘一盆
     //    NSString *param=[NSString stringWithFormat:@"UID=%@&Page=%ld&PageSize=%ld",[DataSource sharedDataSource].userInfo.ID,currentPage,pageNum];

@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "FundDetail.h"
 @interface FundDetailsTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *timeL;
 @property (weak, nonatomic) IBOutlet UILabel *desL;
 @property (weak, nonatomic) IBOutlet UILabel *fundL;
-
+@property(nonatomic,strong)FundDetail *info;
 @end

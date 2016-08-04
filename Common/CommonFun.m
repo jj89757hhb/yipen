@@ -233,4 +233,26 @@
     return nil;
 }
 
+//去掉小数
++ (NSString *)delDecimal:(NSString *)inputNum{
+    NSString *outNum=nil;
+    NSInteger num = [inputNum integerValue];
+    outNum=[NSString stringWithFormat:@"%ld",num];
+    return outNum;
+}
+
+
++ (UIViewController *)viewControllerHasNavgation:(UIView *)aView
+{
+    for (UIView *next = aView.superview; next; next = next.superview) {
+        UIResponder *nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            if (((UIViewController*)nextResponder).navigationController) {
+                return (UIViewController*)nextResponder;
+            }
+        }
+    }
+    return nil;
+}
+
 @end

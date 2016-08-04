@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -18,8 +18,11 @@
                     <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vbA-9L-eUU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="37"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="123456789" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOC-bl-L4O">
-                                <rect key="frame" x="8" y="8" width="202" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123456789" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOC-bl-L4O">
+                                <rect key="frame" x="8" y="8" width="231" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Pe3-Um-I1l"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -37,7 +40,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="zOC-bl-L4O" firstAttribute="top" secondItem="vbA-9L-eUU" secondAttribute="top" constant="8" id="IvL-zi-eLq"/>
                             <constraint firstItem="2P2-fj-kl3" firstAttribute="top" secondItem="vbA-9L-eUU" secondAttribute="top" constant="8" id="c2h-Uq-UZB"/>
+                            <constraint firstAttribute="trailing" secondItem="zOC-bl-L4O" secondAttribute="trailing" constant="81" id="cGo-J7-3nD"/>
+                            <constraint firstItem="zOC-bl-L4O" firstAttribute="leading" secondItem="vbA-9L-eUU" secondAttribute="leading" constant="8" id="o4f-gt-vaH"/>
                             <constraint firstAttribute="trailing" secondItem="2P2-fj-kl3" secondAttribute="trailing" constant="14" id="vyx-iJ-NgK"/>
                         </constraints>
                     </view>
@@ -62,6 +68,14 @@
                                 <state key="normal" title="联系卖家">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="卖家" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oHk-sZ-3ag">
                                 <rect key="frame" x="8" y="72" width="50" height="21"/>
@@ -94,7 +108,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="200" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Rd-4Q-Cek">
-                                <rect key="frame" x="66" y="126" width="42" height="21"/>
+                                <rect key="frame" x="66" y="126" width="173" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -106,7 +120,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="190" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDv-iR-Uxj">
-                                <rect key="frame" x="66" y="155" width="61" height="21"/>
+                                <rect key="frame" x="66" y="155" width="173" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -128,7 +142,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="余额支付" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MWh-g4-ybx">
-                                <rect key="frame" x="85" y="8" width="139" height="21"/>
+                                <rect key="frame" x="85" y="8" width="235" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -196,6 +210,21 @@
                     <constraint firstItem="3Sp-J6-JMG" firstAttribute="top" secondItem="vbA-9L-eUU" secondAttribute="bottom" constant="13" id="zz9-Lg-PQj"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="addressL" destination="Mhl-EV-g1N" id="dmD-LH-Byu"/>
+                <outlet property="msgBtn" destination="BSU-xH-PRT" id="2ZQ-fh-RmP"/>
+                <outlet property="numL" destination="6Xx-h2-bZj" id="nvv-u0-CWg"/>
+                <outlet property="orderNumL" destination="zOC-bl-L4O" id="EJJ-gw-vVK"/>
+                <outlet property="payTypeL" destination="MWh-g4-ybx" id="dfp-KB-2VK"/>
+                <outlet property="phoneL" destination="GLy-9Z-vKl" id="1MQ-gN-vG1"/>
+                <outlet property="priceL" destination="1Rd-4Q-Cek" id="ZBT-f3-CGF"/>
+                <outlet property="receiverL" destination="o2X-mN-8yc" id="4fX-J2-onN"/>
+                <outlet property="sellerL" destination="eWL-8d-svo" id="Pme-Sl-oes"/>
+                <outlet property="statusL" destination="2P2-fj-kl3" id="oLn-mx-aKE"/>
+                <outlet property="titleL" destination="wWl-vK-0cB" id="5bN-Ah-yS1"/>
+                <outlet property="totalPriceL" destination="fDv-iR-Uxj" id="9DP-BZ-kh0"/>
+                <outlet property="treeIV" destination="laA-Qt-6BG" id="wD5-xP-p02"/>
+            </connections>
             <point key="canvasLocation" x="199" y="276.5"/>
         </tableViewCell>
     </objects>

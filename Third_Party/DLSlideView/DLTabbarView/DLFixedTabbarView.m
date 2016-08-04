@@ -35,9 +35,11 @@
     [self addSubview:scrollView_];
 //    scrollView_.scrollEnabled=NO;
 //    scrollView_.bounces=NO;
+    //trackView_是下划线
     trackView_ = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height-kTrackViewHeight-1, self.bounds.size.width, kTrackViewHeight)];
     [self addSubview:trackView_];
     trackView_.layer.cornerRadius = 2.0f;
+//    trackView_.backgroundColor=RedColor;
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
     [scrollView_ addGestureRecognizer:tap];

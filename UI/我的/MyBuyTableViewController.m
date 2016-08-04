@@ -9,8 +9,9 @@
 #import "MyBuyTableViewController.h"
 #import "MyBuyTableViewCell1.h"
 #import "OrderDetailViewController.h"
+#import <RongIMKit/RongIMKit.h>
 @interface MyBuyTableViewController ()
-
+@property(nonatomic,strong)NSMutableArray *list;
 @end
 
 @implementation MyBuyTableViewController
@@ -33,6 +34,18 @@ static NSInteger pageSize=10;
     [HttpConnection GetMyBuy:dic WithBlock:^(id response, NSError *error) {
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
+        if (!error) {
+            if (![response objectForKey:KErrorMsg]) {
+                self.list=response[KDataList];
+                [self.tableView reloadData];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:[response objectForKey:KErrorMsg]];
+            }
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:ErrorMessage];
+        }
     }];
 }
 
@@ -56,7 +69,7 @@ static NSInteger pageSize=10;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete implementation, return the number of rows
-    return 8;
+    return _list.count;
 }
 
 
@@ -65,6 +78,12 @@ static NSInteger pageSize=10;
     
     // Configure the cell...
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    [cell setInfo:_list[indexPath.row]];
+    WS(weakSelf)
+    [cell setMsgBlock:^(id sender){
+        [weakSelf msgAction:sender];
+    }];
+    cell.index=indexPath;
     return cell;
 }
 
@@ -72,7 +91,24 @@ static NSInteger pageSize=10;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     OrderDetailViewController *ctr=[[OrderDetailViewController alloc] init];
+    ctr.info=_list[indexPath.row];
     [self.navigationController pushViewController:ctr animated:YES];
+}
+
+
+-(void)msgAction:(NSIndexPath*)index{
+    ExchangeInfo *info=  _list[index.row];
+    //新建一个聊天会话View Controller对象
+    RCConversationViewController *chat = [[RCConversationViewController alloc]init];
+    //设置会话的类型，如单聊、讨论组、群聊、聊天室、客服、公众服务会话等
+    chat.conversationType = ConversationType_PRIVATE;
+    //设置会话的目标会话ID。（单聊、客服、公众服务会话为对方的ID，讨论组、群聊、聊天室为会话的ID）
+    chat.targetId = info.SalerID;
+    //设置聊天会话界面要显示的标题
+    chat.title = info.SaleUser.NickName;
+    //显示聊天会话界面
+    //    [self hideTabBar:YES animated:NO];
+    [self.navigationController pushViewController:chat animated:YES];
 }
 
 

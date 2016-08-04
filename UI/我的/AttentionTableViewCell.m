@@ -16,6 +16,7 @@
     self.attentionBtn.layer.cornerRadius=3;
     self.headIV.layer.cornerRadius=55/2.f;
     self.headIV.clipsToBounds=YES;
+    [_attentionBtn addTarget:self action:@selector(attentionAction) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -32,10 +33,12 @@
    
     if ([info.IsFocus boolValue]) {
         [_attentionBtn setTitle:@"已关注" forState:UIControlStateNormal];
+        [_attentionBtn setUserInteractionEnabled:NO];
         
     }
     else{
         [_attentionBtn setTitle:@"+关注" forState:UIControlStateNormal];
+        [_attentionBtn setUserInteractionEnabled:YES];
     }
     [_levelIV setImage:[UIImage imageNamed:[NSString stringWithFormat:@"lv%@",info.Levels]]];
     
@@ -49,6 +52,13 @@
         make.left.equalTo(_nickNameL.mas_right).offset(5);
         
     }];
+    
+}
+
+-(void)attentionAction{
+    if (_attentionBlock) {
+        _attentionBlock(_index);
+    }
     
 }
 

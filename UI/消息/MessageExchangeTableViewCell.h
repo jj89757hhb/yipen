@@ -23,13 +23,13 @@ typedef void(^RefuseBlock)(id sender);
 @property (weak, nonatomic) IBOutlet UILabel *titleL;
 @property (weak, nonatomic) IBOutlet UILabel *replyL;
 @property (weak, nonatomic) IBOutlet UILabel *contentL;
-@property (weak, nonatomic) IBOutlet UILabel *priceL;
+//@property (weak, nonatomic) IBOutlet UILabel *priceL;//打算弃用
 @property (weak, nonatomic) IBOutlet UILabel *viewL;
 @property (weak, nonatomic) IBOutlet UILabel *praiseL;
 @property (weak, nonatomic) IBOutlet UILabel *commentL;
-@property (weak, nonatomic) IBOutlet UIButton *aggreeBtn;
-@property (weak, nonatomic) IBOutlet UIButton *refuseBtn;
-@property (weak, nonatomic) IBOutlet UIButton *replyPriceBtn;
+@property (strong, nonatomic) UIButton *aggreeBtn;//接受
+@property (strong, nonatomic) UIButton *refuseBtn;//拒绝
+@property (strong, nonatomic) UIButton *replyPriceBtn;//回价
 @property (weak, nonatomic) IBOutlet UILabel *nameL;
 
 @property (weak, nonatomic) IBOutlet UILabel *price3L;

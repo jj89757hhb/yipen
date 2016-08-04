@@ -20,6 +20,7 @@
 #import "ShareView.h"
 #import "WXApiManager.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import <SMS_SDK/SMSSDK.h>
 //#define RONGCLOUD_IM_APPKEY @"z3v5yqkbv8v30" // online key
 
 #define UMENG_APPKEY @"563755cbe0f55a5cb300139c"
@@ -47,6 +48,7 @@
     //2. 初始化社交平台
     //2.1 代码初始化社交平台的方法
     [ShareView initializePlat];
+    [SMSSDK registerApp:AppKey_sms withSecret:AppSecret_sms];
      [WXApi registerApp:@"wxc854949473b2b966" withDescription:@"demo 2.0"];
     [NotificationCenter addObserver:self selector:@selector(loginOut) name:KloginOutNotify object:nil];
     // Override point for customization after application launch.
@@ -569,9 +571,9 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 //{
 //    
 //}
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    return  [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
-}
+//- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+//    return  [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+//}
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     if ([url.host isEqualToString:@"safepay"]) {
@@ -584,6 +586,33 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
     return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options{
+    NSLog(@"url.host:%@",url.host);
+    if ([url.host isEqualToString:@"safepay"]) {
+        //跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {//这里block不调用
+            NSLog(@"result appdelegate = %@",resultDic);
+            // 9000 订单支付成功 8000 正在处理中 4000 订单支付失败 6001 用户中途取消 6002 网络连接出错
+            NSLog(@"11111:%@",resultDic[@"resultStatus"]);
+            if ([resultDic[@"resultStatus"] integerValue]==9000) {//支付成功
+                
+//                [NotificationCenter postNotificationName:ZFB_Pay_Success_Noti object:nil];
+            }
+        }];
+        return YES;
+    }
+    if ([url.host isEqualToString:@"pay"]) {
+        NSArray *array=[url.absoluteString componentsSeparatedByString:@"ret="];
+        if (array.count==2) {
+            if ([array[1] integerValue]==0) {//成功
+                      [NotificationCenter postNotificationName:WeiXin_Pay_Success_Noti object:nil];
+            }
+        }
+        
+        return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+    }
+    return YES;
+}
 
 
 @end

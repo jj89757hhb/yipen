@@ -13,6 +13,7 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
+
 //#import <QZoneConnection/ISSQZoneApp.h>
 @implementation ShareView
 //static float bgView_Height=220;
@@ -124,19 +125,20 @@ static NSString *circle_Share_Url=@"/share/group/";//分享圈子
     }
 //
     NSString *shareURL=nil;
-    if (self.enterType==1) {//活动
-        shareURL=[NSString stringWithFormat:@"%@%@%ld",kServerAddress,event_Share_Url,self._id];
-    }
-    else if (self.enterType==2){//帖子
-       shareURL=[NSString stringWithFormat:@"%@%@%ld",kServerAddress,topic_Share_Url,self._id];
-    }
-    else if(self.enterType==3){//圈子
-        shareURL=[NSString stringWithFormat:@"%@%@%ld",kServerAddress,circle_Share_Url,self._id];
-    }
+//    if (self.enterType==1) {//活动
+//        shareURL=[NSString stringWithFormat:@"%@%@%ld",kServerAddress,event_Share_Url,self._id];
+//    }
+//    else if (self.enterType==2){//帖子
+//       shareURL=[NSString stringWithFormat:@"%@%@%ld",kServerAddress,topic_Share_Url,self._id];
+//    }
+//    else if(self.enterType==3){//圈子
+//        shareURL=[NSString stringWithFormat:@"%@%@%ld",kServerAddress,circle_Share_Url,self._id];
+//    }
 //    NSString *imagePath = [[NSBundle mainBundle] pathForResource:IMAGE_NAME ofType:IMAGE_EXT];
 //    NSString *imagePath=[[NSBundle mainBundle] pathForResource:@"Icon@2x" ofType:@"png"];
 //    if (sender.tag==10) {//新浪微博
-//         NSString *content=[NSString stringWithFormat:@"%@ %@",_content,shareURL];//拼接url
+////         NSString *content=[NSString stringWithFormat:@"%@ %@",_content,shareURL];//拼接url
+//        NSString *content=_content;
 //        //构造分享内容
 //        id<ISSContent> publishContent = [ShareSDK content:content
 //                                           defaultContent:@""
@@ -271,6 +273,53 @@ static NSString *circle_Share_Url=@"/share/group/";//分享圈子
 //                                  }
 //                              }];
 //    }
+    
+    SSDKPlatformType platformType=SSDKPlatformSubTypeWechatSession;
+        SSDKContentType contentType=SSDKContentTypeAuto;
+    if (sender.tag==10) {//微信
+        platformType=SSDKPlatformSubTypeWechatSession;
+    }
+    else if(sender.tag==11){//朋友圈
+        platformType=SSDKPlatformSubTypeWechatTimeline;
+    }
+    else if(sender.tag==12){//qq好友
+        platformType=SSDKPlatformSubTypeQQFriend;
+    }
+    else if(sender.tag==13){//微博
+        platformType=SSDKPlatformTypeSinaWeibo;
+        contentType=SSDKContentTypeImage;
+    }
+    
+    NSArray* imageArray = @[[UIImage imageNamed:@"logo_home.png"]];
+
+//    （注意：图片必须要在Xcode左边目录里面，名称必须要传正确，如果要分享网络图片，可以这样传iamge参数 images:@[@"http://mob.com/Assets/images/logo.png?v=20150320"]）
+    
+//    NSString *imageurl=_imageUrls[0];
+//    NSURL *url=[NSURL URLWithString:imageurl];
+    //_imageUrls.count?_imageUrls:imageArray
+    //创建分享参数  【发现新浪微博如果 images 是非image对象 分享失败！！！！】
+    NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+    [shareParams SSDKSetupShareParamsByText:@"分享盆景"
+                                     images:_imageUrls.count?_imageUrls:imageArray//传入要分享的图片
+                                        url:[NSURL URLWithString:@"http://mob.com"]
+                                      title:@"分享盆景"
+                                       type:contentType];
+    
+    //进行分享
+    [ShareSDK share:platformType //传入分享的平台类型
+         parameters:shareParams
+     onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) { // 回调处理....}];
+         if (state==SSDKResponseStateSuccess) {
+              [SVProgressHUD showInfoWithStatus:@"分享成功"];
+         }
+         else if(state==SSDKResponseStateCancel){
+             NSLog(@"用户取消");
+         }
+         else if(state==SSDKResponseStateFail){
+             [SVProgressHUD showInfoWithStatus:@"分享失败"];
+         }
+     }];
+   
      [self removeFromSuperview];
 }
 
@@ -516,7 +565,7 @@ static NSString *circle_Share_Url=@"/share/group/";//分享圈子
          {
              
              NSLog(@"uid=%@",user.uid);
-             NSLog(@"%@",user.credential);
+             NSLog(@"user：%@",user.credential);
              NSLog(@"token=%@",user.credential.token);
              NSLog(@"nickname=%@",user.nickname);
                      NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:user.credential.uid,@"sid",user.nickname,@"userName",user.nickname,@"NickName", OS_Version,@"OS",IdentifierForVendor,@"DID",@"WeChat",@"appType",@"",@"Descript", nil];

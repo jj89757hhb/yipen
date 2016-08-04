@@ -9,6 +9,8 @@
 #import "LoginViewController.h"
 #import "ShareView.h"
 #import "ResetPsw1ViewController.h"
+#import "MyWebViewViewController.h"
+#import <SMS_SDK/SMSSDK.h>
 @interface LoginViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *registerBtn;
 @property (weak, nonatomic) IBOutlet UIButton *loginBtn;
@@ -57,6 +59,7 @@
 //        
 //    }];
     [NotificationCenter addObserver:self selector:@selector(sinaWeiboLogin:) name:@"sinaWeiboLogin" object:nil];
+
     
 }
 
@@ -247,16 +250,27 @@
     agreementL.textAlignment=NSTextAlignmentCenter;
     agreementL.font=[UIFont systemFontOfSize:13];
     agreementL.textColor=LIGHTBLACK;
-    [registerBgView addSubview:agreementL];
+//    [registerBgView addSubview:agreementL];
+    [self.view addSubview:agreementL];
     [agreementL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).with.offset(offX*2);
         make.right.equalTo(self.view.mas_right).with.offset(-offX*2);
         make.top.equalTo(registerBtn.mas_bottom).with.offset(10);
         make.height.mas_equalTo(20);
     }];
+//    [agreementL setFrame:CGRectMake(10, registerBgView.frame.size.height-30, SCREEN_WIDTH-10*2, 20)];
     agreementL.text=@"注册表示你同意并遵守《易盘会员协议》";
+    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(aggreementAction)];
+    [agreementL addGestureRecognizer:tap];
+    [agreementL setUserInteractionEnabled:YES];
 }
 
+-(void)aggreementAction{
+    MyWebViewViewController *ctr=[[MyWebViewViewController alloc] init];
+    ctr.urlStr=user_agreement_Url;
+    ctr.title=@"服务协议";
+    [self.navigationController pushViewController:ctr animated:YES];
+}
 //获取验证码
 -(void)getCodeAction{
     if (mobileTF.text.length==0) {
@@ -265,30 +279,50 @@
     }
     [SVProgressHUD show];
     [self timerAction];
-    NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:mobileTF.text,@"Mobile", nil];
-    [HttpConnection registerUserOfGetCodeWithDic:dic WithBlock:^(id response, NSError *error) {
-//        [SVProgressHUD dismiss];
-        if (!error) {
-       
-            NSString *ok=response[@"ok"];
-            NSString *vcode=response[@"vcode"];
-            if ([ok isEqualToString:@"TRUE"]) {
-                NSLog(@"验证码:%@",vcode);
-//                self.vcode=vcode;
-                [SVProgressHUD showSuccessWithStatus:@"验证码已发送到您手机，请注意查收"];
-            }
-            else{
-//                [SVProgressHUD showErrorWithStatus:response[@"reason"]];
-                [SVProgressHUD showInfoWithStatus:response[@"reason"]];
-                [self invalidateTimer];
-            }
+//    NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:mobileTF.text,@"Mobile", nil];
+//    [HttpConnection registerUserOfGetCodeWithDic:dic WithBlock:^(id response, NSError *error) {
+////        [SVProgressHUD dismiss];
+//        if (!error) {
+//       
+//            NSString *ok=response[@"ok"];
+//            NSString *vcode=response[@"vcode"];
+//            if ([ok isEqualToString:@"TRUE"]) {
+//                NSLog(@"验证码:%@",vcode);
+////                self.vcode=vcode;
+//                [SVProgressHUD showSuccessWithStatus:@"验证码已发送到您手机，请注意查收"];
+//            }
+//            else{
+////                [SVProgressHUD showErrorWithStatus:response[@"reason"]];
+//                [SVProgressHUD showInfoWithStatus:response[@"reason"]];
+//                [self invalidateTimer];
+//            }
+//        }
+//        else{
+//                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+//                [self invalidateTimer];
+//        }
+//        
+//    }];
+    
+
+    
+    [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS phoneNumber:mobileTF.text
+                                   zone:@"86"
+                       customIdentifier:nil
+                                 result:^(NSError *error){
+//
+       if (!error) {
+         NSLog(@"获取验证码成功");
+             [SVProgressHUD dismiss];
+           [SVProgressHUD showSuccessWithStatus:@"验证码已发送到您手机，请注意查收"];
         }
-        else{
-                [SVProgressHUD showErrorWithStatus:ErrorMessage];
-                [self invalidateTimer];
+        else {
+         NSLog(@"错误信息：%@",error);
+            [self invalidateTimer];
+            [SVProgressHUD showInfoWithStatus:@"发送失败"];
         }
-        
-    }];
+       }
+    ];
     
     
 }
@@ -339,9 +373,30 @@
         return;
     }
     [SVProgressHUD show];
+    WS(weakSelf)
+    [SMSSDK commitVerificationCode:codeTF.text phoneNumber:mobileTF.text zone:@"86" result:^(NSError *error) {
+   
+        if (!error) {
+            NSLog(@"验证成功");
+            [SVProgressHUD dismiss];
+            [weakSelf registerUser];
+        }
+        else
+        {
+            NSLog(@"错误信息:%@",error);
+            [SVProgressHUD showErrorWithStatus:@"验证码输入有误"];
+        }
+    }];
+    
+    
+ 
+}
+
+-(void)registerUser{
+    [SVProgressHUD show];
     NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:mobileTF.text,@"Mobile",password1.text,@"Pwd", nil];
     [HttpConnection registerUserWithDic:dic WithBlock:^(id response, NSError *error) {
-//        [SVProgressHUD dismiss];
+        //        [SVProgressHUD dismiss];
         NSString *ok=response[@"ok"];
         NSString *vcode=response[@"vcode"];
         if (!error) {
@@ -356,10 +411,11 @@
         else{
             [SVProgressHUD showErrorWithStatus:ErrorMessage];
         }
-       
+        
         
     }];
 }
+
 -(void)hideLoginView:(BOOL)ishide{
     [_mobileL setHidden:ishide];
     [_mobileTF setHidden:ishide];
@@ -386,6 +442,7 @@
     [line3 setHidden:ishide];
     [registerBgView setHidden:ishide];
     [registerBtn setHidden:ishide];
+    [agreementL setHidden:ishide];
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
