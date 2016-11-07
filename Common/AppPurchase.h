@@ -11,8 +11,10 @@
 @interface AppPurchase : NSObject<SKProductsRequestDelegate,SKPaymentTransactionObserver>
 @property (strong, nonatomic) NSArray* products;
 @property(strong,nonatomic)SKProduct *product;
+@property(nonatomic,assign)Pay_Type_Weixin memberType;//会员类型
 +(AppPurchase*)sharedAppPurchase;
 -(void)requestProducts;
 -(void)willPurchase;
 -(void)removeTransaction;
+
 @end

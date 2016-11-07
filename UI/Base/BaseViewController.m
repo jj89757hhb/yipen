@@ -100,13 +100,13 @@
         negativeSpacer.width = 0;
     }
     
-    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:negativeSpacer, backBtn, nil];
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects: backBtn, nil];
     
     
     // self.navigationItem.leftBarButtonItem.imageInsets =UIEdgeInsetsMake(0, 0, 0, 10);
 }
 
-
+//右边
 - (void)setNavigationBarRightItem:(NSString *)title itemImg:(UIImage *)itemImg withBlock:(NavigationTouchButtonBlock)block
 {
     if (block == nil) {
@@ -139,7 +139,7 @@
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
 //    self.titleBtn=btn;
     [btn addTarget:self action:@selector(OnClickRight:) forControlEvents:UIControlEventTouchUpInside];
-    [btn setFrame:CGRectMake(0, 0, nBtnWidth, nBtnHeight)];
+    [btn setFrame:CGRectMake(0, 0, nBtnWidth*2, nBtnHeight)];
     /*这里可以加按钮背景*/
     [btn setImage:itemImg forState:UIControlStateNormal];
     [btn setTitle:title forState:UIControlStateNormal];
@@ -165,7 +165,7 @@
         negativeSpacer.width = 0;
     }
     
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:negativeSpacer, rightBtn, nil];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: negativeSpacer,rightBtn, nil];
 }
 
 - (void)OnClickRight:(id)sender

@@ -9,5 +9,7 @@
 #import "BaseViewController.h"
 
 @interface WeixinAuthorViewController : BaseViewController
+@property (weak, nonatomic) IBOutlet UITextField *nameTF;
+@property (weak, nonatomic) IBOutlet UIButton *authorBtn;
 
 @end

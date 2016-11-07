@@ -33,6 +33,15 @@
     _praiseL.text=[NSString stringWithFormat:@"赞%@",info.PraisedNum];
     _viewL.text=[NSString stringWithFormat:@"浏览%@",info.BrowseNum];
     _commentL.text=[NSString stringWithFormat:@"评论%@",info.CommentsNum ];
+    if ([_info.userInfo.RoleType isEqualToString:@"1"]||[_info.userInfo.RoleType isEqualToString:@"2"]) {
+        
+    }
+    else{//未开通
+        [_memberIV setHidden:YES];
+    }
+    if (![_info.userInfo.IsCertifi boolValue]) {
+//        [_certificateIV setHidden:YES];
+    }
 
 }
 -(void)layoutSubviews{

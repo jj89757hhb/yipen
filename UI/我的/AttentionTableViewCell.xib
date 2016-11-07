@@ -1,9 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="330" height="120"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="330" height="119"/>
+                <rect key="frame" x="0.0" y="0.0" width="330" height="119.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Uem-cf-ISl">
@@ -22,36 +26,43 @@
                             <constraint firstAttribute="height" constant="55" id="FQf-b4-Vy9"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="黑键" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z1T-LF-zcl">
-                        <rect key="frame" x="81" y="9" width="132" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="黑键" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z1T-LF-zcl">
+                        <rect key="frame" x="81" y="9" width="31" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="DtU-g9-gT4"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="lv1" translatesAutoresizingMaskIntoConstraints="NO" id="3gV-CI-9fe">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lv1" translatesAutoresizingMaskIntoConstraints="NO" id="3gV-CI-9fe">
                         <rect key="frame" x="81" y="31" width="40" height="14"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="8Tb-I8-j6X"/>
                             <constraint firstAttribute="width" constant="40" id="KcL-Hn-2OL"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="个人会员" translatesAutoresizingMaskIntoConstraints="NO" id="KdC-fV-qM7">
-                        <rect key="frame" x="123" y="12" width="16" height="16"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="个人会员" translatesAutoresizingMaskIntoConstraints="NO" id="KdC-fV-qM7">
+                        <rect key="frame" x="0.0" y="12" width="16" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="9Ih-mK-npG"/>
                             <constraint firstAttribute="width" constant="16" id="Qmq-6E-goe"/>
                         </constraints>
                     </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1SZ-HB-qiO">
-                        <rect key="frame" x="266" y="12" width="56" height="30"/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1SZ-HB-qiO">
+                        <rect key="frame" x="274" y="12" width="48" height="29"/>
+                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="29" id="WnY-sb-8oR"/>
+                            <constraint firstAttribute="width" constant="48" id="axQ-Zb-aoo"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <state key="normal" title="已关注">
-                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                     </button>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="个人认证" translatesAutoresizingMaskIntoConstraints="NO" id="7t0-LA-pDk">
-                        <rect key="frame" x="50" y="44" width="17" height="17"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="个人认证" translatesAutoresizingMaskIntoConstraints="NO" id="7t0-LA-pDk">
+                        <rect key="frame" x="50" y="46" width="17" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="8ra-Yy-Dvi"/>
                             <constraint firstAttribute="width" constant="17" id="RgA-yc-eLI"/>
@@ -66,7 +77,9 @@
                     <constraint firstItem="7t0-LA-pDk" firstAttribute="leading" secondItem="Uem-cf-ISl" secondAttribute="trailing" constant="-18" id="f7A-F9-vDH"/>
                     <constraint firstItem="KdC-fV-qM7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="i8h-Qe-dxz"/>
                     <constraint firstItem="Z1T-LF-zcl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="1" id="psf-f3-GB7"/>
+                    <constraint firstItem="3gV-CI-9fe" firstAttribute="top" secondItem="Z1T-LF-zcl" secondAttribute="bottom" constant="1" id="qUP-Ua-MhT"/>
                     <constraint firstItem="3gV-CI-9fe" firstAttribute="leading" secondItem="Uem-cf-ISl" secondAttribute="trailing" constant="13" id="sNl-6p-w7y"/>
+                    <constraint firstItem="1SZ-HB-qiO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="ufm-wq-CFj"/>
                     <constraint firstItem="Z1T-LF-zcl" firstAttribute="leading" secondItem="Uem-cf-ISl" secondAttribute="trailing" constant="13" id="yhW-kg-efq"/>
                 </constraints>
             </tableViewCellContentView>
@@ -84,6 +97,11 @@
     <resources>
         <image name="lv1" width="40" height="14"/>
         <image name="个人会员" width="16" height="16"/>
-        <image name="个人认证" width="18" height="17"/>
+        <image name="个人认证" width="17" height="17"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
 </document>

@@ -4,7 +4,7 @@
 //
 //  Created by 华斌 胡 on 16/1/4.
 //  Copyright © 2016年 华斌 胡. All rights reserved.
-//
+//  待发送页面
 
 #import "Send1ViewController.h"
 #import "SendShareViewController.h"
@@ -80,12 +80,15 @@
      [self.panDaiFuBtn setFrame:CGRectMake(tool_offX+width*4+tool_offX*4, SCREEN_HEIGHT-offY, width, width)];
   
     [self.closeBtn setFrame:CGRectMake((SCREEN_WIDTH-60)/2, CGRectGetMaxY(_shareBtn.frame)+15, 60, 60)];
+    [NotificationCenter addObserver:self selector:@selector(dismissSendView) name:@"DismissSendView" object:nil];
+
     
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -149,6 +152,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)dismissSendView{
+    [self closeAction:nil];
+}
 /*
 #pragma mark - Navigation
 

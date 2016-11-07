@@ -13,6 +13,7 @@
 #import "FenXiangDetailViewController.h"
 #import "CommentInfo.h"
 #import <RongIMKit/RongIMKit.h>
+#import "TreeSort.h"
 @interface FenXiangViewController ()<UIGestureRecognizerDelegate,FenXiangTableViewDeleagte>
 @property (nonatomic, strong)SlideSwitchView *slideSwitchView;
 @property (nonatomic, strong)AIMultiDelegate *multiDelegate;
@@ -73,7 +74,47 @@ static NSInteger pageNum=10;//每页
 //    currentPage=1;
     //Type=3 淘一盆
 //    NSString *param=[NSString stringWithFormat:@"UID=%@&Page=%ld&PageSize=%ld",[DataSource sharedDataSource].userInfo.ID,currentPage,pageNum];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:currentPage],@"Page",[NSNumber numberWithInteger:pageNum],@"PageSize",@"1",@"Type",@"",SenShu,@"",LeiBie,@"",ChanDi,@"",PinZhong,@"",ShuXin,@"",ChiCun,@"",QiTa, nil];
+    NSString *senShu=@"";
+    NSString *leiBie=@"";
+    NSString *chanDi=@"";
+    NSString *pinZhong=@"";
+    NSString *shuXin=@"";
+    NSString *chiCun=@"";
+    NSString *qiTa=@"";
+    if (_selectSort.allKeys) {//选择了搜索
+        if ([_selectSort.allKeys[0] isEqualToString:SenShu]) {
+            TreeSort *sort=_selectSort[SenShu];
+            senShu=sort.CodeValue;
+        }
+        else if ([_selectSort.allKeys[0] isEqualToString:LeiBie]) {
+            TreeSort *sort=_selectSort[LeiBie];
+            leiBie=sort.CodeValue;
+        }
+        else if ([_selectSort.allKeys[0] isEqualToString:ChanDi]) {
+            TreeSort *sort=_selectSort[ChanDi];
+            chanDi=sort.CodeValue;
+        }
+        else if ([_selectSort.allKeys[0] isEqualToString:PinZhong]) {
+            TreeSort *sort=_selectSort[PinZhong];
+            pinZhong=sort.CodeValue;
+        }
+        else if ([_selectSort.allKeys[0] isEqualToString:ShuXin]) {
+            TreeSort *sort=_selectSort[ShuXin];
+            shuXin=sort.CodeValue;
+        }
+        else if ([_selectSort.allKeys[0] isEqualToString:ChiCun]) {
+            TreeSort *sort=_selectSort[ChiCun];
+            chiCun=sort.CodeValue;
+        }
+        else if ([_selectSort.allKeys[0] isEqualToString:QiTa]) {
+            TreeSort *sort=_selectSort[QiTa];
+            qiTa=sort.CodeValue;
+        }
+    }
+   
+    
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:currentPage],@"Page",[NSNumber numberWithInteger:pageNum],@"PageSize",@"1",@"Type",senShu,SenShu,leiBie,LeiBie,chanDi,ChanDi,pinZhong,PinZhong,shuXin,ShuXin,chiCun,ChiCun,qiTa,QiTa, nil];
+//    NSMutableDictionary *dic2=[[NSMutableDictionary alloc] initWithDictionary:dic];
     [HttpConnection GetBonsaiList:dic WithBlock:^(id response, NSError *error) {
         [SVProgressHUD dismiss];
         [self.tableView.header endRefreshing];
@@ -126,6 +167,7 @@ static NSInteger pageNum=10;//每页
     PenJinInfo *info=_list[indexPath.row];
     float comment_Height=0;
     float offY_Comment=4;
+    float content_Height=0;
     if (info.Comment.count) {//计算评论高度
         for (int i=0; i<info.Comment.count; i++) {
             CommentInfo *comment=info.Comment[i];
@@ -135,7 +177,10 @@ static NSInteger pageNum=10;//每页
         comment_Height-=2;
 
     }
-    return 400+30+BottomToolView_Height+comment_Height;
+    if (info.Descript.length) {
+          content_Height+= [CommonFun sizeWithString:info.Descript font:[UIFont systemFontOfSize:content_FontSize] size:CGSizeMake(SCREEN_WIDTH-15-10*2, MAXFLOAT)].height;
+    }
+    return 380+30+BottomToolView_Height+comment_Height+content_Height;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -165,6 +210,8 @@ static NSInteger pageNum=10;//每页
     
     [cell setCommentBlock:^(id sender){
           NSLog(@"setCommentBlock");
+            self.indexPath=indexPath;
+        [self willComment:nil];
     }];
     
     [cell setChatBlock:^(id sender){
@@ -182,6 +229,14 @@ static NSInteger pageNum=10;//每页
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     return  cell;
     
+}
+
+-(void)willComment:(id)sender {
+    FenXiangDetailViewController *ctr=[[FenXiangDetailViewController alloc] init];
+    ctr.isPopKeyBoard=YES;
+    ctr.info=_list[_indexPath.row];
+    [self hideTabBar:YES animated:NO];
+    [self.navigationController pushViewController:ctr animated:YES];
 }
 
 -(void)msgAction:(PenJinInfo*)info{
@@ -259,23 +314,46 @@ static NSInteger pageNum=10;//每页
 -(void)praisedAction:(PenJinInfo*)info{
     [SVProgressHUD show];
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type",info.userInfo.ID,@"buid", nil];
-    [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            if ([[response objectForKey:@"ok"] boolValue]) {
-                [SVProgressHUD showInfoWithStatus:@"已赞"];
-                info.IsPraise=@"1";
-                [self reloadTableAtIndex];
-              
+    if (![info.IsPraise boolValue]) {
+        [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+//                    [SVProgressHUD showSuccessWithStatus:@"看好"];
+                    [SVProgressHUD showInfoWithStatus:@"看好" ];
+                    info.IsPraise=@"1";
+                    [self reloadTableAtIndex];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
             }
             else{
-                 [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
             }
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
-        
-    }];
+            
+        }];
+    }
+    else{
+        [HttpConnection CancelPraised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"取消好看"];
+                    info.IsPraise=@"0";
+                    [self reloadTableAtIndex];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+ 
 }
 
 -(void)gotoPersonalHome:(PenJinInfo*)info{

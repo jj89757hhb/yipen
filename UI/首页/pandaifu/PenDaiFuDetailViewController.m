@@ -308,6 +308,7 @@ static float BottomInputView_Height=50;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section==0) {
         float comment_Height=0;
+        float content_Height=0;
         if (_info.Comment.count) {//计算评论高度
             for (int i=0; i<_info.Comment.count; i++) {
                 CommentInfo *comment=_info.Comment[i];
@@ -315,7 +316,10 @@ static float BottomInputView_Height=50;
             }
             
         }
-        return 400+comment_Height;
+        if (_info.Descript.length) {
+            content_Height+= [CommonFun sizeWithString:_info.Descript font:[UIFont systemFontOfSize:content_FontSize] size:CGSizeMake(SCREEN_WIDTH-15-10*2, MAXFLOAT)].height;
+        }
+        return 380+comment_Height+content_Height;
     }
     else if (indexPath.section==1){
         if ([_info.InfoType isEqualToString:@"3"]) {//拍卖

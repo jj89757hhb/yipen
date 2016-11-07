@@ -11,6 +11,7 @@
 @implementation PersonalSendTreeTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     _headIV.clipsToBounds=YES;
     _headIV.contentMode=UIViewContentModeScaleAspectFill;
@@ -39,6 +40,7 @@
     _praiseL.text=[NSString stringWithFormat:@"赞%@",info.PraisedNum];
     _viewL.text=[NSString stringWithFormat:@"浏览%@",info.BrowseNum];
     _commentL.text=[NSString stringWithFormat:@"评论%@",info.CommentsNum ];
+     _levelIV.image=[UIImage imageNamed:[NSString stringWithFormat:@"lv%@",info.userInfo.Levels]];//lv1
 //    if ([_info.InfoType integerValue]==1) {
 //        
 //    }
@@ -89,6 +91,11 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
+    [_nameL sizeToFit];
+    [_memberIV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_nameL.mas_right).offset(5);
+        
+    }];
  
 }
 

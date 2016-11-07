@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditNameViewController">
@@ -17,18 +18,23 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vvi-qZ-408">
-                    <rect key="frame" x="0.0" y="10" width="320" height="36"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vvi-qZ-408">
                     <subviews>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Eqq-gg-F8D">
-                            <rect key="frame" x="8" y="3" width="304" height="30"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Eqq-gg-F8D">
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="pdL-DF-ycw"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstItem="Eqq-gg-F8D" firstAttribute="leading" secondItem="vvi-qZ-408" secondAttribute="leading" constant="8" id="64B-OO-lKt"/>
+                        <constraint firstAttribute="height" constant="36" id="9bW-Gd-O7v"/>
+                        <constraint firstItem="Eqq-gg-F8D" firstAttribute="top" secondItem="vvi-qZ-408" secondAttribute="top" constant="3" id="IOf-H2-rTr"/>
                         <constraint firstAttribute="trailing" secondItem="Eqq-gg-F8D" secondAttribute="trailing" constant="8" id="Ksr-4W-1sy"/>
+                        <constraint firstAttribute="trailing" secondItem="Eqq-gg-F8D" secondAttribute="trailing" constant="8" id="PMk-m1-Moq"/>
                         <constraint firstItem="Eqq-gg-F8D" firstAttribute="leading" secondItem="vvi-qZ-408" secondAttribute="leading" constant="8" id="vtJ-Kt-xaM"/>
                     </constraints>
                 </view>
@@ -36,9 +42,17 @@
             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="vvi-qZ-408" secondAttribute="trailing" id="1LU-gS-8YL"/>
+                <constraint firstItem="vvi-qZ-408" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="BMR-mX-mvX"/>
+                <constraint firstItem="vvi-qZ-408" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="10" id="G0J-aX-cfk"/>
                 <constraint firstItem="vvi-qZ-408" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ZdJ-1w-BQl"/>
+                <constraint firstAttribute="trailing" secondItem="vvi-qZ-408" secondAttribute="trailing" id="dUQ-ch-OQa"/>
             </constraints>
             <point key="canvasLocation" x="310" y="230"/>
         </view>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
+    </simulatedMetricsContainer>
 </document>

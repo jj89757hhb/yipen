@@ -22,6 +22,7 @@ static NSString *AppScheme =@"yipen";
 
 
 /*宏方法*/
+#define BundleShortVersion [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]//版本号
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 #define XH_STRETCH_IMAGE(image, edgeInsets) [image resizableImageWithCapInsets:edgeInsets resizingMode:UIImageResizingModeStretch]
 #define AppDelegateInstance ((AppDelegate*)[[UIApplication sharedApplication] delegate])
@@ -45,13 +46,14 @@ static NSString *AppScheme =@"yipen";
 #define BLACKCOLOR [UIColor colorWithRed:(double)0/255.0f green:(double)0/255.0f blue:(double)0/255.0f alpha:1.0] 
 #define WHITEColor [UIColor whiteColor]
 #define RedColor   [UIColor redColor]
+#define Yellow_Color [SVGloble colorFromHexRGB:@"f99607"]
 
 #define Line_Color [SVGloble colorFromHexRGB:@"cccccc"]
 #define DEEPORANGECOLOR [SVGloble colorFromHexRGB:@"fa8400"]//橘红色
 #define VIEWBACKCOLOR [SVGloble colorFromHexRGB:@"ededede"]//背景色
-#define DEEPBLACK [SVGloble colorFromHexRGB:@"333333"]
+#define DEEPBLACK [SVGloble colorFromHexRGB:@"333333"]//接近黑色
 #define MIDDLEBLACK [SVGloble colorFromHexRGB:@"666666"]
-#define LIGHTBLACK [SVGloble colorFromHexRGB:@"999999"]
+#define LIGHTBLACK [SVGloble colorFromHexRGB:@"999999"]//大部分文字用到到颜色
 #define LIGHTBLUE [SVGloble colorFromHexRGB:@"1E90FF"]
 #define Tree_BgColor [SVGloble colorFromHexRGB:@"f9f9f9"]
 #define Tree_Line [SVGloble colorFromHexRGB:@"d6d4d3"]//
@@ -178,7 +180,8 @@ typedef enum{
 typedef enum{
     KYuE_Pay=0,//余额支付
     KZFB_Pay,
-    KWeiXin_Pay
+    KWeiXin_Pay,
+    KIn_app_Pay//苹果支付
     
 }Pay_Type;
 

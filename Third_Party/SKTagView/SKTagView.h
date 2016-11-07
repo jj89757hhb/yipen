@@ -23,6 +23,6 @@
 - (void)removeAllTags;
 
 @property (nonatomic, copy) void (^didClickTagAtIndex)(NSUInteger index);
-
+@property(nonatomic,assign)NSInteger section;
 @end
 

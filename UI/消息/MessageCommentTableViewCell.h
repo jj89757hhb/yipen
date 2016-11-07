@@ -21,4 +21,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *contentL;
 @property (weak, nonatomic) IBOutlet UILabel *nickNameL;
 @property(nonatomic,strong)PenJinInfo *info;
+@property (weak, nonatomic) IBOutlet UIImageView *certificateIV;
+@property (weak, nonatomic) IBOutlet UIButton *replyBtn;
 @end

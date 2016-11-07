@@ -1,22 +1,25 @@
 PODS:
   - BaiduMapKit (3.0.0)
-  - GTSDK (1.4.3)
-  - Masonry (1.0.1)
+  - GTSDK (1.5.0)
+  - Masonry (1.0.2)
   - MBProgressHUD (1.0.0)
-  - MOBFoundation_IDFA (2.0.8)
-  - RongCloudIMKit (2.4.8)
+  - MLEmojiLabel (1.0.2):
+    - TTTAttributedLabel (~> 1.13.4)
+  - MOBFoundation_IDFA (2.0.11)
+  - RongCloudIMKit (2.7.0)
   - SBJson (4.0.2)
-  - SDWebImage (3.8.1):
-    - SDWebImage/Core (= 3.8.1)
-  - SDWebImage/Core (3.8.1)
-  - ShareSDK3 (3.4.0):
-    - ShareSDK3/ShareSDK (= 3.4.0)
-  - ShareSDK3/ShareSDK (3.4.0)
-  - ShareSDK3/ShareSDKPlatforms/QQ (3.4.0)
-  - ShareSDK3/ShareSDKPlatforms/SinaWeibo (3.4.0)
-  - ShareSDK3/ShareSDKPlatforms/WeChat (3.4.0)
-  - SMSSDK (2.0.5)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
+  - ShareSDK3 (3.4.2):
+    - ShareSDK3/ShareSDK (= 3.4.2)
+  - ShareSDK3/ShareSDK (3.4.2)
+  - ShareSDK3/ShareSDKPlatforms/QQ (3.4.2)
+  - ShareSDK3/ShareSDKPlatforms/SinaWeibo (3.4.2)
+  - ShareSDK3/ShareSDKPlatforms/WeChat (3.4.2)
+  - SMSSDK (2.0.6)
   - SVProgressHUD (2.0.3)
+  - TTTAttributedLabel (1.13.4)
   - ZYQAssetPickerController (1.0.0)
 
 DEPENDENCIES:
@@ -24,8 +27,9 @@ DEPENDENCIES:
   - GTSDK
   - Masonry
   - MBProgressHUD
+  - MLEmojiLabel
   - MOBFoundation_IDFA
-  - RongCloudIMKit (= 2.4.8)
+  - RongCloudIMKit (= 2.7.0)
   - SBJson (~> 4.0.1)
   - SDWebImage
   - ShareSDK3
@@ -38,18 +42,20 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   BaiduMapKit: de2a726d5296d6b2dc0e974b683af73153608dcd
-  GTSDK: b5a84db52e4d341af3ec8bad7e1cced010a8ee62
-  Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
+  GTSDK: 4380de452178d8ba2a67189f10c6743d0f9536b9
+  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
-  MOBFoundation_IDFA: 7952e1ec75970779010ab17afe81c84fea990d8a
-  RongCloudIMKit: 43f367cba48b58238f1ab3b268842e6951231a54
+  MLEmojiLabel: 36d73c19f9975cbf9def24e5bc135263b0337fd8
+  MOBFoundation_IDFA: fb7bf493361568f392e0a71bd2503aaa5b8dab9d
+  RongCloudIMKit: 2602b151b0411b28c1c371155e1b24d9dfc08d51
   SBJson: c18691cc18375b14664ff0fec841f8c4faef1934
-  SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
-  ShareSDK3: df89140111729eae7a2bf06688372af969322a37
-  SMSSDK: 85375419fc969dc9398ce9922c5165c1e14ebe23
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  ShareSDK3: 2fa975dd22937fc7de3f6b5d0c41a18ba0dd1661
+  SMSSDK: 9c5cf103606239fd6986aedd95a9bb911545e110
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
+  TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
   ZYQAssetPickerController: e5cf51ee6c05fa06746830026c247cb9f6699e84
 
-PODFILE CHECKSUM: 93611b6d6cbab90f1fd0d72caa2ecd5148f4f778
+PODFILE CHECKSUM: 135489a181d4bbddfc7111b13fd037b10ddba5c6
 
 COCOAPODS: 1.0.1

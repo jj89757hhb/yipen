@@ -10,7 +10,9 @@
 #import "PraiseView.h"
 #import "BottomToolView.h"
 #import "PenJinInfo.h"
+#import "MLEmojiLabel.h"
 static float comment_FontSize=14;
+static float content_FontSize=16;
 typedef void(^ClickBlock)(id sender);
 typedef void(^PraiseBlock)(id sender);
 typedef void(^CollectBlock)(id sender);
@@ -22,7 +24,7 @@ typedef void(^AttentionBlock)(id sender);
 -(void)tapImageViewWithCellIndex:(NSIndexPath*)indexPath imageIndex:(NSInteger)index;
 -(void)gotoDetailView:(NSIndexPath*)indexPath;//处理scrollview的拦截问题
 @end
-@interface PJPenDaiFuTableViewCell : UITableViewCell
+@interface PJPenDaiFuTableViewCell : UITableViewCell<MLEmojiLabelDelegate>
 
 @property(nonatomic,strong)UIImageView *headView;//头像
 @property(nonatomic,strong)UIScrollView *imageScrollView;
@@ -55,6 +57,7 @@ typedef void(^AttentionBlock)(id sender);
 @property(nonatomic,strong)UIButton *collectBtn;//收藏
 @property(nonatomic,strong)UIButton *commentBtn;//评论
 @property(nonatomic,strong)UIButton *chatBtn;//私信
+@property(nonatomic,strong)MLEmojiLabel *expertLabel;//@的专家
 @property (nonatomic,copy) ClickBlock clickBlock;
 
 @property (nonatomic,copy) PraiseBlock praiseBlock;

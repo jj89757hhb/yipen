@@ -121,7 +121,8 @@ static NSInteger PageSize=10;
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section==0) {
-          return 220;
+//          return 220;
+        return 236.5;
     }
     else{
         return 180;
@@ -152,7 +153,7 @@ static NSInteger PageSize=10;
             [cell.attentionBtn setHidden:YES];
         }
 //        if ([_userInfo.Levels integerValue]==1) {
-            [cell.levelL setText:[NSString stringWithFormat:@"等级: LV0%@",_userInfo.Levels]];
+        [cell.levelL setText:[NSString stringWithFormat:@"等级: LV0%@",_userInfo.Levels?_userInfo.Levels:@"1"]];
 //        }
         if (![_userInfo.IsCertifi boolValue]) {
             [cell.verifyL setText:@"认证: 暂无"];
@@ -160,12 +161,17 @@ static NSInteger PageSize=10;
         else{
               [cell.verifyL setText:[NSString stringWithFormat:@"认证: %@",_userInfo.CertifiInfo]];
         }
-        cell.fansL.text=[NSString stringWithFormat:@"粉丝: %@",_userInfo.Fans];
+        cell.fansL.text=[NSString stringWithFormat:@"粉丝: %@",_userInfo.Fans?_userInfo.Fans:@"0"];
         return cell;
     }
     else{
         PersonalSendTreeTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identify2 forIndexPath:indexPath];
-        [cell setInfo:_list[indexPath.row]];
+        PenJinInfo *info=_list[indexPath.row];
+        if (_userInfo) {//赋值给PenJinInfo
+            info.userInfo=_userInfo;
+        }
+
+        [cell setInfo:info];
         cell.index=indexPath;
         WS(weakSelf)
         [cell setShareBlock:^(id sender){

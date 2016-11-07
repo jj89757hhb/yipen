@@ -23,6 +23,35 @@
     self.line2.backgroundColor=Line_Color;
 }
 - (IBAction)sureAction:(id)sender {
+    if (_oldTF.text.length==0) {
+        [SVProgressHUD showErrorWithStatus:@"请输入旧密码"];
+        return;
+    }
+    if (_theNewTF.text.length==0) {
+        [SVProgressHUD showErrorWithStatus:@"请输入新密码"];
+        return;
+    }
+    if (_aginTF.text.length==0) {
+        [SVProgressHUD showErrorWithStatus:@"请再次输入新密码"];
+        return;
+    }
+    if (![_theNewTF.text isEqualToString:_aginTF.text]) {
+        [SVProgressHUD showErrorWithStatus:@"两次输入密码不一致"];
+        return;
+    }
+    WS(weakSelf)
+    [SVProgressHUD show];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"Uid",_oldTF.text,@"OldPwd",_theNewTF.text,@"NewPwd",nil];
+    [HttpConnection ChangePwd:dic WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            [SVProgressHUD showSuccessWithStatus:@"修改成功"];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+        }
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

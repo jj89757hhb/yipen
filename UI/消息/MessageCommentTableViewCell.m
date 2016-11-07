@@ -11,6 +11,7 @@
 @implementation MessageCommentTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     self.headIV.clipsToBounds=YES;
     self.headIV.contentMode=UIViewContentModeScaleAspectFill;
@@ -34,6 +35,15 @@
     _titleL.text=info.Title;
     _replyL.text=info.Message;
     _contentL.text=info.Descript;
+    if ([_info.CommUser.RoleType isEqualToString:@"1"]||[_info.CommUser.RoleType isEqualToString:@"2"]) {
+        
+    }
+    else{//未开通
+        [_memberIV setHidden:YES];
+    }
+    if (![_info.CommUser.IsCertifi boolValue]) {
+         [_certificateIV setHidden:YES];
+    }
     
 }
 

@@ -17,8 +17,38 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setTitle:@"支付宝提现"];
+    [_authorBtn addTarget:self action:@selector(authorAction) forControlEvents:UIControlEventTouchUpInside];
 }
 
+-(void)authorAction{
+    if (_nameTF.text.length==0) {
+        [SVProgressHUD showErrorWithStatus:@"请输入真实姓名"];
+        return;
+    }
+    if (_accountTF.text.length==0) {
+        [SVProgressHUD showErrorWithStatus:@"请输入支付宝账号"];
+        return;
+    }
+    [SVProgressHUD show];
+    NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",@"1",@"Type",_accountTF.text,@"Account",_nameTF.text,@"Name", nil];
+    [HttpConnection SetWDAccount:dic WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            if ([response[@"ok"] boolValue]) {
+                [SVProgressHUD dismiss];
+                [SVProgressHUD showSuccessWithStatus:@"已授权"];
+                [DataSource sharedDataSource].userInfo.AliAccount=_accountTF.text;
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:response[@"reason"]];
+            }
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+        }
+        
+    }];
+}
 
 
 - (void)didReceiveMemoryWarning {

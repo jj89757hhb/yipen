@@ -57,7 +57,7 @@
 //    [commentBtn addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
     [commentBtn setTitleColor:textColor forState:UIControlStateNormal];
     commentBtn.titleLabel.font=font;
-    [commentBtn setImage:[UIImage imageNamed:@"评论icon"] forState:UIControlStateNormal];
+    [commentBtn setImage:[UIImage imageNamed:@"评论icon_big"] forState:UIControlStateNormal];
     [commentBtn setTitle:@"评论" forState:UIControlStateNormal];
     self.commentBtn=commentBtn;
     //

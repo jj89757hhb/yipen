@@ -20,6 +20,7 @@ static float image_offX =10;
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
 }
 
 
@@ -34,7 +35,7 @@ static float image_offX =10;
         [_headView setUserInteractionEnabled:YES];
         _headView.layer.cornerRadius=fenXiang_HeadSize/2.f;
         _headView.clipsToBounds=YES;
-        [_headView setBackgroundColor:[UIColor redColor]];
+//        [_headView setBackgroundColor:[UIColor redColor]];
         UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headAction)];
         [_headView addGestureRecognizer:tap];
         self.certificateIV=[[UIImageView alloc] init];
@@ -166,6 +167,8 @@ static float image_offX =10;
         _isExpressL.font=saleFont;
         _priceL.font=saleFont;
         _priceL.textColor=[UIColor redColor];
+        _priceL.layer.borderWidth=1;
+        _priceL.layer.borderColor=RedColor.CGColor;
         _saleStatusL.font=saleFont;
         
         _heightL.text=@"高度";
@@ -174,7 +177,7 @@ static float image_offX =10;
         _widthNumL.text=@"20CM";
         _diameterL.text=@"直径";
         _diameterNumL.text=@"4CM";
-        _ageL.text=@"年龄";
+        _ageL.text=@"盆龄";
         _ageNumL.text=@"10YEAR";
         
         _heightL.textAlignment=NSTextAlignmentCenter;
@@ -219,8 +222,8 @@ static float image_offX =10;
         [_bottomToolView.praiseBtn addTarget:self action:@selector(praiseAction:) forControlEvents:UIControlEventTouchUpInside];
         
         [_bottomToolView.collectBtn addTarget:self action:@selector(collectAction:) forControlEvents:UIControlEventTouchUpInside];
-//        [_bottomToolView.commentBtn addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
-        [_bottomToolView.commentBtn setUserInteractionEnabled:NO];
+        [_bottomToolView.commentBtn addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
+//        [_bottomToolView.commentBtn setUserInteractionEnabled:NO];
         [_bottomToolView.chatBtn addTarget:self action:@selector(chatAction:) forControlEvents:UIControlEventTouchUpInside];
         
     }
@@ -401,9 +404,13 @@ static float image_offX =10;
     }];
     [_treeIcon sizeToFit];
 //    _descriptionL.text=@"刚才从日本买的。太喜欢啦、、、大手大脚阿里看见靠你了";
+    float offX=10;
+    if ([_info.InfoType integerValue]==2||[_info.InfoType integerValue]==3) {//出售
+           offX=100;
+    }
     [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(10);
-        make.right.offset(-10);
+        make.right.offset(-offX);
         make.height.offset(20);
         make.top.equalTo(_treeIcon.mas_bottom).offset(10);
         
@@ -560,6 +567,10 @@ static float image_offX =10;
             _priceL.text=[NSString stringWithFormat:@"%@元",[CommonFun delDecimal:_info.Price]];
         
             if ([_info.IsMailed boolValue]) {
+                _isExpressL.backgroundColor=MIDDLEBLACK;
+                _isExpressL.textColor=WHITEColor;
+                _isExpressL.layer.borderWidth=1;
+                _isExpressL.layer.borderColor=Clear_Color.CGColor;
                 [_isExpressL setText:@"包邮"];
                 [_priceL mas_remakeConstraints:^(MASConstraintMaker *make) {
                     make.top.equalTo(_treeIcon.mas_bottom).offset(10);
@@ -597,8 +608,8 @@ static float image_offX =10;
             }
             if (![_info.IsMarksPrice boolValue]) {
                 [_priceL setText:@"不明价"];
-                _priceL.layer.borderWidth=1;
-                _priceL.layer.borderColor=RedColor.CGColor;
+//                _priceL.layer.borderWidth=1;
+//                _priceL.layer.borderColor=RedColor.CGColor;
             }
             
         }
@@ -794,6 +805,15 @@ static float image_offX =10;
         [_bottomToolView.praiseBtn setImage:[UIImage imageNamed:@"看好(未点)"] forState:UIControlStateNormal];
     }
    
+    if ([_info.userInfo.RoleType isEqualToString:@"1"]||[_info.userInfo.RoleType isEqualToString:@"2"]) {
+        
+    }
+    else{//未开通
+        [_memberIV setHidden:YES];
+    }
+    if (![_info.userInfo.IsCertifi boolValue]) {
+        [_certificateIV setHidden:YES];
+    }
     
 }
 //点击头像

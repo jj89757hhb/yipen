@@ -51,6 +51,7 @@
 @property(nonatomic,strong)NSString *Num;//库存
 
 @property(nonatomic,strong)NSMutableArray *Comment;//评论
+@property(nonatomic,strong)NSMutableArray *experts;//@的专家
 
 //盆缘相关
 @property(nonatomic,strong)NSString *ChangeVarieties;

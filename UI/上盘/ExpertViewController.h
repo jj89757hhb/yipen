@@ -7,7 +7,9 @@
 //
 
 #import "BaseViewController.h"
-
+@protocol ExpertDelegate <NSObject>
+-(void)selectExpert:(NSMutableArray*)experts;
+@end
 @interface ExpertViewController : BaseViewController
-
+@property(weak,nonatomic)id<ExpertDelegate> delegate;
 @end

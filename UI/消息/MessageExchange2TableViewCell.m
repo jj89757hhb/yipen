@@ -11,9 +11,13 @@
 @implementation MessageExchange2TableViewCell
 
 - (void)awakeFromNib {
+        [super awakeFromNib];
     // Initialization code
     self.orderBtn.layer.cornerRadius=3;
     self.orderBtn.clipsToBounds=YES;
+    _headIV.contentMode=UIViewContentModeScaleAspectFill;
+    _headIV.clipsToBounds=YES;
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

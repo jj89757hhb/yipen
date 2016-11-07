@@ -11,6 +11,7 @@
 @implementation AttentionTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     self.attentionBtn.clipsToBounds=YES;
     self.attentionBtn.layer.cornerRadius=3;
@@ -32,13 +33,16 @@
     _nickNameL.text=info.NickName;
    
     if ([info.IsFocus boolValue]) {
-        [_attentionBtn setTitle:@"已关注" forState:UIControlStateNormal];
-        [_attentionBtn setUserInteractionEnabled:NO];
+//        [_attentionBtn setTitle:@"已关注" forState:UIControlStateNormal];
+             [_attentionBtn setTitle:@"取消关注" forState:UIControlStateNormal];
+//        [_attentionBtn setUserInteractionEnabled:NO];
+        _attentionBtn.titleLabel.font=[UIFont systemFontOfSize:11];
         
     }
     else{
         [_attentionBtn setTitle:@"+关注" forState:UIControlStateNormal];
         [_attentionBtn setUserInteractionEnabled:YES];
+         _attentionBtn.titleLabel.font=[UIFont systemFontOfSize:13];
     }
     [_levelIV setImage:[UIImage imageNamed:[NSString stringWithFormat:@"lv%@",info.Levels]]];
     

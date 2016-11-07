@@ -10,6 +10,7 @@
 #import "CommentInfo.h"
 #import "CustomImageView.h"
 #import "CommentLabel.h"
+#import "PersonalHomeViewController.h"
 static float fenXiang_offX=10;
 static float fenXiang_offY=10;
 static float fenXiang_HeadSize=50;
@@ -110,6 +111,15 @@ static float image_offX =10;
         _v_line2.backgroundColor=Tree_Line;
         _v_line3.backgroundColor=Tree_Line;
         
+        self.expertLabel=[MLEmojiLabel new];
+        _expertLabel.numberOfLines = 0;
+        _expertLabel.font = [UIFont systemFontOfSize:15.0f];
+        _expertLabel.delegate = self;
+        _expertLabel.textAlignment = NSTextAlignmentLeft;
+        _expertLabel.backgroundColor = [UIColor clearColor];
+        _expertLabel.isNeedAtAndPoundSign = YES;
+        [self.contentView addSubview:_expertLabel];
+        
         
         
         [_generalGB addSubview:_v_line2];
@@ -169,7 +179,7 @@ static float image_offX =10;
         _widthNumL.text=@"20CM";
         _diameterL.text=@"直径";
         _diameterNumL.text=@"4CM";
-        _ageL.text=@"年龄";
+        _ageL.text=@"盆龄";
         _ageNumL.text=@"10YEAR";
         
         _heightL.textAlignment=NSTextAlignmentCenter;
@@ -379,6 +389,13 @@ static float image_offX =10;
         
     }];
     [_descriptionL sizeToFit];
+    
+    [_expertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.offset(10);
+        make.right.offset(-10);
+        make.top.equalTo(_descriptionL.mas_bottom).offset(10);
+    }];
+    [_expertLabel sizeToFit];
 //    [_generalGB mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(_descriptionL.mas_bottom).offset(5);
 //        make.left.offset(10);
@@ -487,8 +504,8 @@ static float image_offX =10;
         make.left.offset(0);
         make.right.offset(0);
         make.height.offset(50);
-        make.top.equalTo(_descriptionL.mas_bottom).offset(5);
-//        make.top.equalTo(_ageNumL.mas_bottom).offset(1);
+//        make.top.equalTo(_descriptionL.mas_bottom).offset(5);
+        make.top.equalTo(_expertLabel.mas_bottom).offset(5);
     }];
     //    [_praiseView initViewUsers:nil];
     [_praiseView initViewUsers:_info.Praised uid:_info.UID praiseNum:_info.PraisedNum];
@@ -753,8 +770,39 @@ static float image_offX =10;
     else{
         [_bottomToolView.praiseBtn setImage:[UIImage imageNamed:@"看好(未点)"] forState:UIControlStateNormal];
     }
+    if ([_info.userInfo.RoleType isEqualToString:@"1"]||[_info.userInfo.RoleType isEqualToString:@"2"]) {
+        
+    }
+    else{//未开通
+        [_memberIV setHidden:YES];
+    }
+//    if (info.experts.count) {
+//        YPUserInfo *expert=info.experts[0];
+//        _expertLabel.text=expert.NickName;
+//    }
+    NSString *expertName=nil;
+    for (int i=0;i<info.experts.count;i++) {
+          YPUserInfo *expert=info.experts[i];
+//         _expertLabel.text=expert.NickName;
+        if (i==0) {
+            expertName=[NSString stringWithFormat:@"@%@",expert.NickName];
+        }
+        else{
+            expertName=[expertName stringByAppendingString:[NSString stringWithFormat:@" @%@",expert.NickName]];
+        }
+    }
+
+    _expertLabel.text=expertName;
     
-    
+    if ([_info.userInfo.RoleType isEqualToString:@"1"]||[_info.userInfo.RoleType isEqualToString:@"2"]) {
+        
+    }
+    else{//未开通
+        [_memberIV setHidden:YES];
+    }
+    if (![_info.userInfo.IsCertifi boolValue]) {
+        [_certificateIV setHidden:YES];
+    }
 }
 //点击头像
 -(void)headAction{
@@ -826,6 +874,54 @@ static float image_offX =10;
     
 }
 
+- (void)mlEmojiLabel:(MLEmojiLabel*)emojiLabel didSelectLink:(NSString*)link withType:(MLEmojiLabelLinkType)type
+{
+    switch(type){
+        case MLEmojiLabelLinkTypeURL:
+            NSLog(@"点击了链接%@",link);
+            break;
+        case MLEmojiLabelLinkTypePhoneNumber:
+            NSLog(@"点击了电话%@",link);
+            break;
+        case MLEmojiLabelLinkTypeEmail:
+            NSLog(@"点击了邮箱%@",link);
+            break;
+        case MLEmojiLabelLinkTypeAt:
+            NSLog(@"点击了用户%@",link);
+            [self goToPersonalViewWithName:link];
+            break;
+        case MLEmojiLabelLinkTypePoundSign:
+            NSLog(@"点击了话题%@",link);
+            break;
+        default:
+            NSLog(@"点击了不知道啥%@",link);
+            break;
+    }
+    
+}
+
+
+-(void)goToPersonalViewWithName:(NSString*)name{
+    NSString *name2=[name stringByReplacingOccurrencesOfString:@"@" withString:@""];
+    YPUserInfo *currentUser=nil;
+    for (YPUserInfo *info in _info.experts) {//找到该点击用户
+        if ([info.NickName isEqualToString:name2]) {
+            currentUser=info;
+            break;
+        }
+    }
+//    YPUserInfo *info=_list[indexPath.row];
+//    info.ID=info.UserId;//又是数据不统一！！！
+    PersonalHomeViewController *ctr=[[PersonalHomeViewController alloc] init];
+    currentUser.ID=currentUser.UID;
+    ctr.userInfo=currentUser;
+//    [self hideTabBar:YES animated:NO];
+    UIViewController *navCtr= [CommonFun viewControllerHasNavgation:self];
+    XMTabBarController *tabBar=(XMTabBarController*)navCtr.tabBarController;
+    [tabBar xmTabBarHidden:YES animated:NO];
+    [navCtr.navigationController pushViewController:ctr animated:YES];
+    
+}
 
 
 @end

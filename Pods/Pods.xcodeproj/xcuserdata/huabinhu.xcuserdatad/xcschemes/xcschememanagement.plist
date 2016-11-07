@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MLEmojiLabel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -34,6 +39,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>TTTAttributedLabel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>ZYQAssetPickerController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,17 +52,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>086307241B5FC6A2AC2E967F654DE4D9</key>
+		<key>0C2A57E073F615C35BC866C6EC41BFCF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>21FF5EF648106D78F9F64C9323E86215</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>3479172CF4156391E7D39643D8F9B8B3</key>
+		<key>279A0D461C5B3DE36B94635C92CC9650</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -62,7 +67,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8C52FDB2DDC1F287831869B6747FA46C</key>
+		<key>68CF91594C225BBA9B843744AA108780</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>70B7935B5D7778846481714DB9944144</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8CC49AD33C1F0091E36CC19C8F3D15A0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AAB67CC5BB7D60275F8918F0BFC24947</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -72,7 +92,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DD05BCBEC7B627790755C227E10E1D73</key>
+		<key>FFBDF0F78E26030BD37FE04D5038CD5C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

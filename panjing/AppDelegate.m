@@ -36,7 +36,7 @@
 [[UIScreen mainScreen] currentMode].size)           \
 : NO)
 
-@interface AppDelegate ()<RCIMConnectionStatusDelegate,RCIMReceiveMessageDelegate,RCIMUserInfoDataSource,BMKGeneralDelegate>
+@interface AppDelegate ()<RCIMConnectionStatusDelegate,RCIMReceiveMessageDelegate,RCIMUserInfoDataSource,RCIMGroupInfoDataSource,BMKGeneralDelegate>
 @property(nonatomic,strong)XMTabBarController *tabBar;
 @end
 
@@ -133,6 +133,7 @@
     //    [RCIM sharedRCIM].portraitImageViewCornerRadius = 10;
     //设置用户信息源和群组信息源
      [[RCIM sharedRCIM] setUserInfoDataSource:self];
+     [[RCIM sharedRCIM] setGroupInfoDataSource:self];
 //    [RCIM sharedRCIM].userInfoDataSource = RCDDataSource;
 //    [RCIM sharedRCIM].groupInfoDataSource = RCDDataSource;
 //    //设置群组内用户信息源。如果不使用群名片功能，可以不设置
@@ -146,6 +147,9 @@
     //如：新版本增加了某种自定义消息，但是老版本不能识别，开发者可以在旧版本中预先自定义这种未识别的消息的显示
     [RCIM sharedRCIM].showUnkownMessage = YES;
     [RCIM sharedRCIM].showUnkownMessageNotificaiton = YES;
+    [RCIM sharedRCIM].disableMessageAlertSound=NO;
+    [RCIM sharedRCIM].disableMessageNotificaiton=NO;
+    [RCIM sharedRCIM].enablePersistentUserInfoCache=YES;
     
     //登录
 //    NSString *token =[[NSUserDefaults standardUserDefaults] objectForKey:@"userToken"];
@@ -179,6 +183,7 @@
                                                   name:userNickName
                                               portrait:userPortraitUri];
                     [RCIMClient sharedRCIMClient].currentUserInfo = _currentUserInfo;
+                    [[RCIM sharedRCIM] refreshUserInfoCache:_currentUserInfo withUserId:userId];
                     [[RCIM sharedRCIM] connectWithToken:token
                                                 success:^(NSString *userId) {
                                                     NSLog(@"链接融云成功:%@",userId);
@@ -193,7 +198,9 @@
                                          }];
                 };
             }
-            
+            else{
+                NSLog(@"获取个人资料失败");
+            }
             
         }];
         
@@ -270,10 +277,58 @@
     //启动LocationService
     [_locService startUserLocationService];
        [UINavigationBar appearance].translucent=NO;
+    [NotificationCenter addObserver:self selector:@selector(queryPersonalInfo) name:@"QueryPersonalInfo" object:nil];
+    NSString *(^thisBlock) (NSString *thisName) = ^(NSString *name){
+        return [NSString stringWithFormat:@"%@:%@",@"name",name];
+    };
+    NSLog(@"%@",thisBlock(@"xiaoming"));
     return YES;
 }
 
+//查询个人资料、连接融云服务器
+-(void)queryPersonalInfo{
+    NSString *userId=[DEFAULTS objectForKey:@"userId"];
+    NSString *userName = [DEFAULTS objectForKey:@"userName"];
+    NSString *password = [DEFAULTS objectForKey:@"userPwd"];
+    NSString *userNickName = [DEFAULTS objectForKey:@"userNickName"];
+    NSString *userPortraitUri = [DEFAULTS objectForKey:@"userPortraitUri"];
+    
+    //首先获取个人资料 拿到融云token
+    if ([DataSource sharedDataSource].userInfo.ID) {
+        NSString *param2=[NSString stringWithFormat:@"UID=%@",[DataSource sharedDataSource].userInfo.ID];
+        [HttpConnection getOwnerInfoWithParameter:param2 WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                NSString *token=[DataSource sharedDataSource].userInfo.Token;
+                if (token.length && userId.length) {
+                    RCUserInfo *_currentUserInfo =
+                    [[RCUserInfo alloc] initWithUserId:userId
+                                                  name:userNickName
+                                              portrait:userPortraitUri];
+                    [RCIMClient sharedRCIMClient].currentUserInfo = _currentUserInfo;
+                    [[RCIM sharedRCIM] refreshUserInfoCache:_currentUserInfo withUserId:userId];
+                    [[RCIM sharedRCIM] connectWithToken:token
+                                                success:^(NSString *userId) {
+                                                    NSLog(@"链接融云成功:%@",userId);
+                                                }
+                                                  error:^(RCConnectErrorCode status) {
+                                                      
+                                                  }
+                                         tokenIncorrect:^{
+                                             dispatch_async(dispatch_get_main_queue(), ^{
+                                                 
+                                             });
+                                         }];
+                };
+            }
+            else{
+                NSLog(@"获取个人资料失败");
+            }
+            
+        }];
+        
+    }
 
+}
 //实现相关delegate 处理位置信息更新
 //处理方向变更信息
 - (void)didUpdateUserHeading:(BMKUserLocation *)userLocation
@@ -299,15 +354,17 @@
 
 
 -(void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
-    if ([[DEFAULTS objectForKey:UserId] isEqual:userId]) {
+//    if ([[DEFAULTS objectForKey:UserId] isEqual:userId]) {
         RCUserInfo *user = [[RCUserInfo alloc]init];
-        user.userId = [DEFAULTS objectForKey:UserId];
-        user.name = [DEFAULTS objectForKey:UserNickName];
-        user.portraitUri =[DEFAULTS objectForKey:UserPortraitUri];
+        user.userId=userId;
+//        user.userId = [DEFAULTS objectForKey:UserId];
+//        user.name = [DEFAULTS objectForKey:UserNickName];
+//        user.portraitUri =[DEFAULTS objectForKey:UserPortraitUri];
         return completion(user);
-    }
+//    }
     return completion(nil);
 }
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

@@ -471,6 +471,7 @@ static NSString *circle_Share_Url=@"/share/group/";//分享圈子
                     [SVProgressHUD showSuccessWithStatus:@"登录成功"];
                     [SVProgressHUD dismiss];
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"goHomeView"object:nil];
+                      [NotificationCenter postNotificationName:@"QueryPersonalInfo" object:nil];
                 }
                 else{
                     [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
@@ -507,6 +508,7 @@ static NSString *circle_Share_Url=@"/share/group/";//分享圈子
                 if ([[response objectForKey:@"ok"] boolValue]) {
                     [SVProgressHUD dismiss];
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"goHomeView"object:nil];
+                    [NotificationCenter postNotificationName:@"QueryPersonalInfo" object:nil];
                     [SVProgressHUD showSuccessWithStatus:@"登录成功"];
                 }
                 else{
@@ -574,6 +576,7 @@ static NSString *circle_Share_Url=@"/share/group/";//分享圈子
                              if ([[response objectForKey:@"ok"] boolValue]) {
                                  [SVProgressHUD dismiss];
                                  [[NSNotificationCenter defaultCenter] postNotificationName:@"goHomeView"object:nil];
+                                   [NotificationCenter postNotificationName:@"QueryPersonalInfo" object:nil];
                                  [SVProgressHUD showSuccessWithStatus:@"登录成功"];
                              }
                              else{

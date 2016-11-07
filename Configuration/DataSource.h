@@ -17,7 +17,7 @@
 @property(nonatomic,strong)NSString *Street;
 @property(nonatomic,assign)float CorrdX;//经度
 @property(nonatomic,assign)float CorrdY;//维度
-
+@property(nonatomic,assign)NSInteger lastSection;//搜索中 上次选择的区域
 +(DataSource*)sharedDataSource;
 +(void)releaseInstance;
 

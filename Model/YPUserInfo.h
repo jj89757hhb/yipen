@@ -29,7 +29,7 @@
 @property(nonatomic,strong)NSString *OsiteAppid;
 @property(nonatomic,strong)NSString *Password;
 @property(nonatomic,strong)NSString *PayPassword;
-@property(nonatomic,strong)NSString *RoleType;
+@property(nonatomic,strong)NSString *RoleType;//1 个人会员 2 商家会员
 @property(nonatomic,strong)NSString *SID;
 @property(nonatomic,strong)NSString *Sex;
 @property(nonatomic,strong)NSString *ShareNum;
@@ -41,8 +41,11 @@
 @property(nonatomic,strong)NSString *Descript;//个人介绍
 @property(nonatomic,strong)NSString *IsFocus;//用户是否被关注了
 @property(nonatomic,strong)NSString *CertifiInfo;
-
+@property(nonatomic,strong)NSString *AliAccount;
+@property(nonatomic,strong)NSString *AliName;
+@property(nonatomic,strong)NSString *WeChatName;
 @property(nonatomic,strong)NSString *UserId;// 赞列表使用
-
+@property(nonatomic,assign)BOOL isSelect;//选择
+@property(nonatomic,strong)NSString *UID;//@用户所使用的
 - (id)initWithKVCDictionary:(NSDictionary *)KVCDic;
 @end

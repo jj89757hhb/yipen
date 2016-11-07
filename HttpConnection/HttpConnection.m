@@ -482,7 +482,16 @@
             NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             NSLog(@"getOwnerInfoWithParameter: %@", response);
+            
             dispatch_sync(dispatch_get_main_queue(), ^{
+                if (!dict) {
+                    NSLog(@"服务端错误");
+                    NSError *error=[[NSError alloc] init];
+                    if (block) {
+                        block(nil,error);
+                    }
+                    return ;
+                }
                 NSDictionary *user=dict[@"user"];
                 YPUserInfo *userInfo=[[YPUserInfo alloc] initWithKVCDictionary:user];
                 [DataSource sharedDataSource].userInfo=userInfo;
@@ -533,6 +542,37 @@
     }];
     [operation start];
 }
+
+//取消关注
++(void)CancelFocus:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/CancelFocus",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    //    manager.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //        NSLog(@"Focus：%@",responseObject);
+        //        NSDictionary* json = responseObject;
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"CancelFocus：%@",json);
+        block(json,nil);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+}
+
+
 
 //评论
 +(void)Comments:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
@@ -673,6 +713,35 @@
                     error:&error];
         }
         NSLog(@"Praised：%@",json);
+        block(json,nil);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+}
+
+//取消点赞
++(void)CancelPraised:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/CancelPraised",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    //    manager.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //        NSLog(@"Collection：%@",responseObject);
+        //        NSDictionary* json = responseObject;
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"CancelPraised：%@",json);
         block(json,nil);
         
         
@@ -1576,14 +1645,22 @@
                     YPUserInfo *userInfo=[[YPUserInfo alloc] initWithKVCDictionary:dic];
                     [Praiseds addObject:userInfo];
                 }
+                
+                NSArray *_experts=Bonsai[@"experts"];
+                NSMutableArray *experts=[[NSMutableArray alloc] init];
+                for (NSDictionary *dic in _experts) {
+                    YPUserInfo *userInfo=[[YPUserInfo alloc] initWithKVCDictionary:dic];
+                    [experts addObject:userInfo];
+                }
+                
                 NSDictionary *user=dic[@"user"];
                 YPUserInfo *userInfo=[[YPUserInfo alloc] initWithKVCDictionary:user];
-                
                 PenJinInfo *info=[[PenJinInfo alloc] initWithKVCDictionary:Bonsai];
                 info.userInfo=userInfo;
                 info.Attach=pics;
                 info.Comment=commentList;
                 info.Praised=Praiseds;
+                info.experts=experts;
                 [dataList addObject:info];
                 
             }
@@ -1651,12 +1728,19 @@
                 }
                 NSDictionary *user=dic[@"user"];
                 YPUserInfo *userInfo=[[YPUserInfo alloc] initWithKVCDictionary:user];
+                NSArray *_experts=Bonsai[@"experts"];
+                NSMutableArray *experts=[[NSMutableArray alloc] init];
+                for (NSDictionary *dic in _experts) {
+                    YPUserInfo *userInfo=[[YPUserInfo alloc] initWithKVCDictionary:dic];
+                    [experts addObject:userInfo];
+                }
                 
                 PenJinInfo *info=[[PenJinInfo alloc] initWithKVCDictionary:Bonsai];
                 info.userInfo=userInfo;
                 info.Attach=pics;
                 info.Comment=commentList;
                 info.Praised=Praiseds;
+                info.experts=experts;
                 [dataList addObject:info];
                 
             }
@@ -3233,7 +3317,27 @@
                     error:&error];
         }
         NSLog(@"GetExperts：%@",json);
-        block(json,nil);
+        if ([[json objectForKey:@"ok"] boolValue]) {
+            NSArray *list=json[@"records"];
+            NSMutableArray *dataList=[[NSMutableArray alloc] init];
+            for (NSDictionary *dic in list) {
+                
+//                NSDictionary *user=dic[@"user"];
+                YPUserInfo *userInfo=[[YPUserInfo alloc] initWithKVCDictionary:dic];
+//                PenJinInfo *info=[[PenJinInfo alloc] initWithKVCDictionary:dic];
+//                info.userInfo=userInfo;
+                [dataList addObject:userInfo];
+                
+            }
+            NSDictionary *dic =[[NSDictionary alloc] initWithObjectsAndKeys:dataList,KDataList ,nil];
+            block(dic,nil);
+        }
+        else{
+            NSDictionary *dic =[[NSDictionary alloc] initWithObjectsAndKeys:json[@"reason"],KErrorMsg ,nil];
+            block(dic,nil);
+        }
+        
+//        block(json,nil);
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -3276,6 +3380,225 @@
     
     
 }
+//获取是否版本在验收阶段
++(void)IsApplePay:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/IsApplePay",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"IsApplePay：%@",json);
+        block(json,nil);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+
+}
+
+//个人会员支付完成  废弃了
++(void)PayPerMember:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/PayPerMember",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"PayPerMember：%@",json);
+        block(json,nil);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+    
+}
+
+//商家会员支付完成 废弃了
++(void)PayBusinessMember:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/PayBusinessMember",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"PayBusinessMember：%@",json);
+        block(json,nil);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+    
+}
+
+//会员支付完成后调用（余额支付）
++(void)MemberPaySuccess:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/MemberPaySuccess",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"MemberPaySuccess：%@",json);
+        block(json,nil);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+    
+}
+
+
+//修改密码
++(void)ChangePwd:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/ChangePwd",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"ChangePwd：%@",json);
+        block(json,nil);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+    
+}
+
+//修改绑定手机
++(void)BindMobile:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/BindMobile",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"BindMobile：%@",json);
+        block(json,nil);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+    
+}
+
+//修改绑定手机后、修改密码
++(void)SetPwd:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/SetPwd",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"SetPwd：%@",json);
+        block(json,nil);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+    
+}
+
+//设置提现账户
++(void)SetWDAccount:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/SetWDAccount",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"SetWDAccount：%@",json);
+        block(json,nil);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+    
+}
+
+
+
 
 //字典转换成json
 + (NSString*)dictionaryToJson:(NSDictionary *)dic

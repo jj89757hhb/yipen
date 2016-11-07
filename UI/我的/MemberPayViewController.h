@@ -11,6 +11,8 @@
 @interface MemberPayViewController : BaseViewController
 @property (weak, nonatomic) IBOutlet UIImageView *bgIV;
 @property (weak, nonatomic) IBOutlet UILabel *dateL;
+@property (weak, nonatomic) IBOutlet UIButton *selectBtn;
+@property (weak, nonatomic) IBOutlet UILabel *payTypeL;
 
 @property (weak, nonatomic) IBOutlet UILabel *memberTypeL;
 @property (weak, nonatomic) IBOutlet UILabel *costL;

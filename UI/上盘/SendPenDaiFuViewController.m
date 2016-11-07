@@ -11,13 +11,14 @@
 #import "TreeSort.h"
 #import "SelectTagViewController.h"
 #import "ExpertViewController.h"
-@interface SendPenDaiFuViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UINavigationControllerDelegate, ZYQAssetPickerControllerDelegate,UIImagePickerControllerDelegate>
+@interface SendPenDaiFuViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UINavigationControllerDelegate, ZYQAssetPickerControllerDelegate,UIImagePickerControllerDelegate,ExpertDelegate>
 @property(nonatomic,strong)UITextField *titleTF;
 @property(nonatomic,strong)UITextView *contentTV;
 @property(nonatomic,strong)NSMutableArray *imgList;
 @property(nonatomic,strong)UILabel *popL;
 @property(nonatomic,strong)TreeSort *sort;
 @property(nonatomic,strong)NSMutableDictionary *sortDic;
+@property(nonatomic,strong)NSString *selectUserId;
 @end
 
 @implementation SendPenDaiFuViewController
@@ -30,8 +31,15 @@
         [weakSelf sendAction];
     }];
     [self initTable];
+    [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"返回"] withBlock:^(id sender) {
+        [weakSelf backAction];
+    }];
 }
 
+-(void)backAction{
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
 
 -(void)initTable{
     myTable=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
@@ -195,6 +203,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section==2) {
         SelectTagViewController *ctr=[[SelectTagViewController alloc] init];
+        ctr.enterType=2;
         [ctr setSelectBlock:^(id sender){
             self.sortDic=sender;
             for (NSString *key in _sortDic.allKeys) {//值
@@ -214,6 +223,12 @@
 //        [HttpConnection GetExperts:dic WithBlock:^(id response, NSError *error) {
 //            
 //        }];
+        if (![[DataSource sharedDataSource].userInfo.RoleType isEqualToString:@"1"]&&![[DataSource sharedDataSource].userInfo.RoleType isEqualToString:@"2"]) {
+            [UIAlertView bk_showAlertViewWithTitle:nil message:@"您还未开通会员、请先开通会员再尝试" cancelButtonTitle:@"确定" otherButtonTitles:nil handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                
+            }];
+            return;
+        }
         [self queryExpert];
     }
 }
@@ -222,7 +237,20 @@
 //查询专家
 -(void)queryExpert{
     ExpertViewController *ctr=[[ExpertViewController alloc] init];
+    ctr.delegate=self;
     [self.navigationController pushViewController:ctr animated:YES];
+}
+//代理
+-(void)selectExpert:(NSMutableArray *)experts{
+    NSLog(@"experts11:%@",experts);
+    for (int i=0; i<experts.count; i++) {
+        if (i==0) {
+            self.selectUserId=experts[0];
+        }
+        else{
+            self.selectUserId=[_selectUserId stringByAppendingString:[NSString stringWithFormat:@",%@",experts[i]]];
+        }
+    }
 }
 
 //发布
@@ -260,7 +288,9 @@
     if (sortDic2.allKeys.count) {
         [dic setValuesForKeysWithDictionary:sortDic2];
     }
-    
+    if (_selectUserId) {
+        [dic setObject:_selectUserId forKey:@"Experts"];
+    }
     imageIndex=0;
     [HttpConnection PostBasins:dic pics:_imgList WithBlock:^(id response, NSError *error) {
         if (!error) {
@@ -283,6 +313,8 @@
                                     if (imageIndex>=_imgList.count) {
                                         [SVProgressHUD showSuccessWithStatus:@"发布成功"];
                                         [self.navigationController popViewControllerAnimated:YES];
+                                         [NotificationCenter postNotificationName:@"DismissSendView" object:nil];
+                                      
                                     }
                                     
                                 }

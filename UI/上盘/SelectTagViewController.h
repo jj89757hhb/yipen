@@ -13,5 +13,5 @@ typedef void(^SelectBlock)(id sender);
     UITableView *myTable;
 }
 @property(nonatomic,copy)SelectBlock selectBlock;
-@property(nonatomic,assign)NSInteger enterType;//选择的入口  1 是 发布盆缘
+@property(nonatomic,assign)NSInteger enterType;//选择的入口  1 是 发布盆缘 2 发布其他 
 @end

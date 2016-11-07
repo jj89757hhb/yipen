@@ -20,4 +20,12 @@
     // Configure the view for the selected state
 }
 
+
+-(void)layoutSubviews{
+    self.y1_width.constant=0.5;
+    self.y2_width.constant=0.5;
+    self.y3_width.constant=0.5;
+    self.y_height.constant=0.5;
+}
+
 @end

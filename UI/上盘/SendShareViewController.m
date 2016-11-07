@@ -75,7 +75,14 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
          self.IsMailed=@"1";
     }
     
+    [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"返回"] withBlock:^(id sender) {
+        [weakSelf backAction];
+    }];
+    
+}
 
+-(void)backAction{
+    [self.navigationController popViewControllerAnimated:YES];
     
 }
 
@@ -201,6 +208,7 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
                                      if (imageIndex>=_imgList.count) {
                                           [SVProgressHUD showSuccessWithStatus:@"发布成功"];
                                          [self.navigationController popViewControllerAnimated:YES];
+                                          [NotificationCenter postNotificationName:@"DismissSendView" object:nil];
                                      }
                           
                                  }
@@ -346,6 +354,8 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
                     [cell.price1L setBackgroundColor:[UIColor grayColor]];
                     [cell.price2L setTextColor:BLACKCOLOR];
                     [cell.price2L setBackgroundColor:Clear_Color];
+                    cell.price2L.layer.borderColor=[UIColor grayColor].CGColor;
+                    cell.price2L.layer.borderWidth=0.5;
                     [cell.rmb1L setHidden:YES];
                     [cell.treePriceTF setHidden:YES];
                     cell.treePriceTF.delegate=self;
@@ -367,6 +377,8 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
                     [cell.expressType1L setBackgroundColor:[UIColor grayColor]];
                     [cell.expressType2L setTextColor:BLACKCOLOR];
                     [cell.expressType2L setBackgroundColor:Clear_Color];
+                    cell.expressType2L.layer.borderColor=[UIColor grayColor].CGColor;
+                    cell.expressType2L.layer.borderWidth=0.5;
                     [cell.rmb2L setHidden:YES];
                     [cell.expressTF setHidden:YES];
                     [cell.expressTF resignFirstResponder];
@@ -405,6 +417,8 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
                 [cell setClick2Block:^(id sender){
                     [cell.sellExpressL setTextColor:BLACKCOLOR];
                     [cell.sellExpressL setBackgroundColor:Clear_Color];
+                    cell.sellExpressL.layer.borderColor=[UIColor grayColor].CGColor;
+                    cell.sellExpressL.layer.borderWidth=0.5;
                     [cell.buyExpressL setTextColor:WHITEColor];
                     [cell.buyExpressL setBackgroundColor:[UIColor grayColor]];
                     [cell.expressTF setHidden:NO];
@@ -527,6 +541,7 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section==1) {
         SelectTagViewController *ctr=[[SelectTagViewController alloc] init];
+        ctr.enterType=2;
         [ctr setSelectBlock:^(id sender){
             self.sortDic=sender;
             for (NSString *key in _sortDic.allKeys) {//值
@@ -622,6 +637,7 @@ static NSString *identifer3=@"SendTreePictureTableViewCell3";
 
 
 -(void)tapAction{
+    [self.view endEditing:YES];
     WS(weakSelf)
     UIActionSheet *actionSheet=[UIActionSheet bk_actionSheetWithTitle:@"选择照片"];
     [actionSheet bk_addButtonWithTitle:NSLocalizedString(@"相册", nil) handler:^{

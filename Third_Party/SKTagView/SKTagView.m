@@ -266,18 +266,49 @@
     {
         self.didClickTagAtIndex([self.subviews indexOfObject:btn]);
     }
+
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadSearchTable" object:nil];
     //改变选中的状态
     btn.layer.cornerRadius=5;
     btn.clipsToBounds=YES;
-//    btn.layer.borderColor=DEEPORANGECOLOR.CGColor;
     btn.backgroundColor=BLUECOLOR;
     [btn setTitleColor:WHITEColor forState:UIControlStateNormal];
     btn.layer.borderWidth=1;
     UIButton *_btn=btn;
+//    //其他默认颜色
+//    for (UIView *temp in self.superview.superview.subviews) {
+//        if ([NSStringFromClass([temp class]) isEqualToString:@"UITableViewCellContentView"]) {
+//            NSLog(@"UITableViewCellContentView");
+//            for (UIView *temp2 in temp.subviews) {
+//                if ([temp2 isKindOfClass:[SKTagView class]]) {
+//                    for (UIButton *btn in temp2.subviews) {
+//                        if ([btn isKindOfClass:[SKTagButton class]]) {
+//                            if ([btn isEqual:_btn]) {//当前的
+//                                continue;
+//                            }
+//                            btn.layer.cornerRadius=5;
+//                            btn.clipsToBounds=YES;
+//                            btn.layer.borderColor=[UIColor grayColor].CGColor;
+//                            btn.layer.borderWidth=1;
+//                            [btn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+//                            btn.backgroundColor=WHITEColor;
+//                        }
+//                    }
+//                }
+//                
+//            }
+// 
+//
+//          
+//        }
+//        }
+//    [self setNeedsDisplay];
+//        NSLog(@"self.superview.superview:%@",[self.superview.superview.superview description]);
+        //     for (UIView *btn in self.superview.superview.superview.subviews) {
+    
     //其他按钮的颜色还是默认的
     for (UIButton *btn in self.subviews) {
-    NSLog(@"self.superview.superview:%@",[self.superview.superview.superview description]);
+//    NSLog(@"self.superview.superview:%@",[self.superview.superview.superview description]);
 //     for (UIView *btn in self.superview.superview.superview.subviews) {
         if ([btn isKindOfClass:[SKTagButton class]]) {
             if ([btn isEqual:_btn]) {//当前的
@@ -291,6 +322,11 @@
             btn.backgroundColor=WHITEColor;
         }
     }
+    if (_section!=  [DataSource sharedDataSource].lastSection) {//还原之前选中的状态
+           [NotificationCenter postNotificationName:@"reloadTableAtIndex" object:[NSNumber numberWithInteger:_section]];
+    }
+ 
+    [DataSource sharedDataSource].lastSection=_section;
 }
 
 #pragma mark - Public methods

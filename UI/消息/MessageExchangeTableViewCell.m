@@ -102,7 +102,8 @@
     _treeIV.contentMode=UIViewContentModeScaleAspectFill;
 //       [_priceL setHidden:YES];
     
-  
+    _replyL.textColor=DEEPBLACK;
+    _originPriceL.textColor=LIGHTBLACK;
     
     
 }
@@ -140,6 +141,12 @@
     if ([_info.BuyUser.ID isEqualToString:[DataSource  sharedDataSource].userInfo.ID]) {
        
         [_headIV sd_setImageWithURL:[NSURL URLWithString:info.SaleUser.UserHeader] placeholderImage:Default_Image];
+        if ([_info.SaleUser.RoleType isEqualToString:@"1"]||[_info.SaleUser.RoleType isEqualToString:@"2"]) {
+            
+        }
+        else{//未开通
+            [_memberIV setHidden:YES];
+        }
         _nameL.text=info.SaleUser.NickName;
         [_buyBtn setHidden:NO];
         [_aggreeBtn setHidden:YES];
@@ -158,7 +165,15 @@
                 //             _replyL.text=@"对宝贝进行了议价";
                 [_replyL setHidden:YES];
                 [_negotiatedBtn setHidden:NO];
-                _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@",_info.Bonsai.Price,_info.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@",_info.Bonsai.Price,_info.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@",_info.Bonsai.Price,_info.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 [_orderBtn setHidden:YES];
                 [_aggreeBtn setHidden:YES];
                 [_refuseBtn setHidden:YES];
@@ -172,7 +187,15 @@
                 [_replyL setHidden:YES];
                 //            [_replyL setHidden:YES];
                 [_negotiatedBtn setHidden:NO];
-                _originPriceL.text=[NSString stringWithFormat:@"原价：不明价"];
+//                _originPriceL.text=[NSString stringWithFormat:@"原价：不明价"];
+                NSString *str1=@"原价：不明价";
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-3,3)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-3, 3)];
+                _originPriceL.attributedText = AttributedStr;
                 [_orderBtn setHidden:YES];
                 [_aggreeBtn setHidden:YES];
                 [_refuseBtn setHidden:YES];
@@ -198,7 +221,15 @@
                 [_replyPriceBtn setTitle:@"议价" forState:UIControlStateNormal];
                 [_negotiatedBtn setHidden:YES];
                 [_buyBtn setHidden:YES];
-                _originPriceL.text=[NSString stringWithFormat:@"报价：¥%@",_info.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价：¥%@",_info.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价：¥%@",_info.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
             }
             else if([_info.Phase integerValue]==3&&![_info.Bonsai.IsMarksPrice boolValue]){//不明价 买家已议价,等待卖家答复
                 _replyL.text=@"对宝贝进行了议价";
@@ -221,7 +252,15 @@
                     price1=_info.BDetails[1];
                     price2 =_info.BDetails[2];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"报价：¥%@>议价：¥%@",price1.NAmount,price2.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价：¥%@>议价：¥%@",price1.NAmount,price2.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价：¥%@>议价：¥%@",price1.NAmount,price2.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 [_negotiatedBtn setTitle:@"已议价" forState:UIControlStateNormal];
                 
                 
@@ -241,8 +280,15 @@
                     price1=_info.BDetails[0];
                     price2 =_info.BDetails[1];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@>回价：¥%@",_info.Bonsai.Price,price1.NAmount,price2.NAmount];
-                //            [_priceL setHidden:YES];
+//                _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@>回价：¥%@",_info.Bonsai.Price,price1.NAmount,price2.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@>回价：¥%@",_info.Bonsai.Price,price1.NAmount,price2.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
               
                 
                 
@@ -263,7 +309,15 @@
                     price2 =_info.BDetails[2];
                     price3 =_info.BDetails[3];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@>回价：¥%@",price1.NAmount,price2.NAmount,price3.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@>回价：¥%@",price1.NAmount,price2.NAmount,price3.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@>回价：¥%@",price1.NAmount,price2.NAmount,price3.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price3.NAmount.length-1, price3.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price3.NAmount.length-1, price3.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 
                 
             }
@@ -282,7 +336,15 @@
                     price1=_info.BDetails[0];
                     price2 =_info.BDetails[1];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"原价:¥%@ >议价:¥%@",_info.Bonsai.Price,price1.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"原价:¥%@ >议价:¥%@",_info.Bonsai.Price,price1.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"原价:¥%@ >议价:¥%@",_info.Bonsai.Price,price1.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price1.NAmount.length-1, price1.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price1.NAmount.length-1, price1.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
             }
             else if ([_info.Phase integerValue]==3&&[_info.Bonsai.IsMarksPrice boolValue]) {
                 [_orderBtn setHidden:YES];
@@ -298,7 +360,15 @@
                     price1=_info.BDetails[0];
                     price2 =_info.BDetails[1];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",_info.Bonsai.Price,price1.NAmount,price2.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",_info.Bonsai.Price,price1.NAmount,price2.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",_info.Bonsai.Price,price1.NAmount,price2.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
             }
             else if([_info.Phase integerValue]==5&&
                ![_info.Bonsai.IsMarksPrice boolValue]){//
@@ -318,7 +388,15 @@
                     price3  =_info.BDetails[3];
                 }
                 
-                   _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",price1.NAmount,price2.NAmount,price3.NAmount];
+//                   _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",price1.NAmount,price2.NAmount,price3.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",price1.NAmount,price2.NAmount,price3.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price3.NAmount.length-1, price3.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price3.NAmount.length-1, price3.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 [_originPriceL setHidden:NO];
                 
             }
@@ -331,7 +409,15 @@
                 [_negotiatedBtn setUserInteractionEnabled:NO];
                 [_negotiatedBtn setHidden:NO];
                 [_negotiatedFailBtn setHidden:YES];
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@",_info.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@",_info.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@",_info.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 [_originPriceL setHidden:NO];
                 
             }
@@ -343,7 +429,15 @@
                     price1=_info.BDetails[1];
                     price2 =_info.BDetails[2];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
             }
             
             
@@ -362,7 +456,15 @@
                 if (_info.BDetails.count>=2) {
                     price1=_info.BDetails[0];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",_info.Bonsai.Price ,price1.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",_info.Bonsai.Price ,price1.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",_info.Bonsai.Price ,price1.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price1.NAmount.length-1, price1.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price1.NAmount.length-1, price1.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
             }
           
             if ([_info.Phase integerValue]==3&&
@@ -370,7 +472,15 @@
                 [_orderBtn setHidden:YES];
                 _replyL.text=@"对宝贝进行了报价";
 
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@",_info.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@",_info.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@",_info.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 [_originPriceL setHidden:NO];
             }
             if ([_info.Phase integerValue]==4&&
@@ -382,7 +492,15 @@
                     price2 =_info.BDetails[2];
                 }
                 
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 [_orderBtn setHidden:YES];
                 _replyL.text=@"对宝贝进行了报价";
         
@@ -408,7 +526,15 @@
                 price2 =_info.BDetails[2];
             }
             if ([_info.Phase integerValue]==3) {
-                  _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@ >议价：¥%@",_info.Bonsai.Price,price1.NAmount];
+//                  _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@ >议价：¥%@",_info.Bonsai.Price,price1.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"原价：¥%@ >议价：¥%@",_info.Bonsai.Price,price1.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price1.NAmount.length-1, price1.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price1.NAmount.length-1, price1.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
             }
 //            _priceL.text=[NSString stringWithFormat:@"议价：¥%@",_info.NAmount];
         }
@@ -422,7 +548,15 @@
             [_negotiatedBtn setHidden:NO];
             [_negotiatedBtn setTitle:@"已购买" forState:UIControlStateNormal];
             [_buyBtn setHidden:YES];
-            _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>总价：¥%@",_info.Bonsai.Price,_info.NAmount];
+//            _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>总价：¥%@",_info.Bonsai.Price,_info.NAmount];
+            NSString *str1=[NSString stringWithFormat:@"原价：¥%@>总价：¥%@",_info.Bonsai.Price,_info.NAmount];
+            NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+            [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                  range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+            [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                  value:Yellow_Color
+                                  range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+            _originPriceL.attributedText = AttributedStr;
             
             
         }
@@ -431,6 +565,12 @@
     else{//我是卖方
       
         [_headIV sd_setImageWithURL:[NSURL URLWithString:info.BuyUser.UserHeader] placeholderImage:Default_Image];
+        if ([_info.BuyUser.RoleType isEqualToString:@"1"]||[_info.BuyUser.RoleType isEqualToString:@"2"]) {
+            
+        }
+        else{//未开通
+            [_memberIV setHidden:YES];
+        }
         _nameL.text=info.BuyUser.NickName;
         [_buyBtn setHidden:YES];
         [_offerPriceBtn setHidden:YES];
@@ -446,7 +586,16 @@
                 [_replyL setHidden:NO];
 //                [_replyL setHidden:YES];
                 [_negotiatedBtn setHidden:NO];
-                _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@",_info.Bonsai.Price,_info.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@",_info.Bonsai.Price,_info.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                                                                                            range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
+
+//                _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@",_info.Bonsai.Price,_info.NAmount];
                 [_negotiatedBtn setHidden:YES];
                 [_aggreeBtn setHidden:NO];
                 [_refuseBtn setHidden:NO];
@@ -496,7 +645,16 @@
                     price2 =_info.BDetails[2];
                 }
                 [_originPriceL setHidden:NO];
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+                
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 
             }
             
@@ -517,7 +675,16 @@
                     price2 =_info.BDetails[2];
                     price3 =_info.BDetails[3];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",price1.NAmount,price2.NAmount,price3.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",price1.NAmount,price2.NAmount,price3.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",price1.NAmount,price2.NAmount,price3.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price3.NAmount.length-1, price3.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price3.NAmount.length-1, price3.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
+                
                 [_originPriceL setHidden:NO];
                 [_negotiatedBtn setTitle:@"已回价" forState:UIControlStateNormal];
                 
@@ -535,7 +702,15 @@
                   price1=_info.BDetails[0];
                   price2 =_info.BDetails[1];
               }
-               _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@>回价：¥%@",_info.Bonsai.Price,price1.NAmount,price2.NAmount];
+//               _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@>回价：¥%@",_info.Bonsai.Price,price1.NAmount,price2.NAmount];
+              NSString *str1=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@>回价：¥%@",_info.Bonsai.Price,price1.NAmount,price2.NAmount];
+              NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+              [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                    range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+              [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                    value:Yellow_Color
+                                    range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+              _originPriceL.attributedText = AttributedStr;
                 [_aggreeBtn setHidden:YES];
                 [_refuseBtn setHidden:YES];
                 [_replyPriceBtn setHidden:YES];
@@ -560,7 +735,15 @@
                     price1=_info.BDetails[0];
                     price2 =_info.BDetails[1];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@",_info.Bonsai.Price,price1.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@",_info.Bonsai.Price,price1.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"原价：¥%@>议价：¥%@",_info.Bonsai.Price,price1.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price1.NAmount.length-1, price1.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price1.NAmount.length-1, price1.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 [_negotiatedBtn setHidden:NO];
                 [_negotiatedBtn setTitle:@"已拒绝" forState:UIControlStateNormal];
                 [_aggreeBtn setHidden:YES];
@@ -585,7 +768,15 @@
                     price1=_info.BDetails[0];
                     price2 =_info.BDetails[1];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",_info.Bonsai.Price,price1.NAmount,price2.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",_info.Bonsai.Price,price1.NAmount,price2.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",_info.Bonsai.Price,price1.NAmount,price2.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 [_originPriceL setHidden:NO];
                 
             }
@@ -605,7 +796,15 @@
                     price1=_info.BDetails[1];
                     price2 =_info.BDetails[2];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price2.NAmount.length-1, price2.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 [_originPriceL setHidden:NO];
                 
             }
@@ -622,7 +821,15 @@
                     price2 =_info.BDetails[2];
                     price3 =_info.BDetails[3];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",price1.NAmount,price2.NAmount,price3.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",price1.NAmount,price2.NAmount,price3.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@ >回价:¥%@",price1.NAmount,price2.NAmount,price3.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price3.NAmount.length-1, price3.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price3.NAmount.length-1, price3.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 [_originPriceL setHidden:NO];
                 [_aggreeBtn setHidden:YES];
                 [_refuseBtn setHidden:YES];
@@ -645,13 +852,29 @@
                 if (_info.BDetails.count>=2) {
                     price1=_info.BDetails[0];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",_info.Bonsai.Price ,price1.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",_info.Bonsai.Price ,price1.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",_info.Bonsai.Price ,price1.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-price1.NAmount.length-1, price1.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-price1.NAmount.length-1, price1.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 
             }
             if(![_info.Bonsai.IsMarksPrice boolValue]&&[_info.Phase integerValue]==3){//不明价 买家已接受报价
              
                 _replyL.text=@"接受了对宝贝的报价";
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@",_info.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@",_info.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@",_info.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 
             }
             
@@ -664,7 +887,15 @@
                     price1=_info.BDetails[1];
                     price2 =_info.BDetails[2];
                 }
-                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+//                _originPriceL.text=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+                NSString *str1=[NSString stringWithFormat:@"报价:¥%@ >议价:¥%@",price1.NAmount,price2.NAmount];
+                NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str1];
+                [AttributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0]
+                                      range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                      value:Yellow_Color
+                                      range:NSMakeRange(str1.length-_info.NAmount.length-1, _info.NAmount.length+1)];
+                _originPriceL.attributedText = AttributedStr;
                 
             }
             
@@ -683,7 +914,7 @@
 
         }
     }
-    
+  
    
 }
 

@@ -36,7 +36,7 @@ static AppPurchase *_sharedAppPurchase = nil;
             _sharedAppPurchase = [[self alloc] init];
            [[SKPaymentQueue defaultQueue] addTransactionObserver:_sharedAppPurchase];
         }
-//        [_sharedAppPurchase requestProducts];
+        [_sharedAppPurchase requestProducts];
         return _sharedAppPurchase;
     }
     // to avoid compiler warning
@@ -61,7 +61,13 @@ static AppPurchase *_sharedAppPurchase = nil;
     
     if (response.products.count != 0) {
         _products = response.products;
-        self.product=_products[0];
+        if (_memberType==KVerify_Business) {
+              self.product=_products[0];
+        }
+        else{
+              self.product=_products[1];
+        }
+      
         NSLog(@"11:%@",_product.localizedTitle);
            NSLog(@"22:%@",_product.localizedDescription);
         
@@ -154,19 +160,22 @@ static AppPurchase *_sharedAppPurchase = nil;
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                                if (connectionError) {
                                    NSLog(@"链接失败");
-                                   [SVProgressHUD showWithStatus:ErrorMessage];;
+                                   [SVProgressHUD showInfoWithStatus:ErrorMessage];;
                               
                                } else {
                                    NSError *error;
                                    NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+                                   NSLog(@"苹果支付返回:%@",jsonResponse);
                                    if (!jsonResponse) {
                                        NSLog(@"验证失败");
-                                          [SVProgressHUD showWithStatus:@"验证失败，请重试"];
+                                          [SVProgressHUD showInfoWithStatus:@"验证失败，请重试"];
                                    }
                                    else{
                                        [self removePayRecepit];
                                        NSLog(@"验证成功");
-                                       [SVProgressHUD showWithStatus:@"购买成功"];
+//                                       [SVProgressHUD showInfoWithStatus:@"购买成功"];
+                                       //发送通知 提交服务器
+                                       [NotificationCenter postNotificationName:@"paySecond" object:nil];
                                    }
                                    
                                    // 比对 jsonResponse 中以下信息基本上可以保证数据安全

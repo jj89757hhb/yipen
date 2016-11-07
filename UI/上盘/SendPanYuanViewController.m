@@ -35,6 +35,15 @@
     [self setNavigationBarRightItem:@"完成" itemImg:nil withBlock:^(id sender) {
         [weakSelf sendAction];
     }];
+
+    [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"返回"] withBlock:^(id sender) {
+        [weakSelf backAction];
+    }];
+}
+
+-(void)backAction{
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 -(void)sendAction{

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ManagerWithdrawViewController">
@@ -19,58 +20,77 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="微信支付账号" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G1G-zE-BzY">
-                    <rect key="frame" x="14" y="16" width="112" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信支付账号" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G1G-zE-BzY">
+                    <constraints>
+                        <constraint firstAttribute="width" constant="112" id="HOw-7K-dqK"/>
+                        <constraint firstAttribute="height" constant="21" id="R06-Yh-Odk"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GP1-1W-o6H">
-                    <rect key="frame" x="15" y="50" width="291" height="1"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GP1-1W-o6H">
+                    <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="gim-CH-HJO"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="支付宝支付账号" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHx-QI-MFy">
-                    <rect key="frame" x="14" y="67" width="112" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="支付宝支付账号" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHx-QI-MFy">
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="CNv-kM-gs2"/>
+                        <constraint firstAttribute="width" constant="131" id="piw-QS-QZp"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Rl-RB-3vw">
-                    <rect key="frame" x="242" y="63" width="64" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Rl-RB-3vw">
                     <constraints>
                         <constraint firstAttribute="width" constant="64" id="0cv-P5-1Xj"/>
                         <constraint firstAttribute="height" constant="30" id="6Hn-N1-rQx"/>
                     </constraints>
                     <state key="normal" title="授权">
-                        <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I3A-IG-21K">
-                    <rect key="frame" x="15" y="98" width="291" height="1"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I3A-IG-21K">
+                    <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="cMg-a5-JuA"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uif-o3-nas">
-                    <rect key="frame" x="242" y="12" width="64" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uif-o3-nas">
+                    <constraints>
+                        <constraint firstAttribute="width" constant="64" id="CHH-2v-6JW"/>
+                        <constraint firstAttribute="height" constant="30" id="juF-n1-zk1"/>
+                    </constraints>
                     <state key="normal" title="授权">
-                        <color key="titleColor" red="1" green="0.20162133669999999" blue="0.22031074889999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="1" green="0.20162133669999999" blue="0.22031074889999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="1Rl-RB-3vw" firstAttribute="top" secondItem="GP1-1W-o6H" secondAttribute="bottom" constant="12" id="2wD-SW-eXv"/>
+                <constraint firstItem="JHx-QI-MFy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="14" id="8hZ-aK-7ty"/>
                 <constraint firstItem="GP1-1W-o6H" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="JbN-U1-R1I"/>
+                <constraint firstItem="GP1-1W-o6H" firstAttribute="top" secondItem="Uif-o3-nas" secondAttribute="bottom" constant="8" id="KZc-rr-utT"/>
                 <constraint firstItem="I3A-IG-21K" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="OBV-3d-aGY"/>
+                <constraint firstItem="JHx-QI-MFy" firstAttribute="top" secondItem="GP1-1W-o6H" secondAttribute="bottom" constant="16" id="SKu-Gs-yEp"/>
+                <constraint firstItem="G1G-zE-BzY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="16" id="Sov-1b-kde"/>
+                <constraint firstItem="Uif-o3-nas" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="12" id="ZRV-ec-kYQ"/>
+                <constraint firstItem="G1G-zE-BzY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="14" id="b1z-mg-Ww1"/>
                 <constraint firstAttribute="trailing" secondItem="GP1-1W-o6H" secondAttribute="trailing" constant="14" id="d83-qI-s2T"/>
                 <constraint firstAttribute="trailing" secondItem="Uif-o3-nas" secondAttribute="trailing" constant="14" id="ggR-HQ-tIG"/>
                 <constraint firstAttribute="trailing" secondItem="I3A-IG-21K" secondAttribute="trailing" constant="14" id="mkj-vL-czr"/>
                 <constraint firstAttribute="trailing" secondItem="1Rl-RB-3vw" secondAttribute="trailing" constant="14" id="pG8-sD-NXd"/>
+                <constraint firstItem="I3A-IG-21K" firstAttribute="top" secondItem="1Rl-RB-3vw" secondAttribute="bottom" constant="5" id="qjL-Hu-juj"/>
             </constraints>
             <point key="canvasLocation" x="186" y="198"/>
         </view>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
+    </simulatedMetricsContainer>
 </document>

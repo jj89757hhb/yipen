@@ -12,4 +12,6 @@
     NSInteger currentPage;
 }
 - (instancetype)initSlideSwitchView:(SlideSwitchView *)slideSwitchView;
+-(void)requestDataIsRefresh:(BOOL)isRefresh;
+@property(nonatomic,strong)NSMutableDictionary *selectSort;
 @end

@@ -18,6 +18,7 @@
 #import "SellerOrderDetailViewController.h"
 #import "OrderDetailViewController.h"
 #import "BDetail.h"
+
 @interface MessageExchangeViewController ()<UITableViewDelegate,UITableViewDataSource>{
     NSInteger currentPage;
     
@@ -34,6 +35,7 @@ static NSInteger pageSize = 10;
     currentPage=1;
     [self initTable];
     [self requestDataIsRefresh:YES];
+    
 }
 
 -(void)initTable{
@@ -152,10 +154,12 @@ static NSInteger pageSize = 10;
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    FenXiangDetailViewController *ctr=[[FenXiangDetailViewController alloc] init];
-//    ExchangeInfo *info=_list[indexPath.row];
-//    ctr.info=info.Bonsai;
-//    [self.navigationController pushViewController:ctr animated:YES];
+    FenXiangDetailViewController *ctr=[[FenXiangDetailViewController alloc] init];
+    ExchangeInfo *info=_list[indexPath.row];
+    info.Bonsai.userInfo=info.SaleUser;
+    ctr.info=info.Bonsai;
+    [self hideTabBar:YES animated:NO];
+    [self.navigationController pushViewController:ctr animated:YES];
 }
 
 //买方议价 或 卖方回价

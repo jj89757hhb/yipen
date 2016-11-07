@@ -48,6 +48,10 @@
     }
 }
 
+-(void)layoutSubviews{
+    self.x_height.constant=0.5;
+    self.y_width.constant=0.5;
+}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

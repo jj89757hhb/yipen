@@ -33,12 +33,13 @@
 +(void)GetMyAuction:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetMyPurchase:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)Focus:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
-
++(void)CancelFocus:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)Comments:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 
 +(void)Collection:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)DelCollect:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)Praised:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)CancelPraised:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)getCodeOfPayPsw:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)MemberCertifiPicture:(id)parameter pic1:(NSData*)pic1 pic2:(NSData*)pic2 pic3:(NSData*)pic3 count:(int)count WithBlock:(void (^)(id response, NSError *error))block;
 +(void)MemberCertifiInfo:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
@@ -89,4 +90,12 @@
 +(void)PutCourier:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)DelMyShare:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)PayPwdAuthe:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)IsApplePay:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)PayPerMember:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)PayBusinessMember:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)MemberPaySuccess:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)ChangePwd:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)BindMobile:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)SetPwd:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)SetWDAccount:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 @end

@@ -31,5 +31,7 @@ typedef void(^Click4Block)(id sender);
 @property (nonatomic,copy) Click2Block click2Block;
 @property (nonatomic,copy) Click3Block click3Block;
 @property (nonatomic,copy) Click4Block click4Block;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *y_width;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *x_height;
 
 @end

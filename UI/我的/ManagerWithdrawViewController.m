@@ -41,6 +41,17 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if ([DataSource sharedDataSource].userInfo.WeChatName.length) {
+        [self.authorBtn setTitle:@"已授权" forState:UIControlStateNormal];
+        [_authorBtn setUserInteractionEnabled:NO];
+    }
+    if ([DataSource sharedDataSource].userInfo.AliAccount.length) {
+        [self.author2Btn setTitle:@"已授权" forState:UIControlStateNormal];
+        [_author2Btn setUserInteractionEnabled:NO];
+    }
+}
 -(void)backAction{
     [self.navigationController popViewControllerAnimated:YES];
     

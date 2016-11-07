@@ -15,5 +15,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *fundTF;
 @property (weak, nonatomic) IBOutlet UIButton *subBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowIV;
+@property (weak, nonatomic) IBOutlet UILabel *yueL;
 
 @end

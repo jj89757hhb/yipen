@@ -11,6 +11,7 @@
 @implementation ExpertTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     self.attentionBtn.clipsToBounds=YES;
     self.attentionBtn.layer.cornerRadius=3;
@@ -31,16 +32,26 @@
     [_headIV sd_setImageWithURL:[NSURL URLWithString:info.UserHeader] placeholderImage:Default_Image];
     _nickNameL.text=info.NickName;
    
-    if ([info.IsFocus boolValue]) {
-        [_attentionBtn setTitle:@"已关注" forState:UIControlStateNormal];
-        [_attentionBtn setUserInteractionEnabled:NO];
+//    if ([info.IsFocus boolValue]) {
+//        [_attentionBtn setTitle:@"已关注" forState:UIControlStateNormal];
+//        [_attentionBtn setUserInteractionEnabled:NO];
+//        
+//    }
+//    else{
+//        [_attentionBtn setTitle:@"+关注" forState:UIControlStateNormal];
+//        [_attentionBtn setUserInteractionEnabled:YES];
+//    }
+    [_levelIV setImage:[UIImage imageNamed:[NSString stringWithFormat:@"lv%@",info.Levels]]];
+    
+    if ([_info.RoleType isEqualToString:@"1"]||[_info.RoleType isEqualToString:@"2"]) {
         
     }
-    else{
-        [_attentionBtn setTitle:@"+关注" forState:UIControlStateNormal];
-        [_attentionBtn setUserInteractionEnabled:YES];
+    else{//未开通
+        [_memberIV setHidden:YES];
     }
-    [_levelIV setImage:[UIImage imageNamed:[NSString stringWithFormat:@"lv%@",info.Levels]]];
+    if (![_info.IsCertifi boolValue]) {
+        [_authIV setHidden:YES];
+    }
     
 }
 
@@ -58,6 +69,14 @@
 -(void)attentionAction{
     if (_attentionBlock) {
         _attentionBlock(_index);
+    }
+    if ([_attentionBtn.titleLabel.text isEqualToString:@"请 教"]) {
+        [_attentionBtn setTitle:@"已请教" forState:UIControlStateNormal];
+        [_attentionBtn setBackgroundColor:[UIColor colorWithRed:80/255 green:147/255 blue:21/255 alpha:1]];
+    }
+    else{
+        [_attentionBtn setTitle:@"请 教" forState:UIControlStateNormal];
+          [_attentionBtn setBackgroundColor:[UIColor lightGrayColor]];
     }
     
 }

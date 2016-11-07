@@ -28,5 +28,9 @@ typedef void(^ClickEndTimeBlock)(id sender);//结束时间
 @property (nonatomic,copy) Click2Block click2Block;
 @property (nonatomic,copy) ClickStartTimeBlock startTimeBlock;
 @property (nonatomic,copy) ClickEndTimeBlock endTimeBlock;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *v_line_width;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *x_line_height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *y_line2_width;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *x_line2_Height;
 
 @end

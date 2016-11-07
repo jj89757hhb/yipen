@@ -94,6 +94,10 @@ static NSInteger PageSize=50;
     [cell setInfo:_list[indexPath.row]];
     return cell;
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [myTable deselectRowAtIndexPath:indexPath animated:NO];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

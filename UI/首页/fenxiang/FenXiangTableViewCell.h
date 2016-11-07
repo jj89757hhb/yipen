@@ -11,6 +11,7 @@
 #import "BottomToolView.h"
 #import "PenJinInfo.h"
 static float comment_FontSize=14;
+static float content_FontSize=16;//内容描述
 typedef void(^ClickBlock)(id sender);
 typedef void(^PraiseBlock)(id sender);
 typedef void(^CollectBlock)(id sender);

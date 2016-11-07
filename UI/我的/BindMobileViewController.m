@@ -11,6 +11,7 @@
 #import "MyWebViewViewController.h"
 @interface BindMobileViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *aggreL;
+@property(nonatomic,strong)NSString *vCode;
 
 @end
 
@@ -23,6 +24,7 @@
     [self.codeBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     self.codeBtn.layer.borderWidth=1;
     self.codeBtn.layer.borderColor=[UIColor grayColor].CGColor;
+    [self.codeBtn addTarget:self action:@selector(getCodeAction) forControlEvents:UIControlEventTouchUpInside];
     
     self.nextBtn.layer.cornerRadius=5;
     self.nextBtn.clipsToBounds=YES;
@@ -48,31 +50,33 @@
         [SVProgressHUD showErrorWithStatus:@"请输入手机号"];
         return;
     }
-//    [SVProgressHUD show];
-//    [self timerAction];
-//    NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:_mobileTF.text,@"Mobile", nil];
-//    [HttpConnection registerUserOfGetCodeWithDic:dic WithBlock:^(id response, NSError *error) {
-//        //        [SVProgressHUD dismiss];
-//        if (!error) {
-//            
-//            NSString *ok=response[@"ok"];
-//            NSString *vcode=response[@"vcode"];
-//            if ([ok isEqualToString:@"TRUE"]) {
-//                NSLog(@"验证码:%@",vcode);
-//                [SVProgressHUD showSuccessWithStatus:@"验证码已发送到您手机，请注意查收"];
-//            }
-//            else{
-//                //                [SVProgressHUD showErrorWithStatus:response[@"reason"]];
-//                [SVProgressHUD showInfoWithStatus:response[@"reason"]];
-//                [self invalidateTimer];
-//            }
-//        }
-//        else{
-//            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-//            [self invalidateTimer];
-//        }
-//        
-//    }];
+
+    [self timerAction];
+    //    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"uid",_mobileTF.text,@"mobile", nil];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:_mobileTF.text,@"Mobile", nil];
+    [HttpConnection FindPwd:dic WithBlock:^(id response, NSError *error) {
+        if (error) {
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            [self invalidateTimer];
+        }
+        else{
+            
+            if ([[response objectForKey:@"ok"] boolValue]==YES) {
+                NSString *vcode=response[@"vcode"];
+                self.vCode=vcode;
+                [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"reason"]];
+                [SVProgressHUD dismiss];
+                
+                //                [self nextAction];
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                [self invalidateTimer];
+            }
+        }
+        
+    }];
+
     
     
 }
@@ -101,8 +105,41 @@
 }
 
 -(void)nextAction{
-    BindMobile2ViewController *ctr=[[BindMobile2ViewController alloc] initWithNibName:nil bundle:nil];
-    [self.navigationController pushViewController:ctr animated:YES];
+    if (![_codeTF.text isEqualToString:_vCode]) {
+        [SVProgressHUD showErrorWithStatus:@"验证码输入有误"];
+        return;
+    }
+    if (_mobileTF.text.length!=11) {
+        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号"];
+        return;
+    }
+    [self setNewPhone];
+}
+
+-(void)setNewPhone{
+        [SVProgressHUD show];
+        NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_mobileTF.text,@"Mobile", [DataSource sharedDataSource].userInfo.ID,@"Uid",nil];
+        WS(weakSelf)
+        [HttpConnection BindMobile:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD dismiss];
+//                    [SVProgressHUD showSuccessWithStatus:@"修改手机成功"];
+//                    [weakSelf setNewPsw];
+//                    [self.navigationController popToRootViewControllerAnimated:YES];
+                    BindMobile2ViewController *ctr=[[BindMobile2ViewController alloc] initWithNibName:nil bundle:nil];
+                    ctr.phoneNewNum=_mobileTF.text;
+                    [self.navigationController pushViewController:ctr animated:YES];
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
 }
 
 - (void)didReceiveMemoryWarning {

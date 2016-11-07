@@ -11,6 +11,7 @@
 @implementation PersonalHomeHeadTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     self.attentionBtn.layer.cornerRadius=3;
     self.attentionBtn.clipsToBounds=YES;

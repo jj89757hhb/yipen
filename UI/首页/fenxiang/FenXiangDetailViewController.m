@@ -75,6 +75,10 @@ static float BottomInputView_Height=50;
     [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"返回"] withBlock:^(id sender) {
         [weakSelf backAction];
     }];
+    if (self.isPopKeyBoard) {
+        //        [self commentAction:nil];
+        [self performSelector:@selector(commentAction:) withObject:nil afterDelay:0.8];
+    }
    
 }
 
@@ -97,6 +101,7 @@ static float BottomInputView_Height=50;
     else{
         [_bottomToolView.praiseBtn setImage:[UIImage imageNamed:@"看好(未点)"] forState:UIControlStateNormal];
     }
+   
 }
 
 -(void)queryOfferPriceList{
@@ -403,6 +408,7 @@ static float BottomInputView_Height=50;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section==0) {
         float comment_Height=0;
+        float content_Height=0;
         if (_info.Comment.count) {//计算评论高度
             for (int i=0; i<_info.Comment.count; i++) {
                 CommentInfo *comment=_info.Comment[i];
@@ -410,7 +416,10 @@ static float BottomInputView_Height=50;
             }
             
         }
-            return 400+50+comment_Height;
+        if (_info.Descript.length) {
+            content_Height+= [CommonFun sizeWithString:_info.Descript font:[UIFont systemFontOfSize:content_FontSize] size:CGSizeMake(SCREEN_WIDTH-15-10*2, MAXFLOAT)].height;
+        }
+            return 380+50+comment_Height+content_Height;
     }
      else if (indexPath.section==1){
          if ([_info.InfoType isEqualToString:@"3"]) {//拍卖
@@ -659,23 +668,45 @@ static float BottomInputView_Height=50;
 -(void)praisedAction:(PenJinInfo*)info{
     [SVProgressHUD show];
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type",info.userInfo.ID,@"buid", nil];
-    [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            if ([[response objectForKey:@"ok"] boolValue]) {
-                [SVProgressHUD showInfoWithStatus:@"已赞"];
-                 info.IsPraise=@"1";
-                [self reloadTableAtIndex];
-               
+    if (![info.IsPraise boolValue]) {
+        [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"看好"];
+                    info.IsPraise=@"1";
+                    [self reloadTableAtIndex];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
             }
             else{
-                 [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
             }
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
-        
-    }];
+            
+        }];
+    }
+    else{
+        [HttpConnection CancelPraised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"取消看好"];
+                    info.IsPraise=@"0";
+                    [self reloadTableAtIndex];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+  
 }
 
 

@@ -29,7 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIView *loginLine1;
 
 @property (weak, nonatomic) IBOutlet UIView *loginLine2;
-
+@property(nonatomic,strong) NSString *vCode;//验证码
 
 @end
 
@@ -135,6 +135,8 @@
                 NSLog(@"登录成功");
                 [SVProgressHUD dismiss];
                   [[NSNotificationCenter defaultCenter] postNotificationName:@"goHomeView"object:nil];
+                [NotificationCenter postNotificationName:@"QueryPersonalInfo" object:nil];
+                   
 //                [SVProgressHUD showSuccessWithStatus:@"验证码已发送到您手机，请注意查收"];
             }
             else{
@@ -199,9 +201,11 @@
     codeTF.delegate=self;
     password1=[[UITextField alloc] initWithFrame:CGRectMake(offY, CGRectGetMaxY(codeTF.frame), 220, textField_height)];
     password1.keyboardType=UIKeyboardTypeDefault;
+    password1.secureTextEntry=YES;
     password1.delegate=self;
     password1.placeholder=@"请输入登录密码";
     password2=[[UITextField alloc] initWithFrame:CGRectMake(offY, CGRectGetMaxY(password1.frame), 220, textField_height)];
+     password2.secureTextEntry=YES;
     password2.keyboardType=UIKeyboardTypeDefault;
     password2.delegate=self;
     password2.placeholder=@"请确认登录密码";
@@ -215,6 +219,9 @@
     [verifyBtn setTitleColor:Blue_selectColor forState:UIControlStateNormal];
     [registerBgView addSubview:verifyBtn];
     [verifyBtn addTarget:self action:@selector(getCodeAction) forControlEvents:UIControlEventTouchUpInside];
+    UIView *line=[[UIView alloc] initWithFrame:CGRectMake(verifyBtn.frame.origin.x-10, 0, 0.5, textField_height+offY)];
+    line.backgroundColor=Line_Color;
+
     
     float height=0.5;
     float width=SCREEN_WIDTH-20;
@@ -228,6 +235,7 @@
     [registerBgView addSubview:line1];
     [registerBgView addSubview:line2];
     [registerBgView addSubview:line3];
+    [registerBgView addSubview:line];
     
 //    registerBtn=[[UIButton alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(line3.frame)+10, registerBgView.frame.size.width-20*2, 30)];
     registerBtn=[[UIButton alloc] init];
@@ -279,50 +287,50 @@
     }
     [SVProgressHUD show];
     [self timerAction];
-//    NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:mobileTF.text,@"Mobile", nil];
-//    [HttpConnection registerUserOfGetCodeWithDic:dic WithBlock:^(id response, NSError *error) {
-////        [SVProgressHUD dismiss];
-//        if (!error) {
-//       
-//            NSString *ok=response[@"ok"];
-//            NSString *vcode=response[@"vcode"];
-//            if ([ok isEqualToString:@"TRUE"]) {
-//                NSLog(@"验证码:%@",vcode);
-////                self.vcode=vcode;
-//                [SVProgressHUD showSuccessWithStatus:@"验证码已发送到您手机，请注意查收"];
-//            }
-//            else{
-////                [SVProgressHUD showErrorWithStatus:response[@"reason"]];
-//                [SVProgressHUD showInfoWithStatus:response[@"reason"]];
-//                [self invalidateTimer];
-//            }
-//        }
-//        else{
-//                [SVProgressHUD showErrorWithStatus:ErrorMessage];
-//                [self invalidateTimer];
-//        }
-//        
-//    }];
+    NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:mobileTF.text,@"Mobile", nil];
+    [HttpConnection registerUserOfGetCodeWithDic:dic WithBlock:^(id response, NSError *error) {
+//        [SVProgressHUD dismiss];
+        if (!error) {
+       
+            NSString *ok=response[@"ok"];
+            NSString *vcode=response[@"vcode"];
+            if ([ok isEqualToString:@"TRUE"]) {
+                NSLog(@"验证码:%@",vcode);
+                self.vCode=vcode;
+                [SVProgressHUD showSuccessWithStatus:@"验证码已发送到您手机，请注意查收"];
+            }
+            else{
+//                [SVProgressHUD showErrorWithStatus:response[@"reason"]];
+                [SVProgressHUD showInfoWithStatus:response[@"reason"]];
+                [self invalidateTimer];
+            }
+        }
+        else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+                [self invalidateTimer];
+        }
+        
+    }];
     
 
     
-    [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS phoneNumber:mobileTF.text
-                                   zone:@"86"
-                       customIdentifier:nil
-                                 result:^(NSError *error){
-//
-       if (!error) {
-         NSLog(@"获取验证码成功");
-             [SVProgressHUD dismiss];
-           [SVProgressHUD showSuccessWithStatus:@"验证码已发送到您手机，请注意查收"];
-        }
-        else {
-         NSLog(@"错误信息：%@",error);
-            [self invalidateTimer];
-            [SVProgressHUD showInfoWithStatus:@"发送失败"];
-        }
-       }
-    ];
+//    [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS phoneNumber:mobileTF.text
+//                                   zone:@"86"
+//                       customIdentifier:nil
+//                                 result:^(NSError *error){
+////
+//       if (!error) {
+//         NSLog(@"获取验证码成功");
+//             [SVProgressHUD dismiss];
+//           [SVProgressHUD showSuccessWithStatus:@"验证码已发送到您手机，请注意查收"];
+//        }
+//        else {
+//         NSLog(@"错误信息：%@",error);
+//            [self invalidateTimer];
+//            [SVProgressHUD showInfoWithStatus:@"发送失败"];
+//        }
+//       }
+//    ];
     
     
 }
@@ -372,21 +380,26 @@
         [SVProgressHUD showErrorWithStatus:@"两次输入密码不一致"];
         return;
     }
+    if (![self.vCode isEqualToString:codeTF.text]) {
+        [SVProgressHUD showErrorWithStatus:@"验证码输入有误"];
+        return;
+    }
     [SVProgressHUD show];
-    WS(weakSelf)
-    [SMSSDK commitVerificationCode:codeTF.text phoneNumber:mobileTF.text zone:@"86" result:^(NSError *error) {
-   
-        if (!error) {
-            NSLog(@"验证成功");
-            [SVProgressHUD dismiss];
-            [weakSelf registerUser];
-        }
-        else
-        {
-            NSLog(@"错误信息:%@",error);
-            [SVProgressHUD showErrorWithStatus:@"验证码输入有误"];
-        }
-    }];
+    [self registerUser];
+//    WS(weakSelf)
+//    [SMSSDK commitVerificationCode:codeTF.text phoneNumber:mobileTF.text zone:@"86" result:^(NSError *error) {
+//   
+//        if (!error) {
+//            NSLog(@"验证成功");
+//            [SVProgressHUD dismiss];
+//            [weakSelf registerUser];
+//        }
+//        else
+//        {
+//            NSLog(@"错误信息:%@",error);
+//            [SVProgressHUD showErrorWithStatus:@"验证码输入有误"];
+//        }
+//    }];
     
     
  

@@ -22,11 +22,39 @@
     [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"返回"] withBlock:^(id sender) {
         [weakSelf backAction];
     }];
+    [_authorBtn addTarget:self action:@selector(authorAction) forControlEvents:UIControlEventTouchUpInside]; 
 }
 
 -(void)backAction{
     [self.navigationController popViewControllerAnimated:YES];
     
+}
+
+-(void)authorAction{
+    if (_nameTF.text.length==0) {
+        [SVProgressHUD showErrorWithStatus:@"请输入真实姓名"];
+        return;
+        
+    }
+    [SVProgressHUD show];
+    NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",@"2",@"Type",@"",@"Account",_nameTF.text,@"Name", nil];
+    [HttpConnection SetWDAccount:dic WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            if ([response[@"ok"] boolValue]) {
+                [SVProgressHUD dismiss];
+                [SVProgressHUD showSuccessWithStatus:@"已授权"];
+                [DataSource sharedDataSource].userInfo.WeChatName=_nameTF.text;
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:response[@"reason"]];
+            }
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:ErrorMessage];
+        }
+        
+    }];
 }
 
 

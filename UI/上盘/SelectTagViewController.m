@@ -44,7 +44,7 @@ static NSString *kTagsTableCellReuseIdentifier6=@"kTagsTableCellReuseIdentifier6
 static NSString *kTagsTableCellReuseIdentifier7=@"kTagsTableCellReuseIdentifier7";
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=@"选择标签";
+    [NotificationCenter addObserver:self selector:@selector(reloadTableAtIndex) name:@"reloadTableAtIndex" object:nil];
     self.names=[[NSMutableArray alloc] init];//废弃
     self.list1=[[NSMutableArray alloc] init];
     self.list2=[[NSMutableArray alloc] init];
@@ -55,11 +55,25 @@ static NSString *kTagsTableCellReuseIdentifier7=@"kTagsTableCellReuseIdentifier7
         self.list7=[[NSMutableArray alloc] init];
     [self initTable];
     WS(weakSelf)
+    if (self.enterType==0) {
+           self.title=@"搜索标签";
+        [self setNavigationBarRightItem:@"搜索" itemImg:nil withBlock:^(id sender) {
+            [weakSelf finishAction];
+        }];
+    }
+    else{
+           self.title=@"选择标签";
     [self setNavigationBarRightItem:@"完成" itemImg:nil withBlock:^(id sender) {
         [weakSelf finishAction];
+        
     }];
+    }
     [SVProgressHUD show];
     [self requestData];
+}
+
+-(void)reloadTableAtIndex{
+    [myTable reloadSections:[NSIndexSet indexSetWithIndex:[DataSource sharedDataSource].lastSection] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 -(void)initTable{
@@ -68,7 +82,7 @@ static NSString *kTagsTableCellReuseIdentifier7=@"kTagsTableCellReuseIdentifier7
     myTable.dataSource=self;
     [self.view addSubview:myTable];
     [myTable registerClass:[UITableViewCell class] forCellReuseIdentifier:kTagsTableCellReuseIdentifier1];
-    if (self.enterType==0) {
+    if (self.enterType==0||self.enterType==2) {
         [myTable registerClass:[UITableViewCell class] forCellReuseIdentifier:kTagsTableCellReuseIdentifier2];
         [myTable registerClass:[UITableViewCell class] forCellReuseIdentifier:kTagsTableCellReuseIdentifier3];
         [myTable registerClass:[UITableViewCell class] forCellReuseIdentifier:kTagsTableCellReuseIdentifier4];
@@ -143,7 +157,11 @@ static NSString *kTagsTableCellReuseIdentifier7=@"kTagsTableCellReuseIdentifier7
     if (_selectBlock) {
 //        _selectBlock(_selectSort1);
 //         _selectBlock(_selectSort4);
-        if (self.enterType==1) {//盆缘
+        if (self.enterType==0) {//搜索
+            NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_selectSort1?_selectSort1:@"",SenShu,_selectSort2?_selectSort2:@"",LeiBie,_selectSort3?_selectSort3:@"",ChanDi,_selectSort4?_selectSort4:@"",PinZhong,_selectSort5?_selectSort5:@"",ShuXin,_selectSort6?_selectSort6:@"",ChiCun, _selectSort7?_selectSort7:@"",QiTa,nil];
+            _selectBlock(dic);
+        }
+        else if (self.enterType==1) {//盆缘
              _selectBlock(_selectSort1);
         }
         else{
@@ -152,6 +170,7 @@ static NSString *kTagsTableCellReuseIdentifier7=@"kTagsTableCellReuseIdentifier7
         }
     }
     [self.navigationController popViewControllerAnimated:YES];
+    [DataSource sharedDataSource].lastSection=0;
 }
 
 
@@ -371,6 +390,7 @@ static NSString *kTagsTableCellReuseIdentifier7=@"kTagsTableCellReuseIdentifier7
   
     tagView = ({
         SKTagView *view = [SKTagView new];
+        view.section=type;
         //        view.backgroundColor = UIColor.whiteColor;
         view.backgroundColor=Clear_Color;
         //        view.padding    = UIEdgeInsetsMake(12, 12, 12, 12);

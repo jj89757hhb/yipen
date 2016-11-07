@@ -11,5 +11,5 @@
 @interface BindMobile2ViewController : BaseViewController
 @property (weak, nonatomic) IBOutlet UITextField *pswTF;
 @property (weak, nonatomic) IBOutlet UIButton *subBtn;
-
+@property(nonatomic,strong)NSString *phoneNewNum;//新的手机号
 @end

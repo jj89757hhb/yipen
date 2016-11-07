@@ -345,10 +345,11 @@ static float BottomInputView_Height=50;
 
 //赞
 -(void)praiseAction:(UIButton*)sender{
-    [SVProgressHUD show];
+  
     Collect_Type type=KCollect_DianJia;
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",[NSNumber numberWithInteger:type],@"Type",_info.userInfo.ID,@"buid", nil];
     if (![_info.IsPraise boolValue]) {
+          [SVProgressHUD show];
         [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
             if (!error) {
                 if ([[response objectForKey:@"ok"] boolValue]) {

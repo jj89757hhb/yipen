@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YiPenInfoViewController">
@@ -20,51 +21,60 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tl9-vO-HQz">
-                    <rect key="frame" x="0.0" y="226" width="320" height="156"/>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tl9-vO-HQz">
+                    <frame key="frameInset" minY="226" width="320" height="156"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="每个易盆号都是唯一且不可修改" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XHV-fg-jBF">
-                            <rect key="frame" x="16" y="8" width="270" height="140"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="每个易盆号都是唯一且不可修改" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XHV-fg-jBF">
+                            <constraints>
+                                <constraint firstAttribute="height" constant="140" id="Lu3-cj-imH"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="XHV-fg-jBF" secondAttribute="trailing" constant="34" id="7mU-M7-wLo"/>
                         <constraint firstItem="XHV-fg-jBF" firstAttribute="leading" secondItem="tl9-vO-HQz" secondAttribute="leading" constant="16" id="DhR-ot-5bF"/>
+                        <constraint firstAttribute="height" constant="156" id="U98-aa-fgt"/>
                         <constraint firstItem="XHV-fg-jBF" firstAttribute="top" secondItem="tl9-vO-HQz" secondAttribute="top" constant="8" id="adG-hC-Ozq"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y0x-uu-8N2">
-                    <rect key="frame" x="0.0" y="74" width="320" height="128"/>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y0x-uu-8N2">
+                    <frame key="frameInset" minY="74" width="320" height="128"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="89757" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wmo-pF-N2T">
-                            <rect key="frame" x="0.0" y="28" width="320" height="28"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="89757" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wmo-pF-N2T">
+                            <constraints>
+                                <constraint firstAttribute="height" constant="28" id="ilX-QR-5IZ"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="黑键" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgN-V4-Ki8">
-                            <rect key="frame" x="0.0" y="64" width="320" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="黑键" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgN-V4-Ki8">
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="UjN-sY-j6x"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="vgN-V4-Ki8" secondAttribute="trailing" id="E61-Lb-Xlw"/>
                         <constraint firstItem="vgN-V4-Ki8" firstAttribute="leading" secondItem="Y0x-uu-8N2" secondAttribute="leading" id="IFL-Sq-NbP"/>
                         <constraint firstItem="wmo-pF-N2T" firstAttribute="leading" secondItem="Y0x-uu-8N2" secondAttribute="leading" id="P6Z-BJ-ZMO"/>
                         <constraint firstItem="vgN-V4-Ki8" firstAttribute="top" secondItem="wmo-pF-N2T" secondAttribute="bottom" constant="8" id="f0v-wg-yZZ"/>
+                        <constraint firstItem="wmo-pF-N2T" firstAttribute="top" secondItem="Y0x-uu-8N2" secondAttribute="top" constant="28" id="fe3-Xu-dbl"/>
+                        <constraint firstAttribute="height" constant="128" id="j25-qC-nS3"/>
                         <constraint firstItem="wmo-pF-N2T" firstAttribute="centerY" secondItem="Y0x-uu-8N2" secondAttribute="centerY" id="m46-lC-qHJ"/>
                         <constraint firstAttribute="trailing" secondItem="wmo-pF-N2T" secondAttribute="trailing" id="w94-8X-Ubg"/>
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="tl9-vO-HQz" firstAttribute="top" secondItem="Y0x-uu-8N2" secondAttribute="bottom" constant="24" id="5jU-FT-RBE"/>
                 <constraint firstAttribute="trailing" secondItem="tl9-vO-HQz" secondAttribute="trailing" id="AXj-ke-vsb"/>
@@ -72,9 +82,13 @@
                 <constraint firstItem="tl9-vO-HQz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="LFH-ge-7sq"/>
                 <constraint firstItem="Y0x-uu-8N2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="10" id="R8B-ci-s7c"/>
                 <constraint firstItem="Y0x-uu-8N2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="a8v-h6-Lsy"/>
-                <constraint firstItem="tl9-vO-HQz" firstAttribute="top" secondItem="Y0x-uu-8N2" secondAttribute="bottom" constant="24" id="pnO-Lq-TTb"/>
             </constraints>
             <point key="canvasLocation" x="159" y="246"/>
         </view>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
+    </simulatedMetricsContainer>
 </document>

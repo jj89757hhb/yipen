@@ -55,4 +55,10 @@
     }
 }
 
+-(void)layoutSubviews{
+    self.v_line_width.constant=0.5;
+    self.x_line_height.constant=0.5;
+    self.x_line2_Height.constant=0.5;
+    self.y_line2_width.constant=0.5;
+}
 @end

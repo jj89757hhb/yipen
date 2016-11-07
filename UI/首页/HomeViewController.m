@@ -14,13 +14,19 @@
 #import "PanYuanViewController.h"
 #import "TaoYiPanViewController.h"
 #import "SearchTagsViewController.h"
-@interface HomeViewController ()<DLSlideTabbarDelegate,DLTabedSlideViewDelegate>
+#import "SelectTagViewController.h"
+#import "TreeSort.h"
+@interface HomeViewController ()<DLSlideTabbarDelegate,DLTabedSlideViewDelegate>{
+    NSInteger selectIndex;
+}
 @property(nonatomic,strong)SlideSwitchView *switchView;
 @property(nonatomic,strong)FenXiangViewController *fenXiangCtr;
 @property(nonatomic,strong)GuanZhuViewController *guanZhuCtr;
 @property(nonatomic,strong)PanDaiFuViewController *panDaiFuCtr;
 @property(nonatomic,strong)PanYuanViewController *panYuanCtr;
 @property(nonatomic,strong)TaoYiPanViewController *taoYiPanCtr;
+@property(nonatomic,strong)NSMutableDictionary *sortDic;
+//@property(nonatomic,strong)FenXiangViewController *ctr;
 
 
 @end
@@ -108,33 +114,34 @@
 }
 
 - (UIViewController *)DLTabedSlideView:(DLTabedSlideView *)sender controllerAt:(NSInteger)index{
+    selectIndex=index;
     switch (index) {
         case 0:
         {
-            FenXiangViewController *ctr=[[FenXiangViewController alloc] init];
-            return ctr;
+            self.fenXiangCtr =[[FenXiangViewController alloc] init];
+            return _fenXiangCtr;
         }
         case 1:
         {
-           GuanZhuViewController  *ctrl=[[GuanZhuViewController alloc] init];
-            return ctrl;
+            self.guanZhuCtr =[[GuanZhuViewController alloc] init];
+            return _guanZhuCtr;
         }
         case 2:
         {
-            TaoYiPanViewController  *ctrl=[[TaoYiPanViewController alloc] init];
-            return ctrl;
+            self.taoYiPanCtr =[[TaoYiPanViewController alloc] init];
+            return _taoYiPanCtr;
            
         }
         case 3:
         {
          
-            PanDaiFuViewController  *ctrl=[[PanDaiFuViewController alloc] init];
-            return ctrl;
+            self.panDaiFuCtr=[[PanDaiFuViewController alloc] init];
+            return _panDaiFuCtr;
         }
         case 4:
         {
-            PanYuanViewController  *ctrl=[[PanYuanViewController alloc] init];
-            return ctrl;
+            self.panYuanCtr =[[PanYuanViewController alloc] init];
+            return _panYuanCtr;
         }
         default:
             return nil;
@@ -160,32 +167,32 @@
 
 
 
-- (NSUInteger)numberOfTab:(SlideSwitchView *)view
-{
-    return 5;
-}
-
-- (UIViewController *)slideSwitchView:(SlideSwitchView *)view viewOfTab:(NSUInteger)number
-{
-    if (number == 0) {
-        return _fenXiangCtr;
-    }
-    else if (number == 1) {
-        return _guanZhuCtr;
-    }
-    else if (number == 2) {
-        return _panDaiFuCtr;
-    }
-    else if (number == 3) {
-        return _panYuanCtr;
-    }
-    else if (number==4){
-        return _taoYiPanCtr;
-    }
-    else {
-        return nil;
-    }
-}
+//- (NSUInteger)numberOfTab:(SlideSwitchView *)view
+//{
+//    return 5;
+//}
+//
+//- (UIViewController *)slideSwitchView:(SlideSwitchView *)view viewOfTab:(NSUInteger)number
+//{
+//    if (number == 0) {
+//        return _fenXiangCtr;
+//    }
+//    else if (number == 1) {
+//        return _guanZhuCtr;
+//    }
+//    else if (number == 2) {
+//        return _panDaiFuCtr;
+//    }
+//    else if (number == 3) {
+//        return _panYuanCtr;
+//    }
+//    else if (number==4){
+//        return _taoYiPanCtr;
+//    }
+//    else {
+//        return nil;
+//    }
+//}
 
 - (void)slideSwitchViewSubVCDragUp:(SlideSwitchView *)view
 {
@@ -201,12 +208,45 @@
 
 //搜索标签
 -(void)goSearch{
-    SearchTagsViewController *searchCtr=[[SearchTagsViewController alloc] init];
+//    SearchTagsViewController *searchCtr=[[SearchTagsViewController alloc] init];
 //    searchCtr.hidesBottomBarWhenPushed=YES;
 //    XMTabBarController *tabBar=(XMTabBarController*)self.tabBarController;
 //    [tabBar xmTabBarHidden:YES animated:NO];
+    WS(weakSelf)
     [super hideTabBar:YES animated:NO];
-    [self.navigationController pushViewController:searchCtr animated:YES];
+    SelectTagViewController *ctr=[[SelectTagViewController alloc] init];
+    ctr.enterType=0;
+    [ctr setSelectBlock:^(id sender){
+        self.sortDic=sender;
+        for (NSString *key in _sortDic.allKeys) {//值
+//            NSLog(@"标签ket:%@",key);
+            id temp=[_sortDic objectForKey:key];
+            if (![temp isMemberOfClass:[TreeSort class]]) {//过滤掉为空的对象
+                NSLog(@"空对象啊");
+                [_sortDic removeObjectForKey:key];
+            }
+        }
+        if (selectIndex==0) {
+            _fenXiangCtr.selectSort=_sortDic;
+            [_fenXiangCtr requestDataIsRefresh:YES];
+        }
+        else if (selectIndex==1) {
+            _guanZhuCtr.selectSort=_sortDic;
+            [_guanZhuCtr requestDataIsRefresh:YES];
+        }
+        else if (selectIndex==2) {
+            _taoYiPanCtr.selectSort=_sortDic;
+            [_taoYiPanCtr requestDataIsRefresh:YES];
+        }
+        else if (selectIndex==3) {
+            _panDaiFuCtr.selectSort=_sortDic;
+            [_panDaiFuCtr requestDataIsRefresh:YES];
+        }
+   
+//        NSIndexSet *sections=[NSIndexSet  indexSetWithIndex:2];
+//        [myTable reloadSections:sections withRowAnimation:UITableViewRowAnimationNone];
+    }];
+    [self.navigationController pushViewController:ctr animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

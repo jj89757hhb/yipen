@@ -55,7 +55,7 @@ static NSString *headerCellIdentify=@"MyHeaderTableViewCell";
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 5;
+    return 5-1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -103,6 +103,12 @@ static NSString *headerCellIdentify=@"MyHeaderTableViewCell";
         cell.shareNumL.text=[DataSource sharedDataSource].userInfo.ShareNum;
         [cell.levelL setImage:[UIImage imageNamed:[NSString stringWithFormat:@"lv%@",[DataSource sharedDataSource].userInfo.Levels]]];
         NSLog(@"111:%@",[DataSource sharedDataSource].userInfo.Fans);
+        if ([[DataSource sharedDataSource].userInfo.RoleType isEqualToString:@"1"]||[[DataSource sharedDataSource].userInfo.RoleType isEqualToString:@"2"]) {
+            
+        }
+        else{//未开通
+            [cell.tagL setHidden:YES];
+        }
    
         WS(weakSelf)
         [cell setMyHeaderCellBlock:^(id sender){
@@ -150,7 +156,7 @@ static NSString *headerCellIdentify=@"MyHeaderTableViewCell";
     else if(indexPath.section==2){
          cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
         if (indexPath.row==0) {
-            cell.imageView.image=[UIImage imageNamed:@"收藏"];
+            cell.imageView.image=[UIImage imageNamed:@"收藏2"];
             cell.textLabel.text=@"收藏";
         }
         else if(indexPath.row==1){
@@ -162,14 +168,14 @@ static NSString *headerCellIdentify=@"MyHeaderTableViewCell";
             cell.textLabel.text=@"盆大夫";
         }
     }
-    else if(indexPath.section==3){
-         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-        if (indexPath.row==0) {
-            cell.imageView.image=[UIImage imageNamed:@"同城"];
-            cell.textLabel.text=@"同城发布";
-        }
-    }
-    else if(indexPath.section==4){
+//    else if(indexPath.section==3){
+//         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+//        if (indexPath.row==0) {
+//            cell.imageView.image=[UIImage imageNamed:@"同城"];
+//            cell.textLabel.text=@"同城发布";
+//        }
+//    }
+    else if(indexPath.section==4-1){
            cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
         if (indexPath.row==0) {
             cell.imageView.image=[UIImage imageNamed:@"等级认证"];
@@ -220,14 +226,14 @@ static NSString *headerCellIdentify=@"MyHeaderTableViewCell";
             [self.navigationController pushViewController:ctr animated:YES];
         }
     }
-    else if (indexPath.section==3){
-        if (indexPath.row==0) {
-            SameCitySendViewController *ctr=[[SameCitySendViewController alloc] initWithNibName:nil bundle:nil];
-            [self hideTabBar:YES animated:NO];
-            [self.navigationController pushViewController:ctr animated:YES];
-        }
-    }
-    else if (indexPath.section==4){
+//    else if (indexPath.section==3){
+//        if (indexPath.row==0) {
+//            SameCitySendViewController *ctr=[[SameCitySendViewController alloc] initWithNibName:nil bundle:nil];
+//            [self hideTabBar:YES animated:NO];
+//            [self.navigationController pushViewController:ctr animated:YES];
+//        }
+//    }
+    else if (indexPath.section==4-1){
         MemberAndLevelViewController *ctr=[[MemberAndLevelViewController alloc] initWithNibName:nil bundle:nil];
         [self hideTabBar:YES animated:NO];
         [self.navigationController pushViewController:ctr animated:YES];
