@@ -177,6 +177,7 @@ static NSInteger pageNum=10;
     
     [cell setCommentBlock:^(id sender){
         NSLog(@"setCommentBlock");
+        [self willComment:sender];
     }];
     
     [cell setChatBlock:^(id sender){
@@ -195,6 +196,13 @@ static NSInteger pageNum=10;
     return cell;
 }
 
+-(void)willComment:(NSIndexPath*)sender {
+    PenDaiFuDetailViewController *ctr=[[PenDaiFuDetailViewController alloc] init];
+    ctr.isPopKeyBoard=YES;
+    ctr.info=_list[sender.row];
+    [self hideTabBar:YES animated:NO];
+    [self.navigationController pushViewController:ctr animated:YES];
+}
 
 -(void)gotoDetailView:(NSIndexPath *)indexPath{
     PenDaiFuDetailViewController *ctr=[[PenDaiFuDetailViewController alloc] init];
@@ -257,46 +265,92 @@ static NSInteger pageNum=10;
 -(void)attentionAction:(PenJinInfo*)info{
     [SVProgressHUD show];
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.userInfo.ID,@"BUID", nil];
-    [HttpConnection Focus:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            if ([[response objectForKey:@"ok"] boolValue]) {
-                [SVProgressHUD showInfoWithStatus:@"已关注"];
-                info.userInfo.IsFocus=@"1";
-                [self reloadTableAtIndex];
-                
+    if (![info.userInfo.IsFocus boolValue]) {
+        [HttpConnection Focus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已关注"];
+                    info.userInfo.IsFocus=@"1";
+                    [self reloadTableAtIndex];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
             }
             else{
-                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
             }
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
-        
-    }];
+            
+        }];
+    }
+    else{
+        [HttpConnection CancelFocus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已取消关注"];
+                    info.userInfo.IsFocus=@"0";
+                    [self reloadTableAtIndex];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+
+    }
+
 }
 
 //赞
 -(void)praisedAction:(PenJinInfo*)info{
     [SVProgressHUD show];
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type", info.userInfo.ID,@"buid",nil];
-    [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            if ([[response objectForKey:@"ok"] boolValue]) {
-                [SVProgressHUD showInfoWithStatus:@"已赞"];
-                info.IsPraise=@"1";
-                [self reloadTableAtIndex];
-                
+    if (![info.IsPraise boolValue]) {
+        [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"看好"];
+                    info.IsPraise=@"1";
+                    [self reloadTableAtIndex];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
             }
             else{
-                 [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
             }
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
-        
-    }];
+            
+        }];
+    }
+    else{
+        [HttpConnection CancelPraised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"取消好看"];
+                    info.IsPraise=@"0";
+                    [self reloadTableAtIndex];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+
+
 }
 
 -(void)gotoPersonalHome:(PenJinInfo*)info{

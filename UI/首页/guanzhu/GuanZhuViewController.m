@@ -182,6 +182,7 @@ static NSInteger pageNum=10;
     
     [cell setCommentBlock:^(id sender){
         NSLog(@"setCommentBlock");
+        [self willComment:nil];
     }];
     
     [cell setChatBlock:^(id sender){
@@ -199,6 +200,14 @@ static NSInteger pageNum=10;
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     return  cell;
     
+}
+
+-(void)willComment:(id)sender {
+    FenXiangDetailViewController *ctr=[[FenXiangDetailViewController alloc] init];
+    ctr.isPopKeyBoard=YES;
+    ctr.info=_list[_indexPath.row];
+    [self hideTabBar:YES animated:NO];
+    [self.navigationController pushViewController:ctr animated:YES];
 }
 
 -(void)msgAction:(PenJinInfo*)info{

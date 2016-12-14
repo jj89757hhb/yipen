@@ -42,8 +42,42 @@ static NSString *identify =@"identify";
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CollectionActivityCell *cell = [myTable dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
     [cell setInfo:_list[indexPath.row]];
+    cell.indexPath = indexPath;
+    WS(weakSelf)
+    [cell setDeleteBlock:^(NSIndexPath *index){
+        [weakSelf deleteInfo:index];
+    }];
     return cell;
 }
+
+-(void)deleteInfo:(NSIndexPath*)indexPath{
+    
+    [SVProgressHUD show];
+    ActivityInfo *info = _list[indexPath.row];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"5",@"Type", nil];
+    [HttpConnection DelCollect:dic WithBlock:^(id response, NSError *error) {
+        if (!error) {
+            if ([response[@"ok"] boolValue]) {
+                info.IsCollect = @"0";
+                [SVProgressHUD showSuccessWithStatus:@"已取消收藏"];
+                [_list removeObjectAtIndex:indexPath.row];
+                [myTable reloadData];
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:response[@"reason"]];
+            }
+            
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:@"取消失败"];
+        }
+        
+        
+    }];
+    
+    
+}
+
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;

@@ -38,8 +38,8 @@ static NSInteger pageSize=10;
 }
 
 -(void)queryData{
-    //[{"ID":"2","CityName":"杭州"},{"ID":"3","CityName":"绍兴"},{"ID":"6","CityName":"常州"},{"ID":"7","CityName":"苏州"},{"ID":"9","CityName":"上海"}]}
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:pageSize],@"PageSize",[NSNumber numberWithInteger:currentPage],@"Page",@"2",@"CityID", nil];
+     NSString *cityID = [DataSource sharedDataSource].cityInfo.ID?[DataSource sharedDataSource].cityInfo.ID:HangZou_Id;
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",[NSNumber numberWithInteger:pageSize],@"PageSize",[NSNumber numberWithInteger:currentPage],@"Page",cityID,@"CityID", nil];
     [HttpConnection GetFriendsList:dic WithBlock:^(id response, NSError *error) {
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
@@ -69,7 +69,7 @@ static NSInteger pageSize=10;
     ActivityInfo *info=_list[indexPath.row];
     float content_Height=0;
      content_Height+=  [CommonFun sizeWithString:info.Message font:[UIFont systemFontOfSize:content_FontSize_YouYuan] size:CGSizeMake(SCREEN_WIDTH-10*2-10*2, MAXFLOAT)].height;
-    return 200+60+content_Height;
+    return Tree_Height_SameCity+60+content_Height+80;
 }
 #pragma mark - Table view data source
 

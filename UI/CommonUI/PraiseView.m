@@ -88,7 +88,8 @@ static CGFloat image_Width=30;
         
     }
     NSInteger count=users.count-1;
-    if ([praiseNum integerValue]>6) {
+//    if ([praiseNum integerValue]>6) {
+     if (users.count>6) {
         UIButton *moreBtn=[[UIButton alloc] initWithFrame:CGRectMake(10+40+10*count+image_Width*count, 10, 100, image_Width)];
         [moreBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         moreBtn.titleLabel.font=[UIFont systemFontOfSize:11];

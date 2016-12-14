@@ -284,27 +284,53 @@ static float banner_Height=150;
 -(void)joinAction:(UIButton*)sender{
     [SVProgressHUD show];
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"AID",nil];
-    [HttpConnection JoinActivity:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            if ([[response objectForKey:@"ok"] boolValue]) {
-                [SVProgressHUD showSuccessWithStatus:@"已参加"];
-//                [_joinBtn setTitle:@"已参加" forState:UIControlStateNormal];
-//                [_joinBtn setUserInteractionEnabled:NO];
-                _info.isJoin=@"1";
-                
-                NSIndexSet *set=[NSIndexSet indexSetWithIndex:4];
-                [myTable reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
-                
+    if (![_info.isJoin boolValue]) {
+        [HttpConnection JoinActivity:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showSuccessWithStatus:@"已参加"];
+                    //                [_joinBtn setTitle:@"已参加" forState:UIControlStateNormal];
+                    //                [_joinBtn setUserInteractionEnabled:NO];
+                    _info.isJoin=@"1";
+                    
+                    NSIndexSet *set=[NSIndexSet indexSetWithIndex:4];
+                    [myTable reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
+                    
+                }
+                else{
+                    [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"reason"]];
+                }
             }
             else{
-                [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"reason"]];
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
             }
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
-        
-    }];
+            
+        }];
+    }
+    else{
+        [HttpConnection ExitActivity:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showSuccessWithStatus:@"已取消参加"];
+                    //                [_joinBtn setTitle:@"已参加" forState:UIControlStateNormal];
+                    //                [_joinBtn setUserInteractionEnabled:NO];
+                    _info.isJoin=@"0";
+                    
+                    NSIndexSet *set=[NSIndexSet indexSetWithIndex:4];
+                    [myTable reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
+                    
+                }
+                else{
+                    [SVProgressHUD showSuccessWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+  
 
 }
 -(void)backAction{
@@ -343,13 +369,13 @@ static float banner_Height=150;
         return 65;
     }
     else if(indexPath.section==1){
-        return banner_Height;
+        return Tree_Height_SameCity;
     }
     else if(indexPath.section==2){
         float content_Height=0;
 //        ActivityInfo *info=_list[indexPath.row];
         content_Height+=  [CommonFun sizeWithString:_info.Message font:[UIFont systemFontOfSize:activity_Content_Size] size:CGSizeMake(SCREEN_WIDTH-8*2, MAXFLOAT)].height;
-        return 150+30+content_Height;
+        return 180+content_Height;
     }
     else if(indexPath.section==4){
         return 60;
@@ -447,24 +473,47 @@ static float banner_Height=150;
 -(void)attentionAction:(id)info{
     [SVProgressHUD show];
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.userInfo.ID,@"BUID", nil];
-    [HttpConnection Focus:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            if ([[response objectForKey:@"ok"] boolValue]) {
-                [SVProgressHUD showInfoWithStatus:@"已关注"];
-                _info.userInfo.IsFocus=@"1";
-//                [self reloadTableAtIndex];
-                [myTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-                
+    if (![_info.userInfo.IsFocus boolValue]) {
+        [HttpConnection Focus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已关注"];
+                    _info.userInfo.IsFocus=@"1";
+                    //                [self reloadTableAtIndex];
+                    [myTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
             }
             else{
-                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
             }
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
-        
-    }];
+            
+        }];
+    }
+    else{
+        [HttpConnection CancelFocus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已取消关注"];
+                    _info.userInfo.IsFocus=@"0";
+                    //                [self reloadTableAtIndex];
+                    [myTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+  
 }
 
 
@@ -473,11 +522,11 @@ static float banner_Height=150;
 }
 -(void)initBanner{
 //    if (!_bannerView) {
-        _bannerView = [[ImagePlayerView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH, 180)];
+        _bannerView = [[ImagePlayerView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH, Tree_Height_SameCity)];
         _bannerView.imagePlayerViewDelegate = self;
         _bannerView.scrollInterval = 4.0f;
         _bannerView.pageControlPosition = ICPageControlPosition_BottomCenter;
-        _bannerView.frame=CGRectMake(0, 0, SCREEN_WIDTH, banner_Height);
+        _bannerView.frame=CGRectMake(0, 0, SCREEN_WIDTH, Tree_Height_SameCity);
 //    }
  
     [_bannerView reloadData];

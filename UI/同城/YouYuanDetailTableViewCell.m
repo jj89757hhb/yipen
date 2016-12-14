@@ -151,7 +151,7 @@
         make.top.equalTo(_headIV.mas_bottom).offset(5);
         make.left.offset(0);
         make.right.offset(0);
-        make.height.offset(120);
+        make.height.offset(Tree_Height_SameCity);
     }];
     //    NSString *url=@"http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1106/26/c2/8138154_1309077121193_1024x1024it.jpg";
     //    [_treeIV sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
@@ -251,7 +251,7 @@
     [_imagePlayerView reloadData];
     if ([_info.userInfo.IsFocus boolValue]) {
         [_attentionBtn setTitle:@"已关注" forState:UIControlStateNormal];
-        [_attentionBtn setUserInteractionEnabled:NO];
+//        [_attentionBtn setUserInteractionEnabled:NO];
     }
     else{
         [_attentionBtn setTitle:@"+关注" forState:UIControlStateNormal];
@@ -330,7 +330,9 @@
 }
 
 -(void)attentionAction{
-    
+    if (_attentionBlock) {
+        _attentionBlock(nil);
+    }
 }
 
 

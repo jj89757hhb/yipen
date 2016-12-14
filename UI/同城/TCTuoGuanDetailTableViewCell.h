@@ -13,6 +13,7 @@
 #import "MWPhoto.h"
 #import "MWPhotoBrowser.h"
 static float content_FontSize_TuoGuanDetail=14;
+typedef void(^AttentionBlock)(id sender);
 @interface TCTuoGuanDetailTableViewCell : UITableViewCell<ImagePlayerViewDelegate,MWPhotoBrowserDelegate>{
     
 }
@@ -35,5 +36,6 @@ static float content_FontSize_TuoGuanDetail=14;
 @property(nonatomic,strong)ImagePlayerView *imagePlayerView;
 @property(nonatomic,strong)PraiseView *praiseView;
 @property(nonatomic,strong)NSMutableArray *photos;
+@property (nonatomic,copy) AttentionBlock attentionBlock;
 
 @end

@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,11 +27,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="椭圆-6" translatesAutoresizingMaskIntoConstraints="NO" id="ucB-qA-HNO">
-                    <frame key="frameInset" minX="8" minY="41" width="304" height="144"/>
+                    <rect key="frame" x="8" y="41" width="304" height="144"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="盆大夫" translatesAutoresizingMaskIntoConstraints="NO" id="9LG-pM-wHw">
-                    <frame key="frameInset" minX="119" minY="54" width="56" height="56"/>
+                    <rect key="frame" x="119" y="54" width="56" height="56"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="56" id="5ST-hu-hJT"/>
                         <constraint firstAttribute="width" constant="56" id="y8X-x1-UEV"/>
@@ -40,23 +43,23 @@
                     </userDefinedRuntimeAttributes>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="个人会员" translatesAutoresizingMaskIntoConstraints="NO" id="D4O-xG-wPn">
-                    <frame key="frameInset" minX="164" minY="121" width="16" height="16"/>
+                    <rect key="frame" x="164" y="121" width="16" height="16"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="16" id="Gc1-8N-EVu"/>
                         <constraint firstAttribute="width" constant="16" id="U45-4n-klm"/>
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="lv1" translatesAutoresizingMaskIntoConstraints="NO" id="OCl-ru-FdO">
-                    <frame key="frameInset" minX="119" minY="140" width="47" height="16"/>
+                    <rect key="frame" x="119" y="140" width="47" height="16"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="认证信息:暂无" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Upp-Y5-PbH">
-                    <frame key="frameInset" minX="13" minY="158" width="294" height="21"/>
+                    <rect key="frame" x="13" y="158" width="294" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CgK-mG-Yw0">
-                    <frame key="frameInset" minX="33" minY="199" width="255" height="35"/>
+                    <rect key="frame" x="33" y="199" width="255" height="35"/>
                     <color key="backgroundColor" red="0.16191082949999999" green="0.56626602559999994" blue="0.2592509039" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="2OW-mc-Dli"/>
@@ -66,10 +69,10 @@
                     </state>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="个人认证" translatesAutoresizingMaskIntoConstraints="NO" id="x9q-hb-5eI">
-                    <frame key="frameInset" minX="158" minY="92" width="17" height="17"/>
+                    <rect key="frame" x="158" y="92" width="17" height="17"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="认证仅为诚信交易提供保障，绝不会用于其他用途" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5pj-sM-mou">
-                    <frame key="frameInset" minX="24" minY="242" width="264" height="21"/>
+                    <rect key="frame" x="24" y="242" width="264" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="sEh-DL-hmZ"/>
                     </constraints>
@@ -78,7 +81,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="个人认证只需上传身份信息" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rZ3-72-JLG">
-                    <frame key="frameInset" minX="58" minY="270" width="168" height="21"/>
+                    <rect key="frame" x="58" y="270" width="168" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="168" id="Xfl-NN-YZk"/>
                         <constraint firstAttribute="height" constant="21" id="x8D-rh-nRl"/>
@@ -88,31 +91,30 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="商户认证需上传身份信息及营业执照" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HJo-Tr-So1">
-                    <frame key="frameInset" minX="58" minY="294" width="208" height="21"/>
+                    <rect key="frame" x="58" y="294" width="267" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="47A-x8-lZd"/>
-                        <constraint firstAttribute="width" constant="208" id="mPT-4Q-ve3"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="个人认证" translatesAutoresizingMaskIntoConstraints="NO" id="7FC-S7-72Z">
-                    <frame key="frameInset" minX="33" minY="297" width="17" height="17"/>
+                    <rect key="frame" x="33" y="297" width="17" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="17" id="Pva-Qt-zqI"/>
                         <constraint firstAttribute="height" constant="17" id="yX2-z3-QCg"/>
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="个人认证" translatesAutoresizingMaskIntoConstraints="NO" id="a2I-Hm-tzd">
-                    <frame key="frameInset" minX="33" minY="273" width="17" height="17"/>
+                    <rect key="frame" x="33" y="273" width="17" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="17" id="i0M-aK-iux"/>
                         <constraint firstAttribute="height" constant="17" id="ymx-91-lSD"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="温柔小绵羊" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rL9-gT-RzG">
-                    <frame key="frameInset" minX="81" minY="118" width="85" height="21"/>
+                    <rect key="frame" x="81" y="118" width="85" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -154,7 +156,7 @@
                 <constraint firstItem="rZ3-72-JLG" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tZw-a7-zVi"/>
                 <constraint firstItem="CgK-mG-Yw0" firstAttribute="top" secondItem="ucB-qA-HNO" secondAttribute="bottom" constant="14" id="yy2-ua-ctO"/>
             </constraints>
-            <point key="canvasLocation" x="237" y="273"/>
+            <point key="canvasLocation" x="236.5" y="272.5"/>
         </view>
     </objects>
     <resources>

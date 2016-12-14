@@ -255,4 +255,12 @@
     return nil;
 }
 
++(NSInteger)upLoadPictureNum{
+    NSInteger num =4;
+    if ([[DataSource sharedDataSource].userInfo.RoleType isEqualToString:@"1"]||[[DataSource sharedDataSource].userInfo.RoleType isEqualToString:@"2"]) {
+        num = 9;
+    }
+    return num;
+}
+
 @end

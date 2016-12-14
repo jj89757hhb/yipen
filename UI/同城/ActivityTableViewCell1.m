@@ -151,7 +151,8 @@
         make.top.equalTo(_headIV.mas_bottom).offset(5);
         make.left.offset(0);
         make.right.offset(0);
-        make.height.offset(120);
+//        make.height.offset(120);
+        make.height.offset(Tree_Height_SameCity);
     }];
 //    NSString *url=@"http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1106/26/c2/8138154_1309077121193_1024x1024it.jpg";
 //    [_treeIV sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
@@ -210,15 +211,15 @@
         make.width.offset(width);
     }];
     
-    [_praiseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_collectBtn.mas_left).offset(offX2);
-        make.height.offset(20);
-        make.top.offset(offY2);
-        make.width.offset(width);
-    }];
+//    [_praiseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(_collectBtn.mas_left).offset(offX2);
+//        make.height.offset(20);
+//        make.top.offset(offY2);
+//        make.width.offset(width);
+//    }];
     
     [_viewBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-       make.right.equalTo(_praiseBtn.mas_left).offset(offX2);
+       make.right.equalTo(_collectBtn.mas_left).offset(offX2);
         make.height.offset(20);
         make.top.offset(offY2);
         make.width.offset(width);

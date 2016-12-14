@@ -19,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [_numL setHidden:YES];
     // Do any additional setup after loading the view from its nib.
     self.title=@"自我介绍";
 //       _textView.layoutManager.allowsNonContiguousLayout=NO;

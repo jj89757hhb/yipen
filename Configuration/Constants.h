@@ -12,7 +12,7 @@ static NSString *shareUrl=@"http://www.edianshang.com";
 
 #define SeparatedByString @"[^begin^]"//帖子图片与文本的分割符号
 #define SeparatedByString1 @"[^end^]"//帖子图片与文本的分割符号
-#define Default_Image [UIImage imageNamed:@"logo_home"]
+#define Default_Image [UIImage imageNamed:@"易盆"]
 //#define SeparatedByString2 @"\" _src=\""//处理服务端字符
 
 static NSString *ZFB_privateKey = @"MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAKApV0oAC+Br1ZDJfIuavFda6KAReiDgwZU/5NoC4AG0xnuZSg8AcwOnA/xyvUQcfbkAYzqajdhHnw+6HR7jF+YRRSBf9SfXZO4Vxt8iEYYSxJwi/5AVDduHrw5VIBPts45HrQ8szJ8kTgcVp5lIgrVHobuZEZMNk1KFvHhB8U+3AgMBAAECgYA08hWyF9vVP7ClIYZznB6A/kOCjuSBs+sqzKl5zJOC3OD0gRMzbGGZJoAx1zhsKMMDAnbLK8aSZfLWPx9bU5VVahvLXSdWAKbWfsRLZKsBOuUtnCH5Hlwl39LUi4G1kI0WdgPLHoh2D0NjtFXimXAsuLll20fSl9DIm1ar9bMaGQJBAM9bldBk6u2B0z69u0KqziGpiuLVVx/6gIozvRCKDxvOGCb78kfhLONTDOyjAtSFNHdr441+Oo+hfqHEt2jqIW0CQQDFu3zRrdwLNgGX3kfRehkz8hglzsXyBhtJ8sypVy3Ou9IXu2pDcXWvDj/8Z4nCMXIabVONi/lK2LaMmEYtreMzAkBssgOcU+paSf2kG+z3i3W2a5tkQJUFLFkJGQn4i4ZT+vrqJJPiXgUbvMM/oEuxf4n7N9D2sL6d3/fzcJz8IA8ZAkAVyJXzs6euRIDgbkiTN1RXeLBYWfNMuod/GhSaA1S0ldSLcMZAL9u7MWKzN+ThU/kyGCFAUs9gA4f47T2uAp4pAkAalcWLQLhdSSOrJi+hb9EIelDrPx/5p+HSm1NdwbKBOJDPyWl4ckNXHWGcrfl96QGV7OIjwZkWC2A3ftEx6UOz";
@@ -93,8 +93,11 @@ static NSString *user_agreement_Url=@"http://imyipen.com/yhxy.html";
 static float compressionQuality =0.5;//图片压缩系数
 
 static CGFloat Top_Height=10;//头部分隔的高度（盆景列表）
+
+static CGFloat Tree_Height_SameCity = 250;
 //......枚举.......
 
+static NSString *HangZou_Id = @"2" ;//杭州城市id
 //注册的账户类型
 typedef enum {
     kPersonAccount = 0,         // 个人账号
@@ -272,7 +275,7 @@ static NSString *KErrorMsg=@"errorMsg";//接口数据返回的错误信息
 static NSString *KDataList=@"KDataList";//接口数据返回
 
 
-static NSInteger Max_Pic=5;
+//static NSInteger Max_Pic=5;
 
 //字典的key  盆景分类
 static NSString *SenShu=@"Domestic";
@@ -282,3 +285,6 @@ static NSString *PinZhong=@"Varieties";
 static NSString *ShuXin=@"Model";
 static NSString *ChiCun=@"Size";
 static NSString *QiTa=@"Other";
+
+//文字多次的显示
+static NSString *No_Memeber_Picture_Msg = @"非会员仅限4张";

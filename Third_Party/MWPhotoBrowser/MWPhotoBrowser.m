@@ -89,7 +89,28 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
                                              selector:@selector(handleMWPhotoLoadingDidEndNotification:)
                                                  name:MWPHOTO_LOADING_DID_END_NOTIFICATION
                                                object:nil];
+    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(saveImage)];
     
+}
+
+//保存图片
+- (void)saveImage
+{
+    MWPhoto *photo = [self photoAtIndex:_currentPageIndex];
+    UIImage *image = [self imageForPhoto:photo];
+    if (!image) {
+        return;
+    }
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void *)self);
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    
+    NSLog(@"image = %@, error = %@, contextInfo = %@", image, error, contextInfo);
+    if (!error) {
+        [SVProgressHUD showInfoWithStatus:@"已保存"];
+    }
 }
 
 - (void)dealloc {

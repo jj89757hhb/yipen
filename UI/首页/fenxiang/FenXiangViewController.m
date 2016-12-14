@@ -81,7 +81,7 @@ static NSInteger pageNum=10;//每页
     NSString *shuXin=@"";
     NSString *chiCun=@"";
     NSString *qiTa=@"";
-    if (_selectSort.allKeys) {//选择了搜索
+    if (_selectSort.allKeys.count) {//选择了搜索
         if ([_selectSort.allKeys[0] isEqualToString:SenShu]) {
             TreeSort *sort=_selectSort[SenShu];
             senShu=sort.CodeValue;
@@ -289,25 +289,50 @@ static NSInteger pageNum=10;//每页
 }
 
 -(void)attentionAction:(PenJinInfo*)info{
+  
     [SVProgressHUD show];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.userInfo.ID,@"BUID", nil];
-    [HttpConnection Focus:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            if ([[response objectForKey:@"ok"] boolValue]) {
-                [SVProgressHUD showInfoWithStatus:@"已关注"];
-                 info.userInfo.IsFocus=@"1";
-                [self reloadTableAtIndex];
-               
+    if (![info.userInfo.IsFocus boolValue]) {
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.userInfo.ID,@"BUID", nil];
+        [HttpConnection Focus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已关注"];
+                    info.userInfo.IsFocus=@"1";
+                    [self reloadTableAtIndex];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
             }
             else{
-                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
             }
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
-        
-    }];
+            
+        }];
+    }
+    else{
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.userInfo.ID,@"BUID", nil];
+        [HttpConnection CancelFocus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已取消关注"];
+                    info.userInfo.IsFocus=@"0";
+                    [self reloadTableAtIndex];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+
+    }
+ 
 }
 
 //赞

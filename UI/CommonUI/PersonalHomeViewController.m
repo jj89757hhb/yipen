@@ -136,12 +136,12 @@ static NSInteger PageSize=10;
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         [cell.attentionBtn addTarget:self action:@selector(attentionAction:) forControlEvents:UIControlEventTouchUpInside];
         [cell.bgIV setImage:[UIImage imageNamed:@"图层-12"]];
-        [cell.headIV sd_setImageWithURL:[NSURL URLWithString:_userInfo.UserHeader] placeholderImage:nil];
+        [cell.headIV sd_setImageWithURL:[NSURL URLWithString:_userInfo.UserHeader] placeholderImage:Default_Image];
         [cell.nameL setText:_userInfo.NickName];
         [cell.msgBtn addTarget:self action:@selector(msgAction:) forControlEvents:UIControlEventTouchUpInside];
         if ([_userInfo.IsFocus boolValue]) {
             [cell.attentionBtn setTitle:@"已关注" forState:UIControlStateNormal];
-            [cell.attentionBtn setUserInteractionEnabled:NO];
+//            [cell.attentionBtn setUserInteractionEnabled:NO];
         }
         else{
             [cell.attentionBtn setTitle:@"关注" forState:UIControlStateNormal]
@@ -188,21 +188,45 @@ static NSInteger PageSize=10;
 -(void)attentionAction:(UIButton*)sender{
     //BUID
     [SVProgressHUD show];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID", _info.UID,@"BUID",nil];
-    [HttpConnection Focus:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            if ([[response objectForKey:@"ok"] boolValue]) {
-                [SVProgressHUD showSuccessWithStatus:@"已关注"];
+//    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID", _info.UID,@"BUID",nil];
+       NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID", _userInfo.ID,@"BUID",nil];
+    if (![_userInfo.IsFocus boolValue]) {
+        [HttpConnection Focus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    _userInfo.IsFocus = @"1";
+                    [SVProgressHUD showSuccessWithStatus:@"已关注"];
+                    [myTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"Reason"]];
+                }
             }
             else{
-                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"Reason"]];
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
             }
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
-        
-    }];
+            
+        }];
+    }
+    else{
+        [HttpConnection CancelFocus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    _userInfo.IsFocus = @"0";
+                    [SVProgressHUD showSuccessWithStatus:@"已取消关注"];
+                    [myTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"Reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+ 
 }
 
 -(void)shareWithIndex:(NSIndexPath*)index{

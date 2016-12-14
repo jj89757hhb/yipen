@@ -76,7 +76,7 @@ static float BottomInputView_Height=50;
     ActivityInfo *info=_info;
     float content_Height=0;
     content_Height+=  [CommonFun sizeWithString:info.Message font:[UIFont systemFontOfSize:content_FontSize_XiangYuanDetail] size:CGSizeMake(SCREEN_WIDTH-10*2, MAXFLOAT)].height;
-    return 320+content_Height;
+    return 200+content_Height+Tree_Height_SameCity;
     //    return 400;
 }
 
@@ -88,6 +88,10 @@ static float BottomInputView_Height=50;
         }
         [cell setInfo:_info];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        WS(weakSelf)
+        [cell setAttentionBlock:^(id sender){
+            [weakSelf attentionAction:nil];
+        }];
         return cell;
     }
     else if(indexPath.section==1){
@@ -100,10 +104,10 @@ static float BottomInputView_Height=50;
         return cell;
     }
     else{
-        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identifer3]
+        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:nil]
         ;
         if (!cell) {
-            cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer3];
+            cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             StoreBottomView *bottom=[[StoreBottomView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60)];
             [bottom setInfo:_info];
             [cell addSubview:bottom];
@@ -315,24 +319,48 @@ static float BottomInputView_Height=50;
 -(void)praiseAction:(UIButton*)sender{
     Collect_Type type=KCollect_XiangYuan;
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",[NSNumber numberWithInteger:type],@"Type",_info.userInfo.ID,@"buid", nil];
-    [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            if ([[response objectForKey:@"ok"] boolValue]) {
-                [SVProgressHUD showInfoWithStatus:@"已赞"];
-                _info.IsPraise=@"1";
-                NSIndexSet *set=[NSIndexSet indexSetWithIndex:2];
-                [myTable reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
-                
+    [SVProgressHUD show];
+    if (![_info.IsPraise boolValue]) {
+        [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"看好"];
+                    _info.IsPraise=@"1";
+                    NSIndexSet *set=[NSIndexSet indexSetWithIndex:2];
+                    [myTable reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
             }
             else{
-                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
             }
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
-        
-    }];
+            
+        }];
+    }
+    else{
+        [HttpConnection CancelPraised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已取消看好"];
+                    _info.IsPraise=@"0";
+                    NSIndexSet *set=[NSIndexSet indexSetWithIndex:2];
+                    [myTable reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+    
 }
 
 //发送
@@ -433,6 +461,51 @@ static float BottomInputView_Height=50;
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
     NSLog(@"Did start viewing photo at index %lu", (unsigned long)index);
+}
+
+-(void)attentionAction:(id)info{
+    [SVProgressHUD show];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.userInfo.ID,@"BUID", nil];
+    if (![_info.userInfo.IsFocus boolValue]) {
+        [HttpConnection Focus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已关注"];
+                    _info.userInfo.IsFocus=@"1";
+                    [myTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+        
+    }
+    else{
+        [HttpConnection CancelFocus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已取消关注"];
+                    _info.userInfo.IsFocus=@"0";
+                    [myTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+    
 }
 
 

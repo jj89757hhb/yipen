@@ -53,13 +53,15 @@
     [self.paiMaiBtn setTag:12];
     
     self.panYuanBtn.titleLabel.font=font;
-    [self.panYuanBtn setTitle:@"发盘缘" forState:UIControlStateNormal];
+    [self.panYuanBtn setTitle:@"发盘大夫" forState:UIControlStateNormal];
+//    [self.panYuanBtn setTitle:@"发盘缘" forState:UIControlStateNormal];
     [self.panYuanBtn setTitleColor:MIDDLEBLACK forState:UIControlStateNormal];
     [self.panYuanBtn setTitleEdgeInsets:UIEdgeInsetsMake(0,offX, -80, 0)];
     [self.panYuanBtn setTag:13];
     
     self.panDaiFuBtn.titleLabel.font=font;
-    [self.panDaiFuBtn setTitle:@"发盘大夫" forState:UIControlStateNormal];
+    [self.panDaiFuBtn setTitle:@"发盘缘" forState:UIControlStateNormal];
+//    [self.panDaiFuBtn setTitle:@"发盘大夫" forState:UIControlStateNormal];
     [self.panDaiFuBtn setTitleColor:MIDDLEBLACK forState:UIControlStateNormal];
     [self.panDaiFuBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, offX, -80, 0)];
     [self.panDaiFuBtn setTag:14];
@@ -119,18 +121,14 @@
         ctr.title=@"发布拍卖";
         [self.navigationController pushViewController:ctr animated:YES];
     }
-    else if(sender.tag==13){//
-        
-//        SendShareViewController *ctr=[Storyboard instantiateViewControllerWithIdentifier:@"SendShareViewController"];
-//        ctr.enterType=4;
-//        [self.navigationController pushViewController:ctr animated:YES];
-        SendPanYuanViewController *ctr=[[SendPanYuanViewController alloc] init];
-        ctr.title=@"发布盆缘";
+    else if(sender.tag==13){//盆大夫
+        SendPenDaiFuViewController *ctr=[[SendPenDaiFuViewController alloc] initWithNibName:nil bundle:nil];
+        ctr.title=@"发布盆大夫";
         [self.navigationController pushViewController:ctr animated:YES];
     }
-    else if(sender.tag==14){//盆大夫
-        SendPenDaiFuViewController *ctr=[[SendPenDaiFuViewController alloc] initWithNibName:nil bundle:nil];
-         ctr.title=@"发布盆大夫";
+    else if(sender.tag==14){//
+        SendPanYuanViewController *ctr=[[SendPanYuanViewController alloc] init];
+        ctr.title=@"发布盆缘";
         [self.navigationController pushViewController:ctr animated:YES];
     }
    

@@ -260,21 +260,29 @@
 }
 
 //点击事件
-- (void)onTag:(UIButton *)btn
+- (void)onTag:(SKTagButton *)btn
 {
     if (self.didClickTagAtIndex)
     {
         self.didClickTagAtIndex([self.subviews indexOfObject:btn]);
     }
+    btn.selected=!btn.selected;
+    if ([DataSource sharedDataSource].selectCounter>=5) {
+        [SVProgressHUD showInfoWithStatus:@"最多选择5个标签"];
+        return;
+    }
+    
+   
 
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadSearchTable" object:nil];
     //改变选中的状态
     btn.layer.cornerRadius=5;
     btn.clipsToBounds=YES;
     btn.backgroundColor=BLUECOLOR;
+    
     [btn setTitleColor:WHITEColor forState:UIControlStateNormal];
     btn.layer.borderWidth=1;
-    UIButton *_btn=btn;
+    SKTagButton *_btn=btn;
 //    //其他默认颜色
 //    for (UIView *temp in self.superview.superview.subviews) {
 //        if ([NSStringFromClass([temp class]) isEqualToString:@"UITableViewCellContentView"]) {
@@ -307,7 +315,7 @@
         //     for (UIView *btn in self.superview.superview.superview.subviews) {
     
     //其他按钮的颜色还是默认的
-    for (UIButton *btn in self.subviews) {
+    for (SKTagButton *btn in self.subviews) {
 //    NSLog(@"self.superview.superview:%@",[self.superview.superview.superview description]);
 //     for (UIView *btn in self.superview.superview.superview.subviews) {
         if ([btn isKindOfClass:[SKTagButton class]]) {
@@ -323,7 +331,10 @@
         }
     }
     if (_section!=  [DataSource sharedDataSource].lastSection) {//还原之前选中的状态
-           [NotificationCenter postNotificationName:@"reloadTableAtIndex" object:[NSNumber numberWithInteger:_section]];
+//           [NotificationCenter postNotificationName:@"reloadTableAtIndex" object:[NSNumber numberWithInteger:_section]];
+        if (btn.selected) {//被选择
+            [DataSource sharedDataSource].selectCounter++;
+        }
     }
  
     [DataSource sharedDataSource].lastSection=_section;

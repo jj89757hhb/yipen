@@ -99,7 +99,41 @@ static NSString *identify=@"identify";
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CollectionPenJingCell *cell = [myTable dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
     [cell setInfo:_list[indexPath.row]];
+    cell.indexPath = indexPath;
+    WS(weakSelf)
+    [cell setDeleteBlock:^(NSIndexPath *index){
+        [weakSelf deleteInfo:index];
+    }];
     return cell;
+}
+
+-(void)deleteInfo:(NSIndexPath*)indexPath{
+    
+    [UIAlertView bk_showAlertViewWithTitle:nil message:@"是否删除" cancelButtonTitle:@"取消" otherButtonTitles:@[@"删除"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if (buttonIndex==1) {
+            [SVProgressHUD show];
+            PenJinInfo *info = _list[indexPath.row];
+            NSDictionary *dic = [[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BID", nil];
+            [HttpConnection DelMyPost:dic WithBlock:^(id response, NSError *error) {
+                if (!error) {
+                    if ([response[@"ok"] boolValue]) {
+                        [SVProgressHUD showSuccessWithStatus:@"删除成功"];
+                        [_list removeObjectAtIndex:indexPath.row];
+                        [myTable reloadData];
+                    }
+                    else{
+                        [SVProgressHUD showErrorWithStatus:response[@"reason"]];
+                    }
+                  
+                }
+                else{
+                      [SVProgressHUD showErrorWithStatus:@"删除失败"];
+                }
+            }];
+        }
+        
+    }];
+ 
 }
 
 

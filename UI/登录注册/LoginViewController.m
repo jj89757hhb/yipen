@@ -52,8 +52,8 @@
     _mobileTF.delegate=self;
     _passwordTF.delegate=self;
 //    _mobileTF.text=@"18857871640";
-    _mobileTF.text=@"13164954971";
-    _passwordTF.text=@"123456";
+//    _mobileTF.text=@"13164954971";
+//    _passwordTF.text=@"123456";
 //    NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:@"18857871640",@"Mobile", nil];
 //    [HttpConnection registerUserOfGetCodeWithDic:dic WithBlock:^(id response, NSError *error) {
 //        
@@ -415,7 +415,11 @@
         if (!error) {
             if ([ok isEqualToString:@"TRUE"]) {
                 NSLog(@"验证码:%@",vcode);
-                [SVProgressHUD showSuccessWithStatus:@"注册成功"];
+                [SVProgressHUD showSuccessWithStatus:@"注册成功，立即登录"];
+                //
+                _mobileTF.text = mobileTF.text;
+                _passwordTF.text = password1.text;
+                [self goLoginAcition:nil];//自动登录
             }
             else{
                 [SVProgressHUD showErrorWithStatus:response[@"reason"]];

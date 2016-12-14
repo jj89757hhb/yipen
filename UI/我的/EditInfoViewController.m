@@ -59,7 +59,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section==0) {
-        return 7;
+        return 7-2;
     }
 
     return 1;
@@ -132,31 +132,30 @@
                 addressL.font=font;
                 addressL.textColor=MIDDLEBLACK;
 //                addressL.text=@"杭州";
-                if ([DataSource sharedDataSource].userInfo.cityID) {
-                    addressL.text=[DataSource sharedDataSource].userInfo.cityID;
+                if ([DataSource sharedDataSource].userInfo.CityName) {
+                    addressL.text=[DataSource sharedDataSource].userInfo.CityName;
                 }
                 [cell.contentView addSubview:addressL];
             }
-            else if(indexPath.row==4){
-                cell.textLabel.text=@"我的二维码";
-                float width=24;
-                UIImageView *headIV=[[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-width-15-20, (45-width)/2, width, width)];
-                headIV.contentMode=UIViewContentModeScaleAspectFill;
-                headIV.clipsToBounds=YES;
-                [headIV setImage:[UIImage imageNamed:@"二维码图标"]];
-                [cell.contentView addSubview:headIV];
-            }
-            else if(indexPath.row==5){
-                cell.textLabel.text=@"易盆号";
-                UILabel *accountL=[[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-140, offY, 100, 20)];
-                accountL.textAlignment=NSTextAlignmentRight;
-                accountL.font=font;
-                accountL.textColor=MIDDLEBLACK;
-//                accountL.text=@"123456";
-                accountL.text=[DataSource sharedDataSource].userInfo.ID;
-                [cell.contentView addSubview:accountL];
-            }
-            else if(indexPath.row==6){
+//            else if(indexPath.row==4){
+//                cell.textLabel.text=@"我的二维码";
+//                float width=24;
+//                UIImageView *headIV=[[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-width-15-20, (45-width)/2, width, width)];
+//                headIV.contentMode=UIViewContentModeScaleAspectFill;
+//                headIV.clipsToBounds=YES;
+//                [headIV setImage:[UIImage imageNamed:@"二维码图标"]];
+//                [cell.contentView addSubview:headIV];
+//            }
+//            else if(indexPath.row==5){
+//                cell.textLabel.text=@"易盆号";
+//                UILabel *accountL=[[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-140, offY, 100, 20)];
+//                accountL.textAlignment=NSTextAlignmentRight;
+//                accountL.font=font;
+//                accountL.textColor=MIDDLEBLACK;
+//                accountL.text=[DataSource sharedDataSource].userInfo.ID;
+//                [cell.contentView addSubview:accountL];
+//            }
+            else if(indexPath.row==6-2){
                 cell.textLabel.text=@"自我介绍";
                 UILabel *introduceL=[[UILabel alloc] initWithFrame:CGRectMake(60, offY, (SCREEN_WIDTH-90), 20)];
                 introduceL.textAlignment=NSTextAlignmentRight;
@@ -218,15 +217,15 @@
         else if (indexPath.row==3){
             [self showAreaPicker];
         }
-        else if (indexPath.row==4){
-            MyQRCodeViewController *ctr=[[MyQRCodeViewController alloc] initWithNibName:nil bundle:nil];
-            [self.navigationController pushViewController:ctr animated:YES];
-        }
-        else if (indexPath.row==5){
-            YiPenInfoViewController *ctr=[[YiPenInfoViewController alloc] initWithNibName:nil bundle:nil];
-            [self.navigationController pushViewController:ctr animated:YES];
-        }
-        else if (indexPath.row==6){
+//        else if (indexPath.row==4){
+//            MyQRCodeViewController *ctr=[[MyQRCodeViewController alloc] initWithNibName:nil bundle:nil];
+//            [self.navigationController pushViewController:ctr animated:YES];
+//        }
+//        else if (indexPath.row==5){
+//            YiPenInfoViewController *ctr=[[YiPenInfoViewController alloc] initWithNibName:nil bundle:nil];
+//            [self.navigationController pushViewController:ctr animated:YES];
+//        }
+        else if (indexPath.row==6-2){
             EditIntroduceViewController *ctr=[[EditIntroduceViewController alloc] initWithNibName:nil bundle:nil];
             [self.navigationController pushViewController:ctr animated:YES];
         }
@@ -298,7 +297,7 @@
         if (!error) {
             if ([response[@"ok"] isEqualToString:@"TRUE"]) {
                 [SVProgressHUD showInfoWithStatus:@"修改成功"];
-                [DataSource sharedDataSource].userInfo.cityID=self.area;
+                [DataSource sharedDataSource].userInfo.CityName=self.area;
                 NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:0];
                 [myTable reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
             }

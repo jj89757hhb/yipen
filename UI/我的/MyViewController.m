@@ -104,9 +104,15 @@ static NSString *headerCellIdentify=@"MyHeaderTableViewCell";
         [cell.levelL setImage:[UIImage imageNamed:[NSString stringWithFormat:@"lv%@",[DataSource sharedDataSource].userInfo.Levels]]];
         NSLog(@"111:%@",[DataSource sharedDataSource].userInfo.Fans);
         if ([[DataSource sharedDataSource].userInfo.RoleType isEqualToString:@"1"]||[[DataSource sharedDataSource].userInfo.RoleType isEqualToString:@"2"]) {
-            
+             [cell.huiyuanIV setHidden:NO];
         }
         else{//未开通
+            [cell.huiyuanIV setHidden:YES];
+        }
+        if ([[DataSource sharedDataSource].userInfo.IsCertifi boolValue]) {
+            [cell.tagL setHidden:NO];
+        }
+        else{
             [cell.tagL setHidden:YES];
         }
    

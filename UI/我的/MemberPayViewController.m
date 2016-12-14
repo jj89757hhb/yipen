@@ -158,6 +158,7 @@
             if (!error) {
                 if ([[response objectForKey:@"ok"] boolValue]) {
                     [SVProgressHUD dismiss];
+                    [DataSource sharedDataSource].userInfo.RoleType=@"1";
                     //                [SVProgressHUD showInfoWithStatus:@"购买成功"];
                     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:nil message:@"已开通个人会员" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                     [alert show];
@@ -178,6 +179,7 @@
             if (!error) {
                 if ([[response objectForKey:@"ok"] boolValue]) {
                     [SVProgressHUD dismiss];
+                     [DataSource sharedDataSource].userInfo.RoleType=@"2";
                     //                [SVProgressHUD showInfoWithStatus:@"购买成功"];
                     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:nil message:@"已开通商家会员" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                     [alert show];

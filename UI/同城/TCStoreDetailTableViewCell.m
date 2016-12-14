@@ -146,7 +146,7 @@
         make.top.equalTo(_headIV.mas_bottom).offset(5);
         make.left.offset(0);
         make.right.offset(0);
-        make.height.offset(120);
+        make.height.offset(Tree_Height_SameCity);
     }];
     //    NSString *url=@"http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1106/26/c2/8138154_1309077121193_1024x1024it.jpg";
     //    [_treeIV sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
@@ -229,7 +229,7 @@
 //    [_imageUrls addObject:@"http://www.photo0086.com/member/751/pic/201204191650075075.JPG"];
 //    [_imageUrls addObject:@"http://image13-c.poco.cn/mypoco/myphoto/20121126/19/64947591201211261905061490497461183_000.jpg?1800x1500_120"];
 //    _info.Attach=_imageUrls;
-    [_headIV sd_setImageWithURL:[NSURL URLWithString:info.userInfo.UserHeader] placeholderImage:nil];
+    [_headIV sd_setImageWithURL:[NSURL URLWithString:info.userInfo.UserHeader] placeholderImage:Default_Image];
     _titleL.text=info.Title;
     _contentL.text=info.Message;
 //    _titleL.text=@"我开店啦啦啦";
@@ -244,7 +244,7 @@
     [_imagePlayerView reloadData];
     if ([_info.userInfo.IsFocus boolValue]) {
         [_attentionBtn setTitle:@"已关注" forState:UIControlStateNormal];
-        [_attentionBtn setUserInteractionEnabled:NO];
+//        [_attentionBtn setUserInteractionEnabled:NO];
     }
     else{
         [_attentionBtn setTitle:@"+关注" forState:UIControlStateNormal];

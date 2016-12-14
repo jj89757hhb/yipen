@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PenJinInfo.h"
+typedef void (^DeleteBlock)(id sender);
 @interface CollectionPenJingCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *headIV;
@@ -25,5 +26,6 @@
 @property (weak, nonatomic) IBOutlet UIView *bgView;
 
 @property(nonatomic,strong)PenJinInfo *info;
-
+@property(nonatomic,strong)NSIndexPath *indexPath;
+@property(nonatomic,copy)DeleteBlock deleteBlock;
 @end

@@ -152,7 +152,7 @@
         make.top.equalTo(_headIV.mas_bottom).offset(5);
         make.left.offset(0);
         make.right.offset(0);
-        make.height.offset(120);
+        make.height.offset(Tree_Height_SameCity);
     }];
     //    NSString *url=@"http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1106/26/c2/8138154_1309077121193_1024x1024it.jpg";
     //    [_treeIV sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
@@ -247,19 +247,19 @@
     //    [_treeIV sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
     _timeL.text=@"2016年2月10日-20日";
     //    _addressL.text=@"地址:杭州市西湖区孤山";
-    _addressL.text=[NSString stringWithFormat:@"地址:%@",info.Address];
-    _contactL.text=[NSString stringWithFormat:@"联系人:%@",info.Contact];
-    _phoneL.text=[NSString stringWithFormat:@"电话:%@",info.Mobile];
+    _addressL.text=[NSString stringWithFormat:@"地址:%@",info.Address?info.Address:@"暂无"];
+    _contactL.text=[NSString stringWithFormat:@"联系人:%@",info.Contact?info.Contact:@"暂无"];
+    _phoneL.text=[NSString stringWithFormat:@"电话:%@",info.Mobile?info.Mobile:@"暂无"];
     [_imagePlayerView reloadData];
     if ([_info.userInfo.IsFocus boolValue]) {
         [_attentionBtn setTitle:@"已关注" forState:UIControlStateNormal];
-        [_attentionBtn setUserInteractionEnabled:NO];
+//        [_attentionBtn setUserInteractionEnabled:NO];
     }
     else{
         [_attentionBtn setTitle:@"+关注" forState:UIControlStateNormal];
         [_attentionBtn setUserInteractionEnabled:YES];
     }
-    _priceL.text=[NSString stringWithFormat:@"价格:%@",info.Cost];
+    _priceL.text=[NSString stringWithFormat:@"价格:%@",info.Cost?info.Cost:@"暂无"];
 }
 
 - (NSInteger)numberOfItems
@@ -334,7 +334,9 @@
 }
 
 -(void)attentionAction{
-    
+    if (_attentionBlock) {
+        _attentionBlock(nil);
+    }
 }
 
 

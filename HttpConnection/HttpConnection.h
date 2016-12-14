@@ -34,6 +34,7 @@
 +(void)GetMyPurchase:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)Focus:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)CancelFocus:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)DelMyPost:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)Comments:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 
 +(void)Collection:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
@@ -76,7 +77,7 @@
 
 +(void)GetMyCollect:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)JoinActivity:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
-
++(void)ExitActivity:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)getToken:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetMyBonsaiFate:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)GetMyJoinBonsaiFate:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;

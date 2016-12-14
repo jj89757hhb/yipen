@@ -16,7 +16,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    [_delBtn addTarget:self action:@selector(deleteAction:) forControlEvents:UIControlEventTouchUpInside];
     // Configure the view for the selected state
 }
 
@@ -39,5 +39,11 @@
     [super layoutSubviews];
     _headIV.clipsToBounds=YES;
     _headIV.contentMode=UIViewContentModeScaleAspectFit;
+}
+
+-(void)deleteAction:(UIButton*)sender{
+    if (_deleteBlock) {
+        _deleteBlock(_indexPath);
+    }
 }
 @end

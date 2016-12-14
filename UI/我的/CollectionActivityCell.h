@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 //#import "PenJinInfo.h"
 #import "ActivityInfo.h"
+typedef void (^DeleteBlock)(id sender);
 @interface CollectionActivityCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *headIV;
@@ -26,5 +27,6 @@
 @property (weak, nonatomic) IBOutlet UIView *bgView;
 
 @property(nonatomic,strong)ActivityInfo *info;
-
+@property(nonatomic,strong)NSIndexPath *indexPath;
+@property(nonatomic,copy)DeleteBlock deleteBlock;
 @end

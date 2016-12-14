@@ -13,6 +13,7 @@
 #import "MWPhoto.h"
 #import "MWPhotoBrowser.h"
 static float content_FontSize_YouYuanDetail=14;
+typedef void(^AttentionBlock)(id sender);
 @interface YouYuanDetailTableViewCell : UITableViewCell<ImagePlayerViewDelegate,MWPhotoBrowserDelegate>
 @property(nonatomic,strong)UIImageView *headIV;
 @property(nonatomic,strong)UILabel *nameL;
@@ -33,4 +34,5 @@ static float content_FontSize_YouYuanDetail=14;
 @property(nonatomic,strong)ImagePlayerView *imagePlayerView;
 @property(nonatomic,strong)PraiseView *praiseView;
 @property(nonatomic,strong)NSMutableArray *photos;
+@property (nonatomic,copy) AttentionBlock attentionBlock;
 @end

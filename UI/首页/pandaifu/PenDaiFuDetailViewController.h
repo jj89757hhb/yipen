@@ -13,4 +13,5 @@
     NSInteger currentPage;
 }
 @property(nonatomic,strong)PenJinInfo *info;
+@property(nonatomic,assign)BOOL isPopKeyBoard;
 @end

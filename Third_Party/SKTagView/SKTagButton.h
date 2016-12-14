@@ -7,6 +7,9 @@
 #import <UIKit/UIKit.h>
 
 @class SKTag;
-@interface SKTagButton : UIButton
+@interface SKTagButton : UIButton{
+    
+}
 + (instancetype)buttonWithTag:(SKTag *)tag;
+@property(nonatomic,assign)BOOL isSelect;
 @end

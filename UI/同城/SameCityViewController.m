@@ -141,7 +141,11 @@
                     [citys addObject:city];
                     self.cityList=citys;
                     [cityTable reloadData];
+                    if ([city.ID isEqualToString:@"2"]) {//默认选择杭州
+                        [DataSource sharedDataSource].cityInfo=city;
+                    }
                 }
+            
             }
             else{
                 
@@ -220,6 +224,7 @@
      CityInfo *info=_cityList[indexPath.row];
     [selectbtn setTitle:info.CityName forState:UIControlStateNormal];
     [cityTable setHidden:YES];
+    [DataSource sharedDataSource].cityInfo=info;
 }
 
 -(void)initToolBar{

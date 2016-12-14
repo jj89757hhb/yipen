@@ -11,6 +11,7 @@
 @implementation HeaderTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     self.attentBtn.layer.cornerRadius=3;
     self.attentBtn.clipsToBounds=YES;
@@ -30,11 +31,22 @@
     _timeL.text=info.CreateTime;
     if ([_info.userInfo.IsFocus boolValue]) {
         [_attentBtn setTitle:@"已关注" forState:UIControlStateNormal];
-        [_attentBtn setUserInteractionEnabled:NO];
+//        [_attentBtn setUserInteractionEnabled:NO];
     }
     else{
         [_attentBtn setTitle:@"+关注" forState:UIControlStateNormal];
         [_attentBtn setUserInteractionEnabled:YES];
+    }
+    _levelIV.image=[UIImage imageNamed:[NSString stringWithFormat:@"lv%@",info.userInfo.Levels]];//lv1
+    
+    if ([_info.userInfo.RoleType isEqualToString:@"1"]||[_info.userInfo.RoleType isEqualToString:@"2"]) {
+        
+    }
+    else{//未开通
+        [_memberIV setHidden:YES];
+    }
+    if (![_info.userInfo.IsCertifi boolValue]) {
+        [_verifyIV setHidden:YES];
     }
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

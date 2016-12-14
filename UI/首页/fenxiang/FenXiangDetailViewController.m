@@ -77,7 +77,7 @@ static float BottomInputView_Height=50;
     }];
     if (self.isPopKeyBoard) {
         //        [self commentAction:nil];
-        [self performSelector:@selector(commentAction:) withObject:nil afterDelay:0.8];
+        [self performSelector:@selector(commentAction:) withObject:nil afterDelay:1.0];
     }
    
 }
@@ -224,7 +224,7 @@ static float BottomInputView_Height=50;
 //购买
 -(void)buyAction{
     if ([[DataSource sharedDataSource].userInfo.ID isEqualToString:_info.UID]) {
-        [SVProgressHUD showInfoWithStatus:@"不能购买自己的商品"];
+        [SVProgressHUD showInfoWithStatus:@"不能购买或询价自己的商品"];
         return;
     }
     WillBuyViewController *ctr=[[WillBuyViewController alloc] init];
@@ -235,27 +235,49 @@ static float BottomInputView_Height=50;
 }
 
 
-
+//点赞
 -(void)praiseAction:(UIButton*)sender{
     [SVProgressHUD show];
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",@"1",@"Type",_info.userInfo.ID,@"buid", nil];
-    [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            if ([[response objectForKey:@"ok"] boolValue]) {
-                [SVProgressHUD showInfoWithStatus:@"已赞"];
-                _info.IsPraise=@"1";
-                [self refreshBottomView];
-                
+    if (![_info.IsPraise boolValue]) {
+        [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已赞"];
+                    _info.IsPraise=@"1";
+                    [self refreshBottomView];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
             }
             else{
-                [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
             }
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
+            
+        }];
+    }
+    else {
         
-    }];
+        [HttpConnection CancelPraised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"取消看好"];
+                    _info.IsPraise=@"0";
+                    [self refreshBottomView];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
 }
 
 -(void)collectAction:(UIButton*)sender{
@@ -451,17 +473,9 @@ static float BottomInputView_Height=50;
             [self.navigationController pushViewController:ctr animated:YES];
             
         }];
-//        [cell setPraiseBlock:^(id sender){
-//            NSLog(@"setPraiseBlock");
-//            self.indexPath=indexPath;
-//            [self praisedAction:_info];
-//        }];
-        
-//        [cell setCollectBlock:^(id sender){
-//            NSLog(@"setCollectBlock");
-//            self.indexPath=indexPath;
-//            [self collectAction:_info];
-//        }];
+        [cell setAttentionBlock:^(id sender){
+            [self attentionAction:_info];
+        }];
         
         [cell setCommentBlock:^(id sender){
             NSLog(@"setCommentBlock");
@@ -529,6 +543,54 @@ static float BottomInputView_Height=50;
     [self.navigationController pushViewController:chat animated:YES];
 }
 
+//关注 取消关注
+-(void)attentionAction:(PenJinInfo*)pinfo{
+    [SVProgressHUD show];
+    YPUserInfo *info = pinfo.userInfo;
+    if (![info.IsFocus boolValue]) {
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BUID", nil];
+        [HttpConnection Focus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已关注"];
+                    info.IsFocus=@"1";
+                    [myTable reloadData];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+    else{
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BUID", nil];
+        [HttpConnection CancelFocus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已取消关注"];
+                    info.IsFocus=@"0";
+                    [myTable reloadData];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+
+
+}
+
 - (void)registerForKeyboardNotifications
 {
     //    [[NSNotificationCenter defaultCenter] addObserver:self
@@ -567,16 +629,19 @@ static float BottomInputView_Height=50;
     [animationDurationValue getValue:&animationDuration];
     
     // Animate the resize of the text view's frame in sync with the keyboard's appearance.
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
-    
-    //    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, _inputTextBottom.frame.origin.y-kbSize.height, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
-    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
-    
-    
-    [UIView commitAnimations];
-    //    [_inputTextBottom setHidden:NO];
-    
+//    [UIView beginAnimations:nil context:NULL];
+//    [UIView setAnimationDuration:animationDuration];
+//    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
+//
+//    [UIView commitAnimations];
+//    [UIView animateWithDuration:animationDuration animations:^{
+//          [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
+//    }];
+    [UIView animateWithDuration:animationDuration animations:^{
+         [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
+    } completion:^(BOOL finished) {
+       
+    }];
     
 }
 
@@ -665,53 +730,53 @@ static float BottomInputView_Height=50;
 }
 
 
--(void)praisedAction:(PenJinInfo*)info{
-    [SVProgressHUD show];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type",info.userInfo.ID,@"buid", nil];
-    if (![info.IsPraise boolValue]) {
-        [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
-            if (!error) {
-                if ([[response objectForKey:@"ok"] boolValue]) {
-                    [SVProgressHUD showInfoWithStatus:@"看好"];
-                    info.IsPraise=@"1";
-                    [self reloadTableAtIndex];
-                    
-                }
-                else{
-                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
-                }
-            }
-            else{
-                [SVProgressHUD showErrorWithStatus:ErrorMessage];
-            }
-            
-        }];
-    }
-    else{
-        [HttpConnection CancelPraised:dic WithBlock:^(id response, NSError *error) {
-            if (!error) {
-                if ([[response objectForKey:@"ok"] boolValue]) {
-                    [SVProgressHUD showInfoWithStatus:@"取消看好"];
-                    info.IsPraise=@"0";
-                    [self reloadTableAtIndex];
-                    
-                }
-                else{
-                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
-                }
-            }
-            else{
-                [SVProgressHUD showErrorWithStatus:ErrorMessage];
-            }
-            
-        }];
-    }
-  
-}
+//-(void)praisedAction:(PenJinInfo*)info{
+//    [SVProgressHUD show];
+//    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type",info.userInfo.ID,@"buid", nil];
+//    if (![info.IsPraise boolValue]) {
+//        [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
+//            if (!error) {
+//                if ([[response objectForKey:@"ok"] boolValue]) {
+//                    [SVProgressHUD showInfoWithStatus:@"看好"];
+//                    info.IsPraise=@"1";
+//                    [self reloadTableAtIndex];
+//                    
+//                }
+//                else{
+//                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+//                }
+//            }
+//            else{
+//                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+//            }
+//            
+//        }];
+//    }
+//    else{
+//        [HttpConnection CancelPraised:dic WithBlock:^(id response, NSError *error) {
+//            if (!error) {
+//                if ([[response objectForKey:@"ok"] boolValue]) {
+//                    [SVProgressHUD showInfoWithStatus:@"取消看好"];
+//                    info.IsPraise=@"0";
+//                    [self reloadTableAtIndex];
+//                    
+//                }
+//                else{
+//                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+//                }
+//            }
+//            else{
+//                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+//            }
+//            
+//        }];
+//    }
+//  
+//}
 
 
 -(void)reloadTableAtIndex{
-    [myTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:_indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//    [myTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:_indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 

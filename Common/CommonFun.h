@@ -19,4 +19,5 @@
 + (UIViewController *)viewControllerHasNavigation:(UIView *)view;
 + (NSString *)delDecimal:(NSString *)inputNum;
 + (UIViewController *)viewControllerHasNavgation:(UIView *)aView;
++(NSInteger)upLoadPictureNum;
 @end

@@ -137,7 +137,7 @@
         make.top.equalTo(_headIV.mas_bottom).offset(5);
         make.left.offset(0);
         make.right.offset(0);
-        make.height.offset(120);
+        make.height.offset(Tree_Height_SameCity);
     }];
     
     //    _treeIV.backgroundColor=[UIColor greenColor];

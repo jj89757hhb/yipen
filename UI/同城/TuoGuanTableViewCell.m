@@ -137,7 +137,7 @@
         make.top.equalTo(_headIV.mas_bottom).offset(5);
         make.left.offset(0);
         make.right.offset(0);
-        make.height.offset(120);
+        make.height.offset(Tree_Height_SameCity);
     }];
     
     //    _treeIV.backgroundColor=[UIColor greenColor];
@@ -227,7 +227,7 @@
     
     _timeL.text=@"2016年2月10日-20日";
     //    _addressL.text=@"地址：物业顶楼200平米招租";
-    _addressL.text=[NSString stringWithFormat:@"地址: %@",info.Address];
+    _addressL.text=[NSString stringWithFormat:@"地址: %@",info.Address?info.Address:@"暂无"];
     //    _titleL.text=@"南京皎月园";
     //    _contentL.text=@"刚开张的盆景店铺哦哦，美美的";
     //    [_viewL setText:@"120人浏览"];
@@ -235,8 +235,8 @@
     [_viewL setText:[NSString stringWithFormat:@"%@人浏览",info.BrowseNum]];
     [_praiseL setText:[NSString stringWithFormat:@"%@人看好",info.PraisedNum]];
 //    [_contactL setText:@"联系人:韩先生"];
-    [_contactL setText:[NSString stringWithFormat:@"联系人:%@",info.Contact]];
-    [_priceL setText:[NSString stringWithFormat:@"费用:%@",info.Cost]];
+    [_contactL setText:[NSString stringWithFormat:@"联系人:%@",info.Contact?info.Contact:@"暂无"]];
+    [_priceL setText:[NSString stringWithFormat:@"费用:%@",info.Cost?info.Cost:@"暂无"]];
 //    [_priceL setText:@"费用:面议"];
     //    NSString *url=@"http://img.pconline.com.cn/images/upload/upc/tx/itbbs/1106/26/c2/8138154_1309077121193_1024x1024it.jpg";
     //    [_treeIV sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];

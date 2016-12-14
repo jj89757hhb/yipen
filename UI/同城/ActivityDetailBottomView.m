@@ -97,7 +97,7 @@
 //    [_commentBtn setTitle:@"100" forState:UIControlStateNormal];
     if ([_info.isJoin boolValue]) {
         [_joinBtn setTitle:@"已参加" forState:UIControlStateNormal];
-        [_joinBtn setUserInteractionEnabled:NO];
+//        [_joinBtn setUserInteractionEnabled:NO];
     }
     else{
         [_joinBtn setTitle:@"参加" forState:UIControlStateNormal];

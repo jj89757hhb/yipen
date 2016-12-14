@@ -123,7 +123,7 @@ static NSString *identify=@"identify";
         [title setTextColor:[UIColor grayColor]];
         [cell.contentView addSubview:title];
         UILabel *desL=[[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-100, 5, 90, 20)];
-        [desL setText:@"非会员仅限5张"];
+        [desL setText:No_Memeber_Picture_Msg];
         desL.textAlignment=NSTextAlignmentRight;
         desL.font=[UIFont systemFontOfSize:13];
         [desL setTextColor:[UIColor grayColor]];
@@ -132,7 +132,7 @@ static NSString *identify=@"identify";
         if (_imgList.count==0) {
             count=1;
         }
-        else if(_imgList.count==Max_Pic){
+        else if(_imgList.count==[CommonFun upLoadPictureNum]){
             count=_imgList.count;
         }
         else{
@@ -196,7 +196,7 @@ static NSString *identify=@"identify";
 
 -(void)photoAction{
     ZYQAssetPickerController *picker = [[ZYQAssetPickerController alloc] init];
-    picker.maximumNumberOfSelection = Max_Pic;
+    picker.maximumNumberOfSelection = [CommonFun upLoadPictureNum];
     picker.assetsFilter = [ALAssetsFilter allPhotos];
     picker.showEmptyGroups=NO;
     picker.delegate=self;
@@ -254,7 +254,7 @@ static NSString *identify=@"identify";
             UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
             dispatch_async(dispatch_get_main_queue(), ^{
                 //  [_imgList insertObject:tempImg atIndex:_imgList.count-1];
-                if (_imgList.count < Max_Pic + 1) {
+                if (_imgList.count < [CommonFun upLoadPictureNum] + 1) {
                     //                    [_imgList insertObject:tempImg atIndex:0];
                     NSData *data=UIImageJPEGRepresentation(tempImg, compressionQuality);
                     [_imgList addObject:data];
@@ -274,7 +274,7 @@ static NSString *identify=@"identify";
         });
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (_imgList.count == Max_Pic + 1) {
+            if (_imgList.count == [CommonFun upLoadPictureNum] + 1) {
                 [_imgList removeObjectAtIndex:_imgList.count -1];
                 //                [self.imageDatas
                 

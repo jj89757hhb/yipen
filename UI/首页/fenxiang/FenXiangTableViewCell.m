@@ -369,10 +369,12 @@ static float image_offX =10;
         label.tag=200+i;
         label.text=tags[i];
         label.layer.cornerRadius=5;
+        label.layer.borderWidth = 0.5;
+        label.layer.borderColor = GRAYCOLOR.CGColor;
         label.clipsToBounds=YES;
         label.textAlignment=NSTextAlignmentCenter;
-        label.backgroundColor=[UIColor darkGrayColor];
-        label.textColor=WHITEColor;
+//        label.backgroundColor=[UIColor darkGrayColor];
+        label.textColor=GRAYCOLOR;
         label.font=[UIFont systemFontOfSize:13];
         [self.contentView addSubview:label];
         UILabel *temp=[self.contentView viewWithTag:200+i-1];
@@ -567,26 +569,49 @@ static float image_offX =10;
             _priceL.text=[NSString stringWithFormat:@"%@元",[CommonFun delDecimal:_info.Price]];
         
             if ([_info.IsMailed boolValue]) {
+               
                 _isExpressL.backgroundColor=MIDDLEBLACK;
                 _isExpressL.textColor=WHITEColor;
                 _isExpressL.layer.borderWidth=1;
                 _isExpressL.layer.borderColor=Clear_Color.CGColor;
                 [_isExpressL setText:@"包邮"];
-                [_priceL mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*2+10));
-                    make.width.offset(Width);
-                }];
-                [_saleStatusL mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*1+10));
-                    make.width.offset(Width);
-                }];
-                [_isExpressL mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*0+10));
-                    make.width.offset(Width);
-                }];
+            
+                if (_isDetail) {
+                    [_isExpressL setHidden:NO];
+                    [_priceL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                        make.right.offset(-(Width*2+10));
+                        make.width.offset(Width);
+                    }];
+                    [_saleStatusL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                        make.right.offset(-(Width*1+10));
+                        make.width.offset(Width);
+                    }];
+                    [_isExpressL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                        make.right.offset(-(Width*0+10));
+                        make.width.offset(Width);
+                    }];
+                }
+                else{//列表页 不显示包邮
+                    [_isExpressL setHidden:YES];
+                    [_priceL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                        make.right.offset(-(Width*1+10));
+                        make.width.offset(Width);
+                    }];
+                    [_saleStatusL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                        make.right.offset(-(Width*0+10));
+                        make.width.offset(Width);
+                    }];
+//                    [_isExpressL mas_remakeConstraints:^(MASConstraintMaker *make) {
+//                        make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+//                        make.right.offset(-(Width*0+10));
+//                        make.width.offset(Width);
+//                    }];
+                }
             }
             else{
                 [_isExpressL setHidden:YES];
@@ -617,22 +642,43 @@ static float image_offX =10;
                 _saleStatusL.text=@"拍卖中";
             _priceL.text=[NSString stringWithFormat:@"%@元",[CommonFun delDecimal:_info.APrice]];
             if ([_info.IsMailed boolValue]) {
+                
                 [_isExpressL setText:@"包邮"];
-                [_priceL mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*2+10));
-                    make.width.offset(Width);
-                }];
-                [_saleStatusL mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*1+10));
-                    make.width.offset(Width);
-                }];
-                [_isExpressL mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(_treeIcon.mas_bottom).offset(10);
-                    make.right.offset(-(Width*0+10));
-                    make.width.offset(Width);
-                }];
+                if (_isDetail) {
+                    [_priceL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                        make.right.offset(-(Width*2+10));
+                        make.width.offset(Width);
+                    }];
+                    [_saleStatusL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                        make.right.offset(-(Width*1+10));
+                        make.width.offset(Width);
+                    }];
+                    [_isExpressL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                        make.right.offset(-(Width*0+10));
+                        make.width.offset(Width);
+                    }];
+                }
+                else{
+                    [_priceL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                        make.right.offset(-(Width*1+10));
+                        make.width.offset(Width);
+                    }];
+                    [_saleStatusL mas_remakeConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+                        make.right.offset(-(Width*0+10));
+                        make.width.offset(Width);
+                    }];
+//                    [_isExpressL mas_remakeConstraints:^(MASConstraintMaker *make) {
+//                        make.top.equalTo(_treeIcon.mas_bottom).offset(10);
+//                        make.right.offset(-(Width*0+10));
+//                        make.width.offset(Width);
+//                    }];
+                }
+               
 
             }
             else{
@@ -784,7 +830,7 @@ static float image_offX =10;
 //    NSLog(@"info.CreateTime:%@",info.Createtime);
     if ([_info.userInfo.IsFocus boolValue]) {
         [_attentBtn setTitle:@"已关注" forState:UIControlStateNormal];
-        [_attentBtn setUserInteractionEnabled:NO];
+//        [_attentBtn setUserInteractionEnabled:NO];
     }
     else{
         [_attentBtn setTitle:@"+关注" forState:UIControlStateNormal];
@@ -839,7 +885,7 @@ static float image_offX =10;
 
 -(void)commentAction:(UIButton*)sender{
     if (_commentBlock) {
-        _commentBlock(nil);
+        _commentBlock(_indexPath);
     }
 }
 

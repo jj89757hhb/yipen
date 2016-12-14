@@ -572,6 +572,35 @@
     [operation start];
 }
 
+//删除我发布的
++(void)DelMyPost:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/DelMyPost",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    //    manager.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //        NSLog(@"Focus：%@",responseObject);
+        //        NSDictionary* json = responseObject;
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"DelMyPost：%@",json);
+        block(json,nil);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+}
+
 
 
 //评论
@@ -682,6 +711,35 @@
                     error:&error];
         }
         NSLog(@"JoinActivity：%@",json);
+        block(json,nil);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+}
+
+//退出活动
++(void)ExitActivity:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/ExitActivity",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    //    manager.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //        NSLog(@"DelCollect：%@",responseObject);
+        //        NSDictionary* json = responseObject;
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"ExitActivity：%@",json);
         block(json,nil);
         
         

@@ -215,6 +215,9 @@
 
 //是否喜欢
 -(void)likeOrNoWithType:(NSInteger)type{
+    if (!_info) {
+        return;
+    }
 
 //    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BID", [NSNumber numberWithInteger:type],@"IsRight",_info.UID,@"PostUserId", nil];
     NSDictionary *dic2=[[NSDictionary alloc] initWithObjectsAndKeys:_info.ID,@"BID", [NSNumber numberWithInteger:type],@"IsRight",_info.UID,@"PostUserId", nil ];
@@ -227,7 +230,12 @@
             [SVProgressHUD showInfoWithStatus:ErrorMessage];
         }
         else{
-            
+            if (type==0) {
+                [SVProgressHUD showInfoWithStatus:@"没有眼缘"];
+            }
+            else{
+                 [SVProgressHUD showInfoWithStatus:@"有意交换"];
+            }
         }
         
     }];

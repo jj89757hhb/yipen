@@ -22,6 +22,7 @@ static float image_offX =10;
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
 }
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
@@ -31,7 +32,7 @@ static float image_offX =10;
         [_headView setUserInteractionEnabled:YES];
         _headView.layer.cornerRadius=fenXiang_HeadSize/2.f;
         _headView.clipsToBounds=YES;
-        [_headView setBackgroundColor:[UIColor redColor]];
+//        [_headView setBackgroundColor:[UIColor redColor]];
         UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headAction)];
         [_headView addGestureRecognizer:tap];
         self.certificateIV=[[UIImageView alloc] init];
@@ -224,8 +225,8 @@ static float image_offX =10;
         [_bottomToolView.praiseBtn addTarget:self action:@selector(praiseAction:) forControlEvents:UIControlEventTouchUpInside];
         
         [_bottomToolView.collectBtn addTarget:self action:@selector(collectAction:) forControlEvents:UIControlEventTouchUpInside];
-        //        [_bottomToolView.commentBtn addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
-        [_bottomToolView.commentBtn setUserInteractionEnabled:NO];
+        [_bottomToolView.commentBtn addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
+//        [_bottomToolView.commentBtn setUserInteractionEnabled:NO];
         [_bottomToolView.chatBtn addTarget:self action:@selector(chatAction:) forControlEvents:UIControlEventTouchUpInside];
         
     }
@@ -307,6 +308,9 @@ static float image_offX =10;
         if (_isDetail) {
             [imageView addTapAction];
         }
+        else{
+            [imageView setUserInteractionEnabled:NO];
+        }
         
         imageView.tag=100+i;
         [imageView sd_setImageWithURL:[NSURL URLWithString:_info.Attach[i]] placeholderImage:nil];
@@ -337,10 +341,12 @@ static float image_offX =10;
         label.tag=200+i;
         label.text=tags[i];
         label.layer.cornerRadius=5;
+        label.layer.borderWidth = 0.5;
+        label.layer.borderColor = GRAYCOLOR.CGColor;
         label.clipsToBounds=YES;
         label.textAlignment=NSTextAlignmentCenter;
-        label.backgroundColor=[UIColor darkGrayColor];
-        label.textColor=WHITEColor;
+//        label.backgroundColor=[UIColor darkGrayColor];
+        label.textColor=GRAYCOLOR;
         label.font=[UIFont systemFontOfSize:13];
         [self.contentView addSubview:label];
         UILabel *temp=[self.contentView viewWithTag:200+i-1];
@@ -750,7 +756,7 @@ static float image_offX =10;
     //    NSLog(@"info.CreateTime:%@",info.Createtime);
     if ([_info.userInfo.IsFocus boolValue]) {
         [_attentBtn setTitle:@"已关注" forState:UIControlStateNormal];
-        [_attentBtn setUserInteractionEnabled:NO];
+//        [_attentBtn setUserInteractionEnabled:NO];
     }
     else{
         [_attentBtn setTitle:@"+关注" forState:UIControlStateNormal];
@@ -758,7 +764,7 @@ static float image_offX =10;
     }
     _levelIV.image=[UIImage imageNamed:[NSString stringWithFormat:@"lv%@",info.userInfo.Levels]];//lv1
     if ([info.IsCollect boolValue]) {
-        [_bottomToolView.collectBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+        [_bottomToolView.collectBtn setImage:[UIImage imageNamed:@"收藏（已点）"] forState:UIControlStateNormal];
     }
     else {
         [_bottomToolView.collectBtn setImage:[UIImage imageNamed:@"收藏（未点）"] forState:UIControlStateNormal];

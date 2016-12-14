@@ -72,6 +72,11 @@ static NSString *kTagsTableCellReuseIdentifier7=@"kTagsTableCellReuseIdentifier7
     [self requestData];
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+     [DataSource sharedDataSource].selectCounter=0;
+}
+
 -(void)reloadTableAtIndex{
     [myTable reloadSections:[NSIndexSet indexSetWithIndex:[DataSource sharedDataSource].lastSection] withRowAnimation:UITableViewRowAnimationNone];
 }
@@ -519,6 +524,9 @@ static NSString *kTagsTableCellReuseIdentifier7=@"kTagsTableCellReuseIdentifier7
     // Dispose of any resources that can be recreated.
 }
 
+-(void)dealloc{
+    [DataSource sharedDataSource].selectCounter=0;
+}
 /*
 #pragma mark - Navigation
 

@@ -11,6 +11,7 @@
 @implementation MyHeaderTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     [self.shareBtn addTarget:self action:@selector(shareAction) forControlEvents:UIControlEventTouchUpInside];
     [self.attentionBtn addTarget:self action:@selector(attentionAction) forControlEvents:UIControlEventTouchUpInside];
@@ -21,8 +22,7 @@
     self.editBtn.layer.borderColor=GRAYCOLOR.CGColor;
     self.editBtn.layer.borderWidth=1;
     [self.editBtn setTitleColor:BLUECOLOR forState:UIControlStateNormal];
-    self.headIV.clipsToBounds=YES;
-    self.headIV.layer.cornerRadius=30;
+
     self.shareNumL.textColor=BLUECOLOR;
     self.attentionNumL.textColor=BLUECOLOR;
     self.fansNumL.textColor=BLUECOLOR;
@@ -32,7 +32,11 @@
     self.line.backgroundColor=Line_Color;
 }
 
-
+-(void)layoutSubviews{
+    self.headIV.clipsToBounds=YES;
+    self.headIV.contentMode=UIViewContentModeScaleAspectFill;
+    self.headIV.layer.cornerRadius=30;
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

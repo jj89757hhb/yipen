@@ -42,11 +42,19 @@
     if (![_info.userInfo.IsCertifi boolValue]) {
 //        [_certificateIV setHidden:YES];
     }
+    [_delBtn addTarget:self action:@selector(deleteAction:) forControlEvents:UIControlEventTouchUpInside];
 
 }
 -(void)layoutSubviews{
     [super layoutSubviews];
-    _headIV.clipsToBounds=YES;
-    _headIV.contentMode=UIViewContentModeScaleAspectFit;
+//    _headIV.clipsToBounds=YES;
+//    _headIV.contentMode=UIViewContentModeScaleAspectFit;
 }
+
+-(void)deleteAction:(UIButton*)sender{
+    if (_deleteBlock) {
+        _deleteBlock(_indexPath);
+    }
+}
+
 @end

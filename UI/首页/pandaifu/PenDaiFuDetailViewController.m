@@ -60,7 +60,7 @@ static float BottomInputView_Height=50;
     }];
     [_bottomToolView.praiseBtn addTarget:self action:@selector(praiseAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    [_bottomToolView.collectBtn addTarget:self action:@selector(collectAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_bottomToolView.collectBtn addTarget:self action:@selector(collectAction) forControlEvents:UIControlEventTouchUpInside];
     [_bottomToolView.commentBtn addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
     [_bottomToolView.chatBtn addTarget:self action:@selector(chatAction:) forControlEvents:UIControlEventTouchUpInside];
     [self registerForKeyboardNotifications];
@@ -76,6 +76,10 @@ static float BottomInputView_Height=50;
     [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"返回"] withBlock:^(id sender) {
         [weakSelf backAction];
     }];
+    if (self.isPopKeyBoard) {
+        //        [self commentAction:nil];
+        [self performSelector:@selector(commentAction:) withObject:nil afterDelay:1.0];
+    }
 
 }
 
@@ -87,7 +91,7 @@ static float BottomInputView_Height=50;
 
 -(void)refreshBottomView{
     if ([_info.IsCollect boolValue]) {
-        [_bottomToolView.collectBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+        [_bottomToolView.collectBtn setImage:[UIImage imageNamed:@"收藏（已点）"] forState:UIControlStateNormal];
     }
     else {
         [_bottomToolView.collectBtn setImage:[UIImage imageNamed:@"收藏（未点）"] forState:UIControlStateNormal];
@@ -189,6 +193,48 @@ static float BottomInputView_Height=50;
 
 -(void)praiseAction:(UIButton*)sender{
     
+    [SVProgressHUD show];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",@"1",@"Type",_info.userInfo.ID,@"buid", nil];
+    if (![_info.IsPraise boolValue]) {
+        [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    //                    [SVProgressHUD showSuccessWithStatus:@"看好"];
+                    [SVProgressHUD showInfoWithStatus:@"看好" ];
+                    _info.IsPraise=@"1";
+                    [self refreshBottomView];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+    else{
+        [HttpConnection CancelPraised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"取消好看"];
+                    _info.IsPraise=@"0";
+                    [self refreshBottomView];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+
 }
 
 -(void)commentAction:(UIButton*)sender{
@@ -357,11 +403,11 @@ static float BottomInputView_Height=50;
             [self praisedAction:_info];
         }];
         
-        [cell setCollectBlock:^(id sender){
-            NSLog(@"setCollectBlock");
-            self.indexPath=indexPath;
-            [self collectAction:_info];
-        }];
+//        [cell setCollectBlock:^(id sender){
+//            NSLog(@"setCollectBlock");
+//            self.indexPath=indexPath;
+//            [self collectAction:_info];
+//        }];
         
         [cell setCommentBlock:^(id sender){
             NSLog(@"setCommentBlock");
@@ -369,8 +415,11 @@ static float BottomInputView_Height=50;
         
         [cell setChatBlock:^(id sender){
             NSLog(@"setChatBlock");
-            //            self.indexPath=indexPath;
             [self msgAction:nil];
+        }];
+        [cell setAttentionBlock:^(id sender){
+//            self.indexPath=indexPath;
+            [self attentionAction];
         }];
         [cell updateConstraintsIfNeeded];
         [cell layoutIfNeeded];
@@ -429,19 +478,82 @@ static float BottomInputView_Height=50;
     [self.navigationController pushViewController:chat animated:YES];
 }
 
-
--(void)collectAction:(PenJinInfo*)info{
+-(void)attentionAction{
     [SVProgressHUD show];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type", nil];
-    [HttpConnection Collection:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-            [SVProgressHUD showInfoWithStatus:@"已收藏"];
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
-        
-    }];
+    YPUserInfo *info = _info.userInfo;
+    if (![info.IsFocus boolValue]) {
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BUID", nil];
+        [HttpConnection Focus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已关注"];
+                    info.IsFocus=@"1";
+                    [myTable reloadData];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+    else{
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BUID", nil];
+        [HttpConnection CancelFocus:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"已取消关注"];
+                    info.IsFocus=@"0";
+                    [myTable reloadData];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+    
+}
+
+-(void)collectAction{
+    if (![_info.IsCollect boolValue]) {
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",@"1",@"Type", nil];
+        [HttpConnection Collection:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                [SVProgressHUD showInfoWithStatus:@"已收藏"];
+                _info.IsCollect=@"1";
+                [self refreshBottomView];
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+    else{
+        NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_info.ID,@"BeID",@"1",@"Type", nil];
+        [HttpConnection DelCollect:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                [SVProgressHUD showInfoWithStatus:@"已取消收藏"];
+                _info.IsCollect=@"0";
+                [self refreshBottomView];
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+
     
 }
 
@@ -484,16 +596,19 @@ static float BottomInputView_Height=50;
     [animationDurationValue getValue:&animationDuration];
     
     // Animate the resize of the text view's frame in sync with the keyboard's appearance.
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
+//    [UIView beginAnimations:nil context:NULL];
+//    [UIView setAnimationDuration:animationDuration];
+//    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
+//    [UIView commitAnimations];
     
-    //    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, _inputTextBottom.frame.origin.y-kbSize.height, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
-    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
-    
-    
-    [UIView commitAnimations];
-    //    [_inputTextBottom setHidden:NO];
-    
+//    [UIView animateWithDuration:animationDuration animations:^{
+//       
+//    }];
+    [UIView animateWithDuration:animationDuration animations:^{
+           [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
+    } completion:^(BOOL finished) {
+      
+    }];
     
 }
 

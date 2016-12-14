@@ -179,6 +179,8 @@ static NSString *identity=@"identity";
     
     [cell setCommentBlock:^(id sender){
         NSLog(@"setCommentBlock");
+          self.indexPath=indexPath;
+        [self willComment:nil];
     }];
     
     [cell setChatBlock:^(id sender){
@@ -197,6 +199,13 @@ static NSString *identity=@"identity";
     
 }
 
+-(void)willComment:(id)sender {
+    FenXiangDetailViewController *ctr=[[FenXiangDetailViewController alloc] init];
+    ctr.isPopKeyBoard=YES;
+    ctr.info=_list[_indexPath.row];
+    [self hideTabBar:YES animated:NO];
+    [self.navigationController pushViewController:ctr animated:YES];
+}
 
 -(void)msgAction:(PenJinInfo*)info{
     XMTabBarController *tabBar=(XMTabBarController*)self.tabBarController;
