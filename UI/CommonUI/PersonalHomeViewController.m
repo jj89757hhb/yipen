@@ -230,9 +230,12 @@ static NSInteger PageSize=10;
 }
 
 -(void)shareWithIndex:(NSIndexPath*)index{
+     PenJinInfo *info=_list[index.row];
     _shareView=[[ShareView alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     _shareView.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    _shareView.imageUrls=_info.Attach;
+    _shareView.imageUrls=info.Attach;
+    _shareView.title = info.Title;
+    _shareView.content = info.Descript;
     [[UIApplication sharedApplication].keyWindow  addSubview:_shareView];
 }
 

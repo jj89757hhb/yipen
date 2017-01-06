@@ -7,9 +7,11 @@
 //
 
 #import "AboutViewController.h"
-
+#import "ShareView.h"
+#import "WeixinNoViewController.h"
 @interface AboutViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)NSMutableArray *list;
+@property(nonatomic,strong)ShareView *shareView;
 @end
 
 @implementation AboutViewController
@@ -17,7 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"关于易盆";
-    self.list=[[NSMutableArray alloc] initWithObjects:@"欢迎页",@"欢迎易盆",@"问题反馈",@"创作人员",@"客服热线",nil];
+//    self.list=[[NSMutableArray alloc] initWithObjects:@"欢迎页",@"欢迎易盆",@"问题反馈",@"创作人员",@"客服热线",nil];
+       self.list=[[NSMutableArray alloc] initWithObjects:@"分享易盆",@"问题反馈",nil];
     [self initTable];
     copyrightL=[[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-60-64, SCREEN_WIDTH, 20)];
     companyL=[[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(copyrightL.frame), SCREEN_WIDTH, 20)];
@@ -29,7 +32,7 @@
     copyrightL.textAlignment=NSTextAlignmentCenter;
     [self.view addSubview:copyrightL];
     [self.view addSubview:companyL];
-    copyrightL.text=@"Copyright©2015";
+    copyrightL.text=@"Copyright©2016";
     companyL.text=@"杭州森圭网络科技有限公司";
     
     self.view.backgroundColor=WHITEColor;
@@ -61,7 +64,8 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 6;
+//    return 6;
+    return 3;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -87,7 +91,8 @@
             UILabel *version=[[UILabel alloc] initWithFrame:CGRectMake(0, 140, SCREEN_WIDTH, 20)];
             version.font=[UIFont systemFontOfSize:12];
             version.textColor=[UIColor darkGrayColor];
-            version.text=@"版本1.1";
+//            version.text=@"版本1.1";
+            version.text = [NSString stringWithFormat:@"版本%@",[CommonFun getVersion]];
             version.textAlignment=NSTextAlignmentCenter;
 //            cell.textLabel.text=_list[indexPath.row-1];
                 [cell.contentView addSubview:imageView];
@@ -110,6 +115,23 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row==1) {
+        [self shareAction];
+    }
+    else if(indexPath.row==2){
+        WeixinNoViewController *ctr = [[WeixinNoViewController alloc] initWithNibName:nil bundle:nil];
+        [self.navigationController pushViewController:ctr animated:YES];
+    }
+}
+
+-(void)shareAction{
+    _shareView=[[ShareView alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _shareView.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.5];
+//    _shareView.imageUrls=_info.Attach;
+    _shareView.title = @"易盆，汇聚四方盆友于此";
+    _shareView.content = @"以盆会友，不亦乐乎。— 分享木、石、草、花等心爱之物。— 可买可卖可拍可换。让一花一木都找到懂它之人。— 了解业界动态、参加盆友活动，为盆景找到安身之处。— 盆景养护、造型问题，且听诸盆友细细道来。即刻起，寻三五知己，把酒斟茶、赏石品树、人生快哉。";
+    _shareView.url = appStore_url;
+    [[UIApplication sharedApplication].keyWindow  addSubview:_shareView];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

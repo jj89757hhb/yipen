@@ -47,7 +47,8 @@ static AppPurchase *_sharedAppPurchase = nil;
 -(void)requestProducts
 {
   
-    NSSet* productSet = [NSSet setWithArray:@[@"yipen002",@"yipen003"]];
+//    NSSet* productSet = [NSSet setWithArray:@[@"yipen002",@"yipen003"]];
+    NSSet* productSet = [NSSet setWithArray:@[@"yipen004",@"yipen005"]];
     SKProductsRequest* skReq = [[SKProductsRequest alloc] initWithProductIdentifiers:productSet];
     skReq.delegate = self;
     [skReq start];
@@ -62,10 +63,10 @@ static AppPurchase *_sharedAppPurchase = nil;
     if (response.products.count != 0) {
         _products = response.products;
         if (_memberType==KVerify_Business) {
-              self.product=_products[0];
+              self.product=_products[1];
         }
         else{
-              self.product=_products[1];
+              self.product=_products[0];
         }
       
         NSLog(@"11:%@",_product.localizedTitle);
@@ -144,12 +145,12 @@ static AppPurchase *_sharedAppPurchase = nil;
     // 发送网络POST请求，对购买凭据进行验证
     NSString *verifyUrlString;
 //#if (defined(APPSTORE_ASK_TO_BUY_IN_SANDBOX) && defined(DEBUG))
-    verifyUrlString = @"https://sandbox.itunes.apple.com/verifyReceipt";
+//    verifyUrlString = @"https://sandbox.itunes.apple.com/verifyReceipt";
 //#else
-//    verifyUrlString = @"https://buy.itunes.apple.com/verifyReceipt";
+    verifyUrlString = @"https://buy.itunes.apple.com/verifyReceipt";
 //#endif
     // 国内访问苹果服务器比较慢，timeoutInterval 需要长一点
-    NSMutableURLRequest *storeRequest = [NSMutableURLRequest requestWithURL:[[NSURL alloc] initWithString:verifyUrlString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0f];
+    NSMutableURLRequest *storeRequest = [NSMutableURLRequest requestWithURL:[[NSURL alloc] initWithString:verifyUrlString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15.0f];
     
     [storeRequest setHTTPMethod:@"POST"];
     [storeRequest setHTTPBody:requestData];

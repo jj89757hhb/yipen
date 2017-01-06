@@ -141,6 +141,8 @@ static float BottomInputView_Height=50;
         _shareView=[[ShareView alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         _shareView.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.5];
        _shareView.imageUrls=_info.Attach;
+    _shareView.title = _info.Title;
+    _shareView.content = _info.Descript;
         [[UIApplication sharedApplication].keyWindow  addSubview:_shareView];
 }
 -(void)initAuctionView{

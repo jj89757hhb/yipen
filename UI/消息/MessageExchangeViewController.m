@@ -464,6 +464,8 @@ static NSInteger pageSize = 10;
         [self.navigationController pushViewController:ctr animated:YES];
     }
     else{
+        XMTabBarController *tabBar=(XMTabBarController*)self.tabBarController;
+        [tabBar xmTabBarHidden:YES animated:NO];
         OrderDetailViewController *ctr=[[OrderDetailViewController alloc] init];
         ctr.enterType=0;
         ctr.info=_list[index.row];

@@ -43,7 +43,7 @@
     _receiverL.text=_info.Contacter;
     _phoneL.text=_info.Mobile;
     _addressL.text=_info.Address;
-    _orderNumL.text=[NSString stringWithFormat:@"订单号:%@",_info.TradingNo];
+    _orderNumL.text=[NSString stringWithFormat:@"订单号:%@",_info.TradingNo?info.TradingNo:@"未知"];
     [_payTypeL setUserInteractionEnabled:NO];
     if (_info.Status==KNo_Pay) {
         _statusL.text=@"未付款";

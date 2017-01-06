@@ -499,10 +499,6 @@ THE SOFTWARE.
 
 
 
-## SMSSDK
-
-Copyright © 2012-2015 mob.com
-
 ## SVProgressHUD
 
 Copyright (c) 2011-2016 Sam Vermette, Tobias Tiemerding and contributors.
@@ -535,7 +531,8 @@ respective headers for the terms of their individual licenses.
 
 ## ShareSDK3
 
-Copyright © 2012-2015 mob
+Copyright © 2012-2016 mob
+
 
 ## TTTAttributedLabel
 

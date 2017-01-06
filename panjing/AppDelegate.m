@@ -20,7 +20,7 @@
 #import "ShareView.h"
 #import "WXApiManager.h"
 #import <AlipaySDK/AlipaySDK.h>
-#import <SMS_SDK/SMSSDK.h>
+//#import <SMS_SDK/SMSSDK.h>
 //#define RONGCLOUD_IM_APPKEY @"z3v5yqkbv8v30" // online key
 
 #define UMENG_APPKEY @"563755cbe0f55a5cb300139c"
@@ -48,7 +48,7 @@
     //2. 初始化社交平台
     //2.1 代码初始化社交平台的方法
     [ShareView initializePlat];
-    [SMSSDK registerApp:AppKey_sms withSecret:AppSecret_sms];
+//    [SMSSDK registerApp:AppKey_sms withSecret:AppSecret_sms];
      [WXApi registerApp:@"wxc854949473b2b966" withDescription:@"demo 2.0"];
     [NotificationCenter addObserver:self selector:@selector(loginOut) name:KloginOutNotify object:nil];
     // Override point for customization after application launch.

@@ -446,7 +446,7 @@
             startingLineNumber = "127"
             endingLineNumber = "127"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -462,7 +462,7 @@
             startingLineNumber = "53"
             endingLineNumber = "53"
             landmarkName = "-tableView:numberOfRowsInSection:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -478,7 +478,7 @@
             startingLineNumber = "140"
             endingLineNumber = "140"
             landmarkName = "-loginOutAction"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -628,7 +628,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x767b;&#x5f55;&#x6ce8;&#x518c;/LoginViewController.m"
@@ -639,38 +639,6 @@
             endingLineNumber = "130"
             landmarkName = "-goLoginAcition:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[LoginViewController goLoginAcition:]"
-                  moduleName = "panjing"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/panjing/UI/%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C/LoginViewController.m"
-                  timestampString = "477125265.651271"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "79"
-                  endingLineNumber = "79"
-                  offsetFromSymbolStart = "411">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__38-[LoginViewController goLoginAcition:]_block_invoke"
-                  moduleName = "panjing"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/panjing/UI/%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C/LoginViewController.m"
-                  timestampString = "477125265.651997"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "79"
-                  endingLineNumber = "79"
-                  offsetFromSymbolStart = "67">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -920,12 +888,12 @@
                   moduleName = "panjing"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/HttpConnection/HttpConnection.m"
-                  timestampString = "503410186.914941"
+                  timestampString = "504108925.29183"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1511"
                   endingLineNumber = "1511"
-                  offsetFromSymbolStart = "140">
+                  offsetFromSymbolStart = "128">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -935,27 +903,12 @@
                   moduleName = "panjing"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/HttpConnection/HttpConnection.m"
-                  timestampString = "503410186.918364"
+                  timestampString = "504108925.296163"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1511"
                   endingLineNumber = "1511"
-                  offsetFromSymbolStart = "56">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.722"
-                  moduleName = "panjing"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/HttpConnection/HttpConnection.m"
-                  timestampString = "503410186.921139"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1511"
-                  endingLineNumber = "1511"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "42">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1797,11 +1750,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/ShareView.m"
-            timestampString = "491371315.010235"
+            timestampString = "504023592.227221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "455"
-            endingLineNumber = "455"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
             landmarkName = "+authSinaWeibo"
             landmarkType = "7">
             <Locations>
@@ -1851,7 +1804,7 @@
             startingLineNumber = "88"
             endingLineNumber = "88"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1867,7 +1820,7 @@
             startingLineNumber = "89"
             endingLineNumber = "89"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2181,11 +2134,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/PersonalHomeViewController.m"
-            timestampString = "503059192.563522"
+            timestampString = "504108159.350995"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
             landmarkName = "-msgAction:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2549,11 +2502,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/ShareView.m"
-            timestampString = "491371315.010235"
+            timestampString = "504023592.227221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "467"
-            endingLineNumber = "467"
+            startingLineNumber = "470"
+            endingLineNumber = "470"
             landmarkName = "+authSinaWeibo"
             landmarkType = "7">
             <Locations>
@@ -2597,11 +2550,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/ShareView.m"
-            timestampString = "491371315.010235"
+            timestampString = "504023592.227221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "475"
-            endingLineNumber = "475"
+            startingLineNumber = "478"
+            endingLineNumber = "478"
             landmarkName = "+authSinaWeibo"
             landmarkType = "7">
          </BreakpointContent>
@@ -2613,11 +2566,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/ShareView.m"
-            timestampString = "491371315.010235"
+            timestampString = "504023592.227221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "504"
-            endingLineNumber = "504"
+            startingLineNumber = "507"
+            endingLineNumber = "507"
             landmarkName = "+authQQLogin"
             landmarkType = "7">
             <Locations>
@@ -2661,11 +2614,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/ShareView.m"
-            timestampString = "491371315.010235"
+            timestampString = "504023592.227221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "469"
-            endingLineNumber = "469"
+            startingLineNumber = "472"
+            endingLineNumber = "472"
             landmarkName = "+authSinaWeibo"
             landmarkType = "7">
          </BreakpointContent>
@@ -2757,11 +2710,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/ShareView.m"
-            timestampString = "491371315.010235"
+            timestampString = "504023592.227221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "503"
-            endingLineNumber = "503"
+            startingLineNumber = "506"
+            endingLineNumber = "506"
             landmarkName = "+authQQLogin"
             landmarkType = "7">
          </BreakpointContent>
@@ -2773,11 +2726,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/ShareView.m"
-            timestampString = "491371315.010235"
+            timestampString = "504023592.227221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "505"
-            endingLineNumber = "505"
+            startingLineNumber = "508"
+            endingLineNumber = "508"
             landmarkName = "+authQQLogin"
             landmarkType = "7">
          </BreakpointContent>
@@ -3012,13 +2965,13 @@
                   symbolName = "+[HttpConnection GetBonsaiList:WithBlock:]"
                   moduleName = "panjing"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/panjing/HttpConnection/HttpConnection.m"
-                  timestampString = "479878655.496311"
+                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/HttpConnection/HttpConnection.m"
+                  timestampString = "504024867.132847"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "746"
-                  endingLineNumber = "746"
-                  offsetFromSymbolStart = "441">
+                  startingLineNumber = "1671"
+                  endingLineNumber = "1671"
+                  offsetFromSymbolStart = "448">
                </Location>
                <Location
                   shouldBeEnabled = "No"
@@ -3027,13 +2980,13 @@
                   symbolName = "__42+[HttpConnection GetBonsaiList:WithBlock:]_block_invoke"
                   moduleName = "panjing"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/panjing/HttpConnection/HttpConnection.m"
-                  timestampString = "479878655.496509"
+                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/HttpConnection/HttpConnection.m"
+                  timestampString = "504024867.135007"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "746"
-                  endingLineNumber = "746"
-                  offsetFromSymbolStart = "61">
+                  startingLineNumber = "1674"
+                  endingLineNumber = "1674"
+                  offsetFromSymbolStart = "104">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3667,11 +3620,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x9996;&#x9875;/fenxiang/FenXiangDetailViewController.m"
-            timestampString = "502602725.644727"
+            timestampString = "504107850.702222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "344"
-            endingLineNumber = "344"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
             landmarkName = "-sendAction:"
             landmarkType = "7">
             <Locations>
@@ -3923,12 +3876,12 @@
                   moduleName = "panjing"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/UI/%E9%A6%96%E9%A1%B5/taoyipan/TaoYiPanViewController.m"
-                  timestampString = "503410186.95887"
+                  timestampString = "504108925.348266"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "248"
                   endingLineNumber = "248"
-                  offsetFromSymbolStart = "1096">
+                  offsetFromSymbolStart = "1206">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -3938,12 +3891,12 @@
                   moduleName = "panjing"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/UI/%E9%A6%96%E9%A1%B5/taoyipan/TaoYiPanViewController.m"
-                  timestampString = "503410186.963846"
+                  timestampString = "504108925.351132"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "249"
                   endingLineNumber = "249"
-                  offsetFromSymbolStart = "80">
+                  offsetFromSymbolStart = "75">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -4432,11 +4385,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x9996;&#x9875;/fenxiang/FenXiangDetailViewController.m"
-            timestampString = "503408357.54883"
+            timestampString = "504107850.702222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "790"
-            endingLineNumber = "790"
+            startingLineNumber = "792"
+            endingLineNumber = "792"
             landmarkName = "-tapImageViewWithCellIndex:imageIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -4544,11 +4497,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x9996;&#x9875;/fenxiang/FenXiangDetailViewController.m"
-            timestampString = "502602725.644727"
+            timestampString = "504107850.702222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "535"
-            endingLineNumber = "535"
+            startingLineNumber = "537"
+            endingLineNumber = "537"
             landmarkName = "-msgAction:"
             landmarkType = "7">
          </BreakpointContent>
@@ -4800,11 +4753,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/ShareView.m"
-            timestampString = "491371315.010235"
+            timestampString = "504023592.227221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "569"
-            endingLineNumber = "569"
+            startingLineNumber = "572"
+            endingLineNumber = "572"
             landmarkName = "+authWeixinLogin"
             landmarkType = "7">
          </BreakpointContent>
@@ -4816,11 +4769,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/ShareView.m"
-            timestampString = "491371315.010235"
+            timestampString = "504023592.227221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "570"
-            endingLineNumber = "570"
+            startingLineNumber = "573"
+            endingLineNumber = "573"
             landmarkName = "+authWeixinLogin"
             landmarkType = "7">
          </BreakpointContent>
@@ -4832,11 +4785,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/ShareView.m"
-            timestampString = "491371315.010235"
+            timestampString = "504023592.227221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "571"
-            endingLineNumber = "571"
+            startingLineNumber = "574"
+            endingLineNumber = "574"
             landmarkName = "+authWeixinLogin"
             landmarkType = "7">
             <Locations>
@@ -5920,11 +5873,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x9996;&#x9875;/fenxiang/FenXiangDetailViewController.m"
-            timestampString = "502602725.644727"
+            timestampString = "504107850.702222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
             landmarkName = "-commentAction:"
             landmarkType = "7">
          </BreakpointContent>
@@ -6320,11 +6273,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x9996;&#x9875;/fenxiang/FenXiangDetailViewController.m"
-            timestampString = "502602725.644727"
+            timestampString = "504107850.702222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "285"
-            endingLineNumber = "285"
+            startingLineNumber = "287"
+            endingLineNumber = "287"
             landmarkName = "-collectAction:"
             landmarkType = "7">
          </BreakpointContent>
@@ -6336,11 +6289,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x9996;&#x9875;/fenxiang/FenXiangDetailViewController.m"
-            timestampString = "500180896.80601"
+            timestampString = "504107850.702222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
             landmarkName = "-buyAction"
             landmarkType = "7">
          </BreakpointContent>
@@ -6352,11 +6305,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x9996;&#x9875;/fenxiang/FenXiangDetailViewController.m"
-            timestampString = "500180896.80601"
+            timestampString = "504107850.702222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "-negotiateAction:"
             landmarkType = "7">
          </BreakpointContent>
@@ -6384,11 +6337,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x9996;&#x9875;/fenxiang/FenXiangDetailViewController.m"
-            timestampString = "500180896.80601"
+            timestampString = "504107850.702222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "-negotiateAction:"
             landmarkType = "7">
             <Locations>
@@ -6923,11 +6876,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x9996;&#x9875;/fenxiang/FenXiangDetailViewController.m"
-            timestampString = "500180896.80601"
+            timestampString = "504107850.702222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "236"
+            endingLineNumber = "236"
             landmarkName = "-buyAction"
             landmarkType = "7">
          </BreakpointContent>
@@ -7989,12 +7942,12 @@
                   moduleName = "panjing"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/UI/CommonUI/OrderDetailViewController.m"
-                  timestampString = "503410186.99506"
+                  timestampString = "504108925.386082"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "179"
                   endingLineNumber = "179"
-                  offsetFromSymbolStart = "644">
+                  offsetFromSymbolStart = "648">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -8004,12 +7957,12 @@
                   moduleName = "panjing"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/UI/CommonUI/OrderDetailViewController.m"
-                  timestampString = "503410186.997411"
+                  timestampString = "504108925.391436"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "180"
                   endingLineNumber = "180"
-                  offsetFromSymbolStart = "80">
+                  offsetFromSymbolStart = "75">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -8309,11 +8262,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/ShareView.m"
-            timestampString = "491371315.010235"
+            timestampString = "504023592.227221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "301"
-            endingLineNumber = "301"
+            startingLineNumber = "304"
+            endingLineNumber = "304"
             landmarkName = "-clientShareClickHandler:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8373,11 +8326,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/PersonalHomeViewController.m"
-            timestampString = "503059192.563522"
+            timestampString = "504108159.350995"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
             landmarkName = "-shareWithIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8469,11 +8422,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/CommonUI/ShareView.m"
-            timestampString = "491466077.256689"
+            timestampString = "504023592.227221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "561"
-            endingLineNumber = "561"
+            startingLineNumber = "564"
+            endingLineNumber = "564"
             landmarkName = "+authWeixinLogin"
             landmarkType = "7">
          </BreakpointContent>
@@ -9965,11 +9918,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x9996;&#x9875;/fenxiang/FenXiangDetailViewController.m"
-            timestampString = "502602725.644727"
+            timestampString = "504107850.702222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "550"
-            endingLineNumber = "550"
+            startingLineNumber = "552"
+            endingLineNumber = "552"
             landmarkName = "-attentionAction:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9981,11 +9934,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x9996;&#x9875;/fenxiang/FenXiangDetailViewController.m"
-            timestampString = "503408357.54883"
+            timestampString = "504107850.702222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "736"
-            endingLineNumber = "736"
+            startingLineNumber = "738"
+            endingLineNumber = "738"
             landmarkName = "@implementation FenXiangDetailViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -10317,11 +10270,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x9996;&#x9875;/fenxiang/FenXiangDetailViewController.m"
-            timestampString = "503058786.235557"
+            timestampString = "504107850.702222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "469"
-            endingLineNumber = "469"
+            startingLineNumber = "471"
+            endingLineNumber = "471"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -10556,11 +10509,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UI/&#x9996;&#x9875;/fenxiang/FenXiangDetailViewController.m"
-            timestampString = "503407582.489812"
+            timestampString = "504107850.702222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "633"
-            endingLineNumber = "633"
+            startingLineNumber = "635"
+            endingLineNumber = "635"
             landmarkName = "-keyboardWasShown:"
             landmarkType = "7">
             <Locations>
@@ -10674,6 +10627,340 @@
             startingLineNumber = "123"
             endingLineNumber = "123"
             landmarkName = "-requestDataIsRefresh:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UI/&#x6211;&#x7684;/CollectionXiangYuanViewController.m"
+            timestampString = "503459527.462084"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "-deleteInfo:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CollectionXiangYuanViewController deleteInfo:]"
+                  moduleName = "panjing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/UI/%E6%88%91%E7%9A%84/CollectionXiangYuanViewController.m"
+                  timestampString = "504108925.425027"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "589">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__48-[CollectionXiangYuanViewController deleteInfo:]_block_invoke"
+                  moduleName = "panjing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/UI/%E6%88%91%E7%9A%84/CollectionXiangYuanViewController.m"
+                  timestampString = "504108925.428585"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "75">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UI/&#x6211;&#x7684;/CollectionShangPenViewController.m"
+            timestampString = "503459540.394539"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "-deleteInfo:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CollectionShangPenViewController deleteInfo:]"
+                  moduleName = "panjing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/UI/%E6%88%91%E7%9A%84/CollectionShangPenViewController.m"
+                  timestampString = "503459540.634092"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "589">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__47-[CollectionShangPenViewController deleteInfo:]_block_invoke"
+                  moduleName = "panjing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/UI/%E6%88%91%E7%9A%84/CollectionShangPenViewController.m"
+                  timestampString = "503459540.638543"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96"
+                  offsetFromSymbolStart = "75">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UI/&#x6d88;&#x606f;/MessageExchangeTableViewCell.h"
+            timestampString = "503991645.820336"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "3"
+            endingLineNumber = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MessageExchangeTableViewCell treeIV]"
+                  moduleName = "panjing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/UI/%E6%B6%88%E6%81%AF/MessageExchangeTableViewCell.h"
+                  timestampString = "503991830.663002"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MessageExchangeTableViewCell setTreeIV:]"
+                  moduleName = "panjing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/UI/%E6%B6%88%E6%81%AF/MessageExchangeTableViewCell.h"
+                  timestampString = "503991830.664872"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UI/&#x6d88;&#x606f;/MessageExchangeViewController.m"
+            timestampString = "503991670.900302"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
+            landmarkName = "-orderWithIndex:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UI/&#x6211;&#x7684;/MemberPayViewController.m"
+            timestampString = "504021535.097473"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "-queryPayType"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MemberPayViewController queryPayType]"
+                  moduleName = "panjing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/UI/%E6%88%91%E7%9A%84/MemberPayViewController.m"
+                  timestampString = "504108925.434641"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "77"
+                  endingLineNumber = "77"
+                  offsetFromSymbolStart = "659">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__39-[MemberPayViewController queryPayType]_block_invoke"
+                  moduleName = "panjing"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/huabinhu/Documents/%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BA%E7%9A%84test%E5%B7%A5%E7%A8%8B/zuixin/panjing/UI/%E6%88%91%E7%9A%84/MemberPayViewController.m"
+                  timestampString = "504108925.439152"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "75">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UI/&#x6211;&#x7684;/MemberPayViewController.m"
+            timestampString = "504021800.034932"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "-queryPayType"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UI/&#x6211;&#x7684;/MemberPayViewController.m"
+            timestampString = "504021816.686908"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "-payAction"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Common/AppPurchase.m"
+            timestampString = "504021843.467277"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
+            landmarkName = "-willPurchase"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UI/&#x6211;&#x7684;/AboutViewController.m"
+            timestampString = "504086341.287476"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UI/&#x6211;&#x7684;/AboutViewController.m"
+            timestampString = "504086341.287476"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HttpConnection/HttpConnection.m"
+            timestampString = "504024609.604068"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "+loginWithPhone:WithBlock:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HttpConnection/HttpConnection.m"
+            timestampString = "504024678.126904"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "+loginWithPhone:WithBlock:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UI/&#x6211;&#x7684;/WeixinNoViewController.m"
+            timestampString = "504108923.618757"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "-saveAction"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

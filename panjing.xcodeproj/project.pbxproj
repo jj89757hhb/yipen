@@ -97,6 +97,8 @@
 		FE3CF22D1D35D6660060CEB2 /* RemainingPayView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3CF22C1D35D6660060CEB2 /* RemainingPayView.m */; };
 		FE45402C1C56127500BD10B8 /* SendTreePictureTableViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = FE45402A1C56127500BD10B8 /* SendTreePictureTableViewCell2.m */; };
 		FE45402D1C56127500BD10B8 /* SendTreePictureTableViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE45402B1C56127500BD10B8 /* SendTreePictureTableViewCell2.xib */; };
+		FE47FE721E0BBAEB003A65F1 /* WeixinNoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE47FE701E0BBAEB003A65F1 /* WeixinNoViewController.m */; };
+		FE47FE731E0BBAEB003A65F1 /* WeixinNoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE47FE711E0BBAEB003A65F1 /* WeixinNoViewController.xib */; };
 		FE4AF2C81C72C8D90094F1DF /* libBlocksKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FE4AF2C71C72C8D90094F1DF /* libBlocksKit.a */; };
 		FE4AF2DD1C72D23F0094F1DF /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AF2CB1C72D23F0094F1DF /* AFHTTPRequestOperation.m */; };
 		FE4AF2DE1C72D23F0094F1DF /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4AF2CD1C72D23F0094F1DF /* AFHTTPRequestOperationManager.m */; };
@@ -178,6 +180,7 @@
 		FE6C60281D2CA43900A05DB3 /* CollectionActivityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE6C60261D2CA43900A05DB3 /* CollectionActivityCell.xib */; };
 		FE6C602B1D2CD4E400A05DB3 /* ActivityDetailBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6C602A1D2CD4E400A05DB3 /* ActivityDetailBottomView.m */; };
 		FE6C602E1D2CF8C900A05DB3 /* StoreBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6C602D1D2CF8C900A05DB3 /* StoreBottomView.m */; };
+		FE73717E1E0C2239000BB08C /* Default-568.png in Resources */ = {isa = PBXBuildFile; fileRef = FE73717D1E0C2239000BB08C /* Default-568.png */; };
 		FE746F531CA24931000D5578 /* MyCollectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE746F521CA24931000D5578 /* MyCollectViewController.m */; };
 		FE746F561CA27669000D5578 /* TCStoreDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE746F551CA27669000D5578 /* TCStoreDetailViewController.m */; };
 		FE746F591CA276AB000D5578 /* TCStoreDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE746F581CA276AB000D5578 /* TCStoreDetailTableViewCell.m */; };
@@ -678,6 +681,9 @@
 		FE4540291C56127500BD10B8 /* SendTreePictureTableViewCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendTreePictureTableViewCell2.h; sourceTree = "<group>"; };
 		FE45402A1C56127500BD10B8 /* SendTreePictureTableViewCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendTreePictureTableViewCell2.m; sourceTree = "<group>"; };
 		FE45402B1C56127500BD10B8 /* SendTreePictureTableViewCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendTreePictureTableViewCell2.xib; sourceTree = "<group>"; };
+		FE47FE6F1E0BBAEB003A65F1 /* WeixinNoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeixinNoViewController.h; sourceTree = "<group>"; };
+		FE47FE701E0BBAEB003A65F1 /* WeixinNoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeixinNoViewController.m; sourceTree = "<group>"; };
+		FE47FE711E0BBAEB003A65F1 /* WeixinNoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WeixinNoViewController.xib; sourceTree = "<group>"; };
 		FE4AF2A01C72C8D90094F1DF /* A2BlockInvocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A2BlockInvocation.h; sourceTree = "<group>"; };
 		FE4AF2A11C72C8D90094F1DF /* A2DynamicDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A2DynamicDelegate.h; sourceTree = "<group>"; };
 		FE4AF2A21C72C8D90094F1DF /* BKMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKMacros.h; sourceTree = "<group>"; };
@@ -854,6 +860,7 @@
 		FE6C602A1D2CD4E400A05DB3 /* ActivityDetailBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityDetailBottomView.m; sourceTree = "<group>"; };
 		FE6C602C1D2CF8C900A05DB3 /* StoreBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreBottomView.h; sourceTree = "<group>"; };
 		FE6C602D1D2CF8C900A05DB3 /* StoreBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreBottomView.m; sourceTree = "<group>"; };
+		FE73717D1E0C2239000BB08C /* Default-568.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568.png"; sourceTree = "<group>"; };
 		FE746F511CA24931000D5578 /* MyCollectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectViewController.h; sourceTree = "<group>"; };
 		FE746F521CA24931000D5578 /* MyCollectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectViewController.m; sourceTree = "<group>"; };
 		FE746F541CA27669000D5578 /* TCStoreDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCStoreDetailViewController.h; sourceTree = "<group>"; };
@@ -1537,6 +1544,7 @@
 		FE29948E1BF96B630045969D /* panjing */ = {
 			isa = PBXGroup;
 			children = (
+				FE73717D1E0C2239000BB08C /* Default-568.png */,
 				FE2994921BF96B630045969D /* AppDelegate.h */,
 				FE2994931BF96B630045969D /* AppDelegate.m */,
 				FE2994951BF96B630045969D /* ViewController.h */,
@@ -1808,6 +1816,9 @@
 				FE6575F01C7477AB00241D59 /* AboutViewController.h */,
 				FE6575F11C7477AB00241D59 /* AboutViewController.m */,
 				FE6575F21C7477AB00241D59 /* AboutViewController.xib */,
+				FE47FE6F1E0BBAEB003A65F1 /* WeixinNoViewController.h */,
+				FE47FE701E0BBAEB003A65F1 /* WeixinNoViewController.m */,
+				FE47FE711E0BBAEB003A65F1 /* WeixinNoViewController.xib */,
 			);
 			name = "设置";
 			sourceTree = "<group>";
@@ -2889,6 +2900,7 @@
 				FE29949F1BF96B640045969D /* LaunchScreen.storyboard in Resources */,
 				FE3164EF1C5E1AEA002C5641 /* EditIntroduceViewController.xib in Resources */,
 				FEEBF43B1C76DA0E000BF807 /* ShareSendViewController.xib in Resources */,
+				FE47FE731E0BBAEB003A65F1 /* WeixinNoViewController.xib in Resources */,
 				FE81D75F1C75928200063093 /* ManagerWithdrawViewController.xib in Resources */,
 				FE81D79A1C75C47A00063093 /* SameCitySendTableViewCell.xib in Resources */,
 				FEBADA291C3A17BA009850AA /* Send1ViewController.xib in Resources */,
@@ -2961,6 +2973,7 @@
 				FE156BB71CBB3D16009E4B03 /* AlipaySDK.bundle in Resources */,
 				FEAFB1E31C7EEA5C00395099 /* SendYouYuanTableViewCell.xib in Resources */,
 				FE81D7421C75767500063093 /* FundDetailsViewController.xib in Resources */,
+				FE73717E1E0C2239000BB08C /* Default-568.png in Resources */,
 				FE8D57EB1C85440F00C31D91 /* MyBuyTableViewCell1.xib in Resources */,
 				FE6575EB1C74655C00241D59 /* LevelRuleViewController.xib in Resources */,
 				FE6575D41C74055B00241D59 /* MemberDescriptionViewController.xib in Resources */,
@@ -3120,6 +3133,7 @@
 				FE55F03E1C7320BE00C28AD4 /* UIView+MJExtension.m in Sources */,
 				FE156C9D1CBB4AEE009E4B03 /* DataSigner.m in Sources */,
 				FEB1E6E61C3268F200AEEBBA /* SKTagButton.m in Sources */,
+				FE47FE721E0BBAEB003A65F1 /* WeixinNoViewController.m in Sources */,
 				FE6575F31C7477AB00241D59 /* AboutViewController.m in Sources */,
 				FEC7BE1A1D372BAB00A830E4 /* MySellOrderTableViewCell.m in Sources */,
 				FEB1E6F21C326B0C00AEEBBA /* SVTopScrollView.m in Sources */,
@@ -3482,7 +3496,7 @@
 					"$(SRCROOT)/Third_Party",
 				);
 				INFOPLIST_FILE = panjing/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3532,7 +3546,7 @@
 					"$(SRCROOT)/Third_Party",
 				);
 				INFOPLIST_FILE = panjing/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

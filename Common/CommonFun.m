@@ -263,4 +263,14 @@
     return num;
 }
 
++(NSString *)getVersion{
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    // app名称
+    //    NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
+    // app版本
+//    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+       NSString *app_Version = [infoDictionary objectForKey:@"CFBundleVersion"];
+    return app_Version;
+}
+
 @end

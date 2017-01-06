@@ -298,11 +298,14 @@ static NSString *circle_Share_Url=@"/share/group/";//分享圈子
 //    NSURL *url=[NSURL URLWithString:imageurl];
     //_imageUrls.count?_imageUrls:imageArray
     //创建分享参数  【发现新浪微博如果 images 是非image对象 分享失败！！！！】
+    if (!_url) {
+        _url =appStore_url;
+    }
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-    [shareParams SSDKSetupShareParamsByText:@"分享盆景"
+    [shareParams SSDKSetupShareParamsByText:_content?_content: @"分享盆景"
                                      images:_imageUrls.count?_imageUrls:imageArray//传入要分享的图片
-                                        url:[NSURL URLWithString:@"http://mob.com"]
-                                      title:@"分享盆景"
+                                        url:[NSURL URLWithString:_url]
+                                      title:_title?_title: @"易盆"
                                        type:contentType];
     
     //进行分享

@@ -152,6 +152,12 @@
             AboutViewController *about=[[AboutViewController alloc] initWithNibName:nil bundle:nil];
             [self.navigationController pushViewController:about animated:YES];
         }
+        else if(indexPath.row ==1){//评价
+            if ( [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:appStore_url]]) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appStore_url]];
+            }
+           
+        }
         else if(indexPath.row==2){//服务协议
             MyWebViewViewController *ctr=[[MyWebViewViewController alloc] init];
             ctr.urlStr=user_agreement_Url;

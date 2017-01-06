@@ -3,7 +3,7 @@
 //非常重要,上线之前这里一定要改成2，推送的环境变量 1、开发环境  2、生产环境
 #define kDistributionTag                (2)//1为开发环境  2为生产环境
 //测试环境
-#define kServerAddress                   (kDistributionTag == 1 ? @"http://112.74.124.35/Api/": @"http://112.74.124.35/Api/")
+#define kServerAddress                   (kDistributionTag == 1 ? @"http://112.74.124.35/Api/": @"http://imyipen.com/Api/")
 #define ZFB_CallBack_Url  @"http://112.74.124.35/Api/HandlerAliPayRet.ashx/HandlerAliPayRet"//支付宝回调地址
 #define  kTimeOutInterval 10
 
@@ -86,7 +86,8 @@ static NSString *AppScheme =@"yipen";
 #define OS_Version @"IOS"
 #define IdentifierForVendor [[UIDevice currentDevice].identifierForVendor UUIDString]
 //appstore下载地址
-static NSString *appStore_url=@"https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1029417431";
+//static NSString *appStore_url=@"https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1029417431";
+static NSString *appStore_url=@"https://itunes.apple.com/us/app/yi-pen/id1089464595?l=zh&ls=1&mt=8";
 static NSString *user_explain_Url=@"http://imyipen.com/sysm.html";
 static NSString *user_agreement_Url=@"http://imyipen.com/yhxy.html";
 

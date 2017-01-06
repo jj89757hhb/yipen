@@ -10,7 +10,7 @@
 #import "ShareView.h"
 #import "ResetPsw1ViewController.h"
 #import "MyWebViewViewController.h"
-#import <SMS_SDK/SMSSDK.h>
+//#import <SMS_SDK/SMSSDK.h>
 @interface LoginViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *registerBtn;
 @property (weak, nonatomic) IBOutlet UIButton *loginBtn;
