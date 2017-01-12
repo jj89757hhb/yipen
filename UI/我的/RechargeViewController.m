@@ -34,6 +34,7 @@
     [_selectBtn addTarget:self action:@selector(selectWeixPay) forControlEvents:UIControlEventTouchUpInside];
     [_select2Btn addTarget:self action:@selector(selectZfbPay) forControlEvents:UIControlEventTouchUpInside];
         [_selectBtn setSelected:YES];
+    _fundTF.keyboardType = UIKeyboardTypeNumberPad;
 }
 
 
@@ -52,7 +53,11 @@
 -(void)weiXinPay{
     [SVProgressHUD show];
     Pay_Type_Weixin pay_Type=KChongZhi;
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:@"-1",@"tranNo",@"1",@"money",@"易盘账户充值", @"body",[DataSource sharedDataSource].userInfo.ID, @"uid",@"empty",@"Touid",[NSNumber numberWithInteger:pay_Type],@"payType",nil];
+    NSString *totalPrice = @"1";
+    if (kDistributionTag == 2) {
+        totalPrice = [NSString stringWithFormat:@"%ld",(long)[_fundTF.text floatValue]*100];//传的是分为单位
+    }
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:@"-1",@"tranNo",totalPrice,@"money",@"易盘账户充值", @"body",[DataSource sharedDataSource].userInfo.ID, @"uid",@"empty",@"Touid",[NSNumber numberWithInteger:pay_Type],@"payType",nil];
     [HttpConnection WeChatPay:dic WithBlock:^(id response, NSError *error) {
 //
         if (!error) {
@@ -108,7 +113,11 @@
 //支付宝预支付
 -(void)aliWillPay{
     Pay_Type_Weixin pay_TypeWX=KChongZhi;// money 1表示1分钱
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:@"-1",@"tranNo",@"0.01",@"money",@"易盆账号充值", @"body",[DataSource sharedDataSource].userInfo.ID, @"uid",@"empty",@"Touid",[NSNumber numberWithInteger:pay_TypeWX],@"payType",nil];
+    NSString *totalPrice = @"0.01";
+    if (kDistributionTag == 2) {
+        totalPrice = _fundTF.text;
+    }
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:@"-1",@"tranNo",totalPrice,@"money",@"易盆账号充值", @"body",[DataSource sharedDataSource].userInfo.ID, @"uid",@"empty",@"Touid",[NSNumber numberWithInteger:pay_TypeWX],@"payType",nil];
     [HttpConnection AliPay:dic WithBlock:^(id response, NSError *error) {
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {
@@ -170,7 +179,12 @@
     order.tradeNO = _tranNo; //订单ID（由商家自行制定）
     order.productName =@"易盘账户充值"; //商品标题
     order.productDescription = @"empty"; //商品描述
-    order.amount = [NSString stringWithFormat:@"%.2f",0.01]; //商品价格
+//    order.amount = [NSString stringWithFormat:@"%.2f",0.01]; //商品价格
+    NSString *totalPrice = @"0.01";
+    if (kDistributionTag == 2) {
+        totalPrice = _fundTF.text;
+    }
+    order.amount = totalPrice;
     order.notifyURL = ZFB_CallBack_Url; //回调URL
     
     order.service = @"mobile.securitypay.pay";

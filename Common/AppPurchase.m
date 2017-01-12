@@ -265,10 +265,17 @@ static AppPurchase *_sharedAppPurchase = nil;
 
 
 -(void)willPurchase{
+    if(_product){
     SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:self.product];
     payment.quantity = 1;
     [[SKPaymentQueue defaultQueue] addPayment:payment];
     [SVProgressHUD show];
+    }
+    else{
+        [UIAlertView bk_showAlertViewWithTitle:nil message:@"无法获取内购数据" cancelButtonTitle:@"确定" otherButtonTitles:nil handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            
+        }];
+    }
 }
 
 

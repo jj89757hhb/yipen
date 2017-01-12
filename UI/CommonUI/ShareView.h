@@ -17,7 +17,7 @@
 @property(nonatomic,strong)UIImage *image;
 @property(nonatomic,assign)NSInteger _id;//活动id 或帖子id
 @property(nonatomic,assign)NSInteger enterType;//入口 1、分享活动 2 分享帖子 3分享圈子
-@property(nonatomic,strong)NSMutableArray *imageUrls;
+@property(nonatomic,copy)NSMutableArray *imageUrls;
 +(void)initializePlat;
 -(void)shareWithShareType:(EShareType)type isSelectAll:(BOOL)isSelect;
 +(void)authSinaWeibo;

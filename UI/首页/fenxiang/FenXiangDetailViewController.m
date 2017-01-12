@@ -671,7 +671,12 @@ static float BottomInputView_Height=50;
 
 //出价
 -(void)priceAction{
-    
+    NSMutableAttributedString *attributedStr=[CommonFun timerFireMethod:[_info.AEndTime longLongValue]];
+    if ([[attributedStr.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"拍卖已结束"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"拍卖已结束，不能出价" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
     OfferPriceView *view=[[OfferPriceView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     [view initViewWithPrice:_info.APrice];
     view.MakeUp=_info.MakeUp;

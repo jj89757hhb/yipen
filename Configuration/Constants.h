@@ -2,8 +2,15 @@
 //  Constants.h
 //非常重要,上线之前这里一定要改成2，推送的环境变量 1、开发环境  2、生产环境
 #define kDistributionTag                (2)//1为开发环境  2为生产环境
+
+#if  kDistributionTag==1  //开发测试网络
 //测试环境
 #define kServerAddress                   (kDistributionTag == 1 ? @"http://112.74.124.35/Api/": @"http://imyipen.com/Api/")
+#elif kDistributionTag==2  //正式发布网络
+#define kServerAddress                   (kDistributionTag == 1 ? @"http://112.74.124.35/Api/": @"http://imyipen.com/Api/")
+
+#endif
+
 #define ZFB_CallBack_Url  @"http://112.74.124.35/Api/HandlerAliPayRet.ashx/HandlerAliPayRet"//支付宝回调地址
 #define  kTimeOutInterval 10
 

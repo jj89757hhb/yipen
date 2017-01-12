@@ -28,7 +28,7 @@
     UILabel *weiXinL = [[UILabel alloc] initWithFrame:CGRectMake(23, 40, 200, 20)];
     weiXinL.font = [UIFont systemFontOfSize:16];
     weiXinL.text = @"易盆微信公众号: imyipen";
-    [self.view addSubview:weiXinL];
+//    [self.view addSubview:weiXinL];
 }
 
 

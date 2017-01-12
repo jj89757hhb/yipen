@@ -16,6 +16,7 @@
 #import "Order.h"
 #import "WXApiRequestHandler.h"
 #import "WXApiManager.h"
+#import <RongIMKit/RongIMKit.h>
 @interface OrderDetailViewController ()<UITableViewDelegate,UITableViewDataSource>{
     Pay_Type pay_Type;
     NSString *totalPrice;
@@ -118,7 +119,16 @@ static NSString *identify=@"identify";
 }
 
 -(void)chatAction:(UIButton*)sender{
-    
+    //新建一个聊天会话View Controller对象
+    RCConversationViewController *chat = [[RCConversationViewController alloc]init];
+    //设置会话的类型，如单聊、讨论组、群聊、聊天室、客服、公众服务会话等
+    chat.conversationType = ConversationType_PRIVATE;
+    //设置会话的目标会话ID。（单聊、客服、公众服务会话为对方的ID，讨论组、群聊、聊天室为会话的ID）
+    chat.targetId = _info.SaleUser.UID;
+    //设置聊天会话界面要显示的标题
+    chat.title = _info.SaleUser.NickName;
+    //显示聊天会话界面
+    [self.navigationController pushViewController:chat animated:YES];
 }
 
 //发货
@@ -534,10 +544,12 @@ static NSString *identify=@"identify";
                 
             }
             else if([resultDic[@"resultStatus"] integerValue]==6001){//用户取消
-                [SVProgressHUD showWithStatus:@"用户中途取消"];
+//                [SVProgressHUD showWithStatus:@"用户中途取消"];
+                [SVProgressHUD showErrorWithStatus:@"用户中途取消"];
             }
             else if([resultDic[@"resultStatus"] integerValue]==6002){//网络出错
-                [SVProgressHUD showWithStatus:@"网络连接出错"];
+//                [SVProgressHUD showWithStatus:@"网络连接出错"];
+                 [SVProgressHUD showErrorWithStatus:@"网络连接出错"];
             }
         }];
     }

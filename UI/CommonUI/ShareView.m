@@ -288,6 +288,8 @@ static NSString *circle_Share_Url=@"/share/group/";//分享圈子
     else if(sender.tag==13){//微博
         platformType=SSDKPlatformTypeSinaWeibo;
         contentType=SSDKContentTypeImage;
+        _imageUrls = nil;
+        _content = [_content stringByAppendingString:[NSString stringWithFormat:@"-易盆app下载地址%@",appStore_url]];
     }
     
     NSArray* imageArray = @[[UIImage imageNamed:@"logo_home.png"]];

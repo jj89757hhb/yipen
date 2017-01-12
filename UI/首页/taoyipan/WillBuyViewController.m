@@ -420,8 +420,12 @@ static float Bottom_Height=50;
 //    order.productDescription = _info.Descript ; //商品描述
     order.productDescription=_saleUser.ID;//这个用于传id了！！！！！
 
-    
-    order.amount = [NSString stringWithFormat:@"%.2f",0.01]; //商品价格
+    NSString *totalPrice = @"0.01";
+    if (kDistributionTag == 2) {
+        totalPrice = _totalPrice;
+    }
+    order.amount = totalPrice;
+//    order.amount = [NSString stringWithFormat:@"%.2f",0.01]; //商品价格
     order.notifyURL =  ZFB_CallBack_Url; //回调URL
     
     order.service = @"mobile.securitypay.pay";
@@ -456,10 +460,10 @@ static float Bottom_Height=50;
             
             }
             else if([resultDic[@"resultStatus"] integerValue]==6001){//用户取消
-                [SVProgressHUD showWithStatus:@"用户中途取消"];
+                [SVProgressHUD showErrorWithStatus:@"用户中途取消"];
             }
             else if([resultDic[@"resultStatus"] integerValue]==6002){//网络出错
-                  [SVProgressHUD showWithStatus:@"网络连接出错"];
+                [SVProgressHUD showErrorWithStatus:@"网络连接出错"];
             }
         }];
     }
@@ -469,7 +473,11 @@ static float Bottom_Height=50;
 //微信支付
 -(void)weiXinPay{
     Pay_Type_Weixin pay_TypeWX=KGoods_Pay;// money 1表示1分钱
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:_tranNo,@"tranNo",@"1",@"money",_info.Title, @"body",[DataSource sharedDataSource].userInfo.ID, @"uid",_saleUser.ID,@"Touid",[NSNumber numberWithInteger:pay_TypeWX],@"payType",nil];
+    NSString *totalPrice = @"1";
+    if (kDistributionTag == 2) {
+        totalPrice = [NSString stringWithFormat:@"%ld",(long)[_totalPrice floatValue]*100];//传的是分为单位
+    }
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:_tranNo,@"tranNo",totalPrice,@"money",_info.Title, @"body",[DataSource sharedDataSource].userInfo.ID, @"uid",_saleUser.ID,@"Touid",[NSNumber numberWithInteger:pay_TypeWX],@"payType",nil];
     [HttpConnection WeChatPay:dic WithBlock:^(id response, NSError *error) {
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {
@@ -507,7 +515,11 @@ static float Bottom_Height=50;
 //支付宝预支付接口
 -(void)AliWilPay{
     Pay_Type_Weixin pay_TypeWX=KGoods_Pay;// money 1表示1分钱
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:_tranNo,@"tranNo",@"0.01",@"money",_info.Title, @"body",[DataSource sharedDataSource].userInfo.ID, @"uid",_saleUser.ID,@"Touid",[NSNumber numberWithInteger:pay_TypeWX],@"payType",nil];
+    NSString *totalPrice = @"0.01";
+    if (kDistributionTag == 2) {
+        totalPrice = _totalPrice;
+    }
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:_tranNo,@"tranNo",totalPrice,@"money",_info.Title, @"body",[DataSource sharedDataSource].userInfo.ID, @"uid",_saleUser.ID,@"Touid",[NSNumber numberWithInteger:pay_TypeWX],@"payType",nil];
     [HttpConnection AliPay:dic WithBlock:^(id response, NSError *error) {
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {

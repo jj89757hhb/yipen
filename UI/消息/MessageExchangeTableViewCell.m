@@ -913,6 +913,9 @@
             _originPriceL.text=[NSString stringWithFormat:@"原价：¥%@>总价：¥%@",_info.Bonsai.Price,_info.NAmount];
 
         }
+         else if(_info.Result == 0){//设计上根本没考虑 这个是对面出价拍卖后的状态 //0108
+             [_negotiatedBtn setHidden:YES];
+         }
     }
   
    

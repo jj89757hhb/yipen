@@ -42,6 +42,9 @@
     NSMutableAttributedString *attributedStr=[CommonFun timerFireMethod:[_info.AEndTime longLongValue]];
  
     self.timerL.attributedText=attributedStr;
+    if ([[attributedStr.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"拍卖已结束"]) {
+        [timer invalidate];
+    }
 //    _textLayer.string=attributedStr;
 //    
 //    _textLayer.frame = CGRectMake(SCREEN_WIDTH-200, 5, 200, 20);

@@ -2632,10 +2632,11 @@
         //        NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
 //        for (int i=0;i<pics.count;i++) {
             NSData *imageData=pic;
+           int x = arc4random() % 100;//加个随机数
             NSString *str = [formatter stringFromDate:[NSDate date]];
             str=[str stringByReplacingOccurrencesOfString:@"." withString:@""];
 //            NSString *fileName = [NSString stringWithFormat:@"%@%d.png", str,i];
-        NSString *fileName = [NSString stringWithFormat:@"%@.png", str];
+        NSString *fileName = [NSString stringWithFormat:@"%@_%d.png", str,x];
             NSLog(@"fileName111:%@",fileName);
             // 上传图片，以文件流的格式
 //            NSString *name=[NSString stringWithFormat:@"File%d",i+1];

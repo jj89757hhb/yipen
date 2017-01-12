@@ -290,7 +290,8 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 
 + (void)showImage:(UIImage*)image status:(NSString*)status {
     NSTimeInterval displayInterval = [self displayDurationForString:status];
-    [[self sharedView] showImage:image status:status duration:displayInterval];
+//    [[self sharedView] showImage:image status:status duration:displayInterval];
+      [[self sharedView] showImage:image status:status duration:1];//自己修改时间
 }
 
 + (void)showImage:(UIImage*)image status:(NSString*)status maskType:(SVProgressHUDMaskType)maskType {

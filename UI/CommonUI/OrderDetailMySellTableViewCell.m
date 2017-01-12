@@ -37,7 +37,7 @@
         NSString *totalPrice=[NSString stringWithFormat:@"%.2f",[_info.Bonsai.Price floatValue]+[_info.Bonsai.MailFee floatValue]];
            _totalPriceL.text=[NSString stringWithFormat:@"¥%@(含邮费¥%@)",totalPrice,_info.Bonsai.MailFee];
     }
- 
+    [_totalPriceL sizeToFit];
     _sellerL.text=_info.BuyUser.NickName;
     _receiverL.text=_info.Contacter;
     _phoneL.text=_info.Mobile;

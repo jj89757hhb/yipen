@@ -654,6 +654,8 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
             if ([resultDic[@"resultStatus"] integerValue]==9000) {//支付成功
                 
 //                [NotificationCenter postNotificationName:ZFB_Pay_Success_Noti object:nil];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"支付成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alertView show];
             }
         }];
         return YES;
@@ -663,6 +665,8 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
         if (array.count==2) {
             if ([array[1] integerValue]==0) {//成功
                       [NotificationCenter postNotificationName:WeiXin_Pay_Success_Noti object:nil];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"支付成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alertView show];
             }
         }
         

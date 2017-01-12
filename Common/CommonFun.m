@@ -117,6 +117,7 @@
         NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc]initWithString:countdown];
     if (diffSec<0) {
         countdown=[NSString stringWithFormat:@"拍卖已结束   "];
+        attributedStr = [[NSMutableAttributedString alloc]initWithString:countdown];
         return attributedStr;
     }
 
