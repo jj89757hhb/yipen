@@ -11,9 +11,11 @@
 @implementation MyPenYuanTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     _headIV.clipsToBounds=YES;
     _headIV.layer.cornerRadius=30;
+    [_delBtn addTarget:self action:@selector(delAction:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -44,5 +46,13 @@
         make.left.equalTo(_nameL.mas_right).offset(5);
         
     }];
+//    [_delBtn setHidden:YES];
 }
+
+-(void)delAction:(UIButton*)sender{
+    if (_deleteAction) {
+        _deleteAction(_indexPath);
+    }
+}
+
 @end

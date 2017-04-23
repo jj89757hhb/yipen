@@ -18,8 +18,14 @@
     [super viewDidLoad];
     [self setTitle:@"支付宝提现"];
     [_authorBtn addTarget:self action:@selector(authorAction) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"返回"] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
 }
 
+
+-(void)backAction{
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
 -(void)authorAction{
     if (_nameTF.text.length==0) {
         [SVProgressHUD showErrorWithStatus:@"请输入真实姓名"];

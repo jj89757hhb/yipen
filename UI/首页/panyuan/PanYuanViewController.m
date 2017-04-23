@@ -145,6 +145,7 @@
     //163 × 163
     loveBtn=[[UIButton alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(bottomView.frame)+20, 163/2.f, 163/2.f)];
     [loveBtn setImage:[UIImage imageNamed:@"喜欢"] forState:UIControlStateNormal];
+    [loveBtn setImage:[UIImage imageNamed:@"已喜欢"] forState:UIControlStateHighlighted];
     
     noLoveBtn=[[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-163/2.f-40, loveBtn.frame.origin.y, 163/2.f, 163/2.f)];
     [noLoveBtn setImage:[UIImage imageNamed:@"不喜欢"] forState:UIControlStateNormal];

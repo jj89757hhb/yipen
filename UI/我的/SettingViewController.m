@@ -160,6 +160,7 @@
         }
         else if(indexPath.row==2){//服务协议
             MyWebViewViewController *ctr=[[MyWebViewViewController alloc] init];
+            ctr.enterType =1;
             ctr.urlStr=user_agreement_Url;
             ctr.title=@"服务协议";
             [self.navigationController pushViewController:ctr animated:YES];
@@ -180,11 +181,14 @@
     else if (indexPath.section==0){
         [UIAlertView bk_showAlertViewWithTitle:nil message:@"确定清除本地缓存?" cancelButtonTitle:@"取消" otherButtonTitles:@[@"清除" ] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex==1) {
-                  [[SDImageCache sharedImageCache] cleanDiskWithCompletionBlock:^{
-                      [SVProgressHUD showSuccessWithStatus:@"已清除"];
-                      [myTable reloadData];
-                  }];
-                
+//                  [[SDImageCache sharedImageCache] cleanDiskWithCompletionBlock:^{
+//                      [SVProgressHUD showSuccessWithStatus:@"已清除"];
+//                      [myTable reloadData];
+//                  }];
+                [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
+                    [SVProgressHUD showSuccessWithStatus:@"已清除"];
+                    [myTable reloadData];
+                }];
             }
             
         }];

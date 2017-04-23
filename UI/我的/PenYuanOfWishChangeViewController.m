@@ -82,6 +82,11 @@ static NSInteger pageSize=10;
     [cell setInfo:_list[indexPath.row]];
     [cell updateConstraintsIfNeeded];
     [cell layoutIfNeeded];
+    cell.indexPath = indexPath;
+    WS(weakSelf)
+    [cell setDeleteAction:^(id sender){
+        [weakSelf deleteAction:sender];
+    }];
     return cell;
 }
 
@@ -94,6 +99,24 @@ static NSInteger pageSize=10;
     // Dispose of any resources that can be recreated.
 }
 
+
+-(void)deleteAction:(NSIndexPath*)indexPath{
+    [SVProgressHUD show];
+    PenJinInfo *info = _list[indexPath.row];
+    NSString *result=[NSString stringWithFormat:@"%@,%@,%@",info.BFID,[NSNumber numberWithInteger:0],info.UID];
+    NSDictionary *dic3=[[NSDictionary alloc] initWithObjectsAndKeys:result,@"result" ,[DataSource sharedDataSource].userInfo.ID,@"UID",nil];
+    [HttpConnection PostBonsaiFate:dic3 WithBlock:^(id response, NSError *error) {
+        if (error) {
+            [SVProgressHUD showInfoWithStatus:ErrorMessage];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"没有眼缘"];
+            [_list removeObjectAtIndex:indexPath.row];
+            [myTable reloadData];
+        }
+        
+    }];
+}
 /*
 #pragma mark - Navigation
 

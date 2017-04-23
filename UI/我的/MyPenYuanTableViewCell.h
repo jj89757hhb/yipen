@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PenJinInfo.h"
+typedef void(^DeleteAction)(id sender);
 @interface MyPenYuanTableViewCell : UITableViewCell{
     
 }
@@ -25,4 +26,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *locationL;
 @property (weak, nonatomic) IBOutlet UILabel *changeNumL;
 @property(nonatomic,strong)PenJinInfo *info;
+@property(nonatomic ,copy)DeleteAction deleteAction;
+@property(nonatomic, weak)NSIndexPath *indexPath;
 @end

@@ -20,6 +20,7 @@
 #import "ShareView.h"
 #import "WXApiManager.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import <UserNotifications/UserNotifications.h>
 //#import <SMS_SDK/SMSSDK.h>
 //#define RONGCLOUD_IM_APPKEY @"z3v5yqkbv8v30" // online key
 
@@ -210,21 +211,40 @@
     /**
      * 推送处理1
      */
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue]>=10.0) {
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        UNAuthorizationOptions options = UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert;
+        [center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            if (granted) {
+                [[UIApplication sharedApplication] registerForRemoteNotifications];
+                NSLog(@"通知授权");
+            }
+            else{
+                
+            }
+            
+            
+        }];
+    }
+    else{
     if ([application
          respondsToSelector:@selector(registerUserNotificationSettings:)]) {
         //注册推送, 用于iOS8以及iOS8之后的系统
         UIUserNotificationSettings *settings = [UIUserNotificationSettings
                                                 settingsForTypes:(UIUserNotificationTypeBadge |
                                                                   UIUserNotificationTypeSound |
-                                                                  UIUserNotificationTypeAlert)
+                                                                  UIUserNotificationTypeAlert )
                                                 categories:nil];
         [application registerUserNotificationSettings:settings];
+//        [application registerForRemoteNotifications];
     } else {
         //注册推送，用于iOS8之前的系统
         UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge |
         UIRemoteNotificationTypeAlert |
         UIRemoteNotificationTypeSound;
         [application registerForRemoteNotificationTypes:myTypes];
+    }
     }
     /**
      * 统计推送打开率1
@@ -656,6 +676,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 //                [NotificationCenter postNotificationName:ZFB_Pay_Success_Noti object:nil];
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"支付成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [alertView show];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"queryPersonalInfo2" object:nil];
             }
         }];
         return YES;
@@ -667,6 +688,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
                       [NotificationCenter postNotificationName:WeiXin_Pay_Success_Noti object:nil];
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"支付成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [alertView show];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"queryPersonalInfo2" object:nil];
             }
         }
         

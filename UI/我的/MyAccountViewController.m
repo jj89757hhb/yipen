@@ -26,6 +26,8 @@
     [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"返回"] withBlock:^(id sender) {
         [weakSelf backAction];
     }];
+    [self queryPersonalInfo];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queryPersonalInfo) name:@"queryPersonalInfo2" object:nil];
 }
 
 -(void)initTable{
@@ -157,6 +159,33 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+
+-(void)queryPersonalInfo{
+    if (![DataSource sharedDataSource].userInfo.ID) {
+        [myTable.header endRefreshing];
+        return;
+    }
+    NSString *param=[NSString stringWithFormat:@"UID=%@",[DataSource sharedDataSource].userInfo.ID];
+    [HttpConnection getOwnerInfoWithParameter:param WithBlock:^(id response, NSError *error) {
+        [myTable.header endRefreshing];
+        if (!error) {
+            if ([[response objectForKey:@"ok"] isEqualToString:@"TRUE"]) {
+//                NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:0];
+//                [myTable reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                [myTable reloadData];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:[response objectForKey:@"Reason"]];
+            }
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:ErrorMessage];
+        }
+        
+    }];
 }
 
 /*

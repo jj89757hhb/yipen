@@ -21,7 +21,14 @@
     self.title=@"修改密码";
     self.line1.backgroundColor=Line_Color;
     self.line2.backgroundColor=Line_Color;
+    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"返回"] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
 }
+
+-(void)backAction{
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
 - (IBAction)sureAction:(id)sender {
     if (_oldTF.text.length==0) {
         [SVProgressHUD showErrorWithStatus:@"请输入旧密码"];

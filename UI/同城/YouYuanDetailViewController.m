@@ -20,6 +20,7 @@
 @property(nonatomic,strong)UIButton *commentBtn;
 @property(nonatomic,strong)UIButton *praiseBtn;
 @property(nonatomic,strong)NSMutableArray * photos;
+@property(nonatomic,assign)BOOL isPoping;//键盘是否正在弹起
 @end
 
 @implementation YouYuanDetailViewController
@@ -170,16 +171,14 @@ static float BottomInputView_Height=50;
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
     
-    // Animate the resize of the text view's frame in sync with the keyboard's appearance.
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
-    
     //    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, _inputTextBottom.frame.origin.y-kbSize.height, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
-    [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
-    
-    
-    [UIView commitAnimations];
-    //    [_inputTextBottom setHidden:NO];
+   
+    _isPoping = YES;
+    [UIView animateWithDuration:animationDuration animations:^{
+        [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-keyboardRect.size.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
+    } completion:^(BOOL finished) {
+        _isPoping = NO;
+    }];
     
     
 }
@@ -190,19 +189,19 @@ static float BottomInputView_Height=50;
     //    _inputTextBottom.contentInset = contentInsets;
     //    _inputTextBottom.scrollIndicatorInsets = contentInsets;
     [_bootomView setHidden:NO];
-    [_inputTextBottom setHidden:YES];
-    //    NSDictionary* userInfo = [aNotification userInfo];
-    //
-    //    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    //    NSTimeInterval animationDuration;
-    //    [animationDurationValue getValue:&animationDuration];
-    //
-    //    [UIView beginAnimations:nil context:NULL];
-    //    [UIView setAnimationDuration:animationDuration];
-    //
-    //    textView.frame = self.view.bounds;
-    //
-    //    [UIView commitAnimations];
+//    [_inputTextBottom setHidden:YES];
+        NSDictionary* userInfo = [aNotification userInfo];
+    
+        NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+        NSTimeInterval animationDuration;
+        [animationDurationValue getValue:&animationDuration];
+    _isPoping = YES;
+    [UIView animateWithDuration:animationDuration animations:^{
+        [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT ,_inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
+    } completion:^(BOOL finished) {
+        _isPoping = NO;
+    }];
+
     
 }
 
@@ -399,6 +398,9 @@ static float BottomInputView_Height=50;
 
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (self.isPoping) {
+        return;
+    }
     [_inputTextBottom.inputText resignFirstResponder];
 }
 

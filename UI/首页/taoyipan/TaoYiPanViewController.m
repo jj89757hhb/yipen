@@ -295,22 +295,45 @@ static NSString *identity=@"identity";
 -(void)praisedAction:(PenJinInfo*)info{
     [SVProgressHUD show];
     NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",info.ID,@"BeID",@"1",@"Type",info.userInfo.ID,@"buid",nil];
-    [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
-        if (!error) {
-          if ([[response objectForKey:@"ok"] boolValue]) {
-            [SVProgressHUD showInfoWithStatus:@"已赞"];
-            info.IsPraise=@"1";
-            [self reloadTableAtIndex];
-           }
-          else{
-              [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
-          }
-        }
-        else{
-            [SVProgressHUD showErrorWithStatus:ErrorMessage];
-        }
-        
-    }];
+    if (![info.IsPraise boolValue]) {
+        [HttpConnection Praised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    //                    [SVProgressHUD showSuccessWithStatus:@"看好"];
+                    [SVProgressHUD showInfoWithStatus:@"看好" ];
+                    info.IsPraise=@"1";
+                    [self reloadTableAtIndex];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
+    else{
+        [HttpConnection CancelPraised:dic WithBlock:^(id response, NSError *error) {
+            if (!error) {
+                if ([[response objectForKey:@"ok"] boolValue]) {
+                    [SVProgressHUD showInfoWithStatus:@"取消好看"];
+                    info.IsPraise=@"0";
+                    [self reloadTableAtIndex];
+                    
+                }
+                else{
+                    [SVProgressHUD showErrorWithStatus:[response objectForKey:@"reason"]];
+                }
+            }
+            else{
+                [SVProgressHUD showErrorWithStatus:ErrorMessage];
+            }
+            
+        }];
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

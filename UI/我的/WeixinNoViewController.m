@@ -29,8 +29,12 @@
     weiXinL.font = [UIFont systemFontOfSize:16];
     weiXinL.text = @"易盆微信公众号: imyipen";
 //    [self.view addSubview:weiXinL];
+//    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(<#CGFloat x#>, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)]
 }
 
+- (IBAction)openAction:(id)sender {
+     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"weixin://"]];
+}
 
 
 -(void)backAction{
@@ -48,6 +52,9 @@
 {
     
     NSLog(@"image = %@, error = %@, contextInfo = %@", image, error, contextInfo);
+    if (!error) {
+        [SVProgressHUD showSuccessWithStatus:@"已保存"];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

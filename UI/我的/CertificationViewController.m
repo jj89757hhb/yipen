@@ -32,6 +32,12 @@
     if (![[DataSource sharedDataSource].userInfo.IsCertifi boolValue]) {
         [_verifyIV setHidden:YES];
     }
+    if ([[DataSource sharedDataSource].userInfo.RoleType isEqualToString:@"1"]||[[DataSource sharedDataSource].userInfo.RoleType isEqualToString:@"2"]) {
+         [_memberIV setHidden:NO];
+    }
+    else{
+        [_memberIV setHidden:YES];
+    }
     
 }
 

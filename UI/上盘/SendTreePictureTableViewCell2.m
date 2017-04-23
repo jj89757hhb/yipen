@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
     [self.price1L setUserInteractionEnabled:YES];
     [self.price2L setUserInteractionEnabled:YES];
     [self.expressType1L setUserInteractionEnabled:YES];
@@ -49,6 +50,7 @@
 }
 
 -(void)layoutSubviews{
+    [super layoutSubviews];
     self.x_height.constant=0.5;
     self.y_width.constant=0.5;
 }

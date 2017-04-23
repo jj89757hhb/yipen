@@ -53,6 +53,7 @@ static NSString *AppScheme =@"yipen";
 #define BLACKCOLOR [UIColor colorWithRed:(double)0/255.0f green:(double)0/255.0f blue:(double)0/255.0f alpha:1.0] 
 #define WHITEColor [UIColor whiteColor]
 #define RedColor   [UIColor redColor]
+#define BlackColor [UIColor blackColor]
 #define Yellow_Color [SVGloble colorFromHexRGB:@"f99607"]
 
 #define Line_Color [SVGloble colorFromHexRGB:@"cccccc"]

@@ -25,14 +25,15 @@ NSInteger const HZProgresstagId = 222122323;
 
 
     [self initWebView];
-      _progressProxy = [[NJKWebViewProgress alloc] init];
-     myWebView.delegate = _progressProxy;
-    _progressProxy.webViewProxyDelegate = self;
-    _progressProxy.progressDelegate = self;
-    [myWebView.scrollView addLegendHeaderWithRefreshingBlock:^{
-        [weakSelf reloadWebView];
-    }];
-    [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"backIcon"] withBlock:^(id sender) {
+//      _progressProxy = [[NJKWebViewProgress alloc] init];
+//     myWebView.delegate = _progressProxy;
+//    _progressProxy.webViewProxyDelegate = self;
+//    _progressProxy.progressDelegate = self;
+//    [myWebView.scrollView addLegendHeaderWithRefreshingBlock:^{
+//        [weakSelf reloadWebView];
+//    }];
+    //返回 backIcon
+    [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"返回"] withBlock:^(id sender) {
         [weakSelf backActionWithType:1];
     }];
   
@@ -59,11 +60,21 @@ NSInteger const HZProgresstagId = 222122323;
 }
 
 -(void)initWebView{
+    NSString *fileName = nil;
+    if (_enterType==0) {
+        fileName = @"shuoming";
+    }
+    else{
+        fileName = @"xieyi";
+    }
     myWebView=[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64)];
 //    myWebView.delegate=self;
     [self.view addSubview:myWebView];
-    NSURL *url=[NSURL URLWithString:_urlStr];
-    NSMutableURLRequest *request=[[NSMutableURLRequest alloc] initWithURL:url];
+//    NSURL *url=[NSURL URLWithString:_urlStr];
+//    NSMutableURLRequest *request=[[NSMutableURLRequest alloc] initWithURL:url];
+    NSURL * url = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:fileName ofType:@"html" inDirectory:nil]];
+    
+    NSURLRequest * request = [NSURLRequest requestWithURL:url];
     [myWebView loadRequest:request];
     
 }

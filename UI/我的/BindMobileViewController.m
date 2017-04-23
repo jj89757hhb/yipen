@@ -39,6 +39,7 @@
 -(void)aggreementAction{
     MyWebViewViewController *ctr=[[MyWebViewViewController alloc] init];
     ctr.urlStr=user_agreement_Url;
+    ctr.enterType = 1;
     ctr.title=@"服务协议";
     [self.navigationController pushViewController:ctr animated:YES];
 }

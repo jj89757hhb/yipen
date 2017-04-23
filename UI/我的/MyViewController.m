@@ -37,10 +37,12 @@ static NSString *headerCellIdentify=@"MyHeaderTableViewCell";
     [myTable addLegendHeaderWithRefreshingBlock:^{
         [weakSelf queryPersonalInfo];
     }];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queryPersonalInfo) name:@"queryPersonalInfo2" object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    [myTable reloadData];
 //    [super hideTabBar:NO animated:NO];
 }
 

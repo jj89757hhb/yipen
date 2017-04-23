@@ -94,7 +94,7 @@
     for (int i=0; i<9; i++) {
       
         
-        UILabel *leftL=[[UILabel alloc] initWithFrame:CGRectMake(offX, CGRectGetMaxY(levelRule.frame) +14*i+offY*i, 60, 20)];
+        UILabel *leftL=[[UILabel alloc] initWithFrame:CGRectMake(offX, CGRectGetMaxY(levelRule.frame) +14*i+offY*i, 70, 20)];
         leftL.textAlignment=NSTextAlignmentLeft;
         leftL.textColor=[UIColor darkGrayColor];
         leftL.font=[UIFont systemFontOfSize:15];

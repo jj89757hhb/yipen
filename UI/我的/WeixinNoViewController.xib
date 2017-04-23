@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -47,13 +47,27 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Bq-gk-uw9">
+                    <rect key="frame" x="35" y="318" width="307" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="307" id="9Tj-aj-Wwd"/>
+                        <constraint firstAttribute="height" constant="35" id="je3-0f-7bO"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <state key="normal" title="打开微信关注易盘"/>
+                    <connections>
+                        <action selector="openAction:" destination="-1" eventType="touchUpInside" id="qon-0w-xfz"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="EiT-gj-rTt" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="8Dt-pc-ogg"/>
+                <constraint firstItem="7Bq-gk-uw9" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="AU0-BD-nMn"/>
                 <constraint firstItem="cBT-zo-bb6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="44" id="DwW-ta-9sR"/>
                 <constraint firstItem="yeh-gu-1RH" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="63" id="RiP-ro-J8a"/>
                 <constraint firstItem="EiT-gj-rTt" firstAttribute="top" secondItem="yeh-gu-1RH" secondAttribute="bottom" constant="27" id="bu5-bY-lGh"/>
+                <constraint firstItem="7Bq-gk-uw9" firstAttribute="top" secondItem="EiT-gj-rTt" secondAttribute="bottom" constant="41" id="dj5-wp-82P"/>
                 <constraint firstAttribute="trailing" secondItem="yeh-gu-1RH" secondAttribute="trailing" constant="23.5" id="efv-iP-bfu"/>
                 <constraint firstItem="cBT-zo-bb6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="23" id="id8-uH-Dbk"/>
                 <constraint firstItem="yeh-gu-1RH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="23" id="s0U-t8-rPW"/>

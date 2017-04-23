@@ -260,7 +260,9 @@ static NSString *identify=@"identify";
                     //                    [_imgList insertObject:tempImg atIndex:0];
                     NSData *data=UIImageJPEGRepresentation(tempImg, compressionQuality);
                     [_imgList addObject:data];
-                          [[SDImageCache sharedImageCache] storeImage:tempImg forKey:[NSString stringWithFormat:@"send_Cache_%d",i] toDisk:YES];
+                    [[SDImageCache sharedImageCache] storeImage:tempImg forKey:[NSString stringWithFormat:@"send_Cache_%d",i] toDisk:YES completion:^{
+                        
+                    }];
                     
                     //                    [self.imageDatas insertObject:data atIndex:_imageDatas.count];
                 }

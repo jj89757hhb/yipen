@@ -80,4 +80,18 @@
  */
 + (void)connectDingTalk:(Class)dtOpenApiClass;
 
+/**
+ *  链接Line以供ShareSDK可以正常使用Line进行分享
+ *
+ *  @param lineSDKClass Line SDK中的类型，应先导入LineAdapter.framework，再将[LineSDK class]传入到此参数。
+ */
++ (void)connectLine:(Class)lineSDKClass;
+
+/**
+ *  链接MeiPai以供ShareSDK可以正常使用MeiPai进行分享
+ *
+ *  @param MPShareSDKClass MeiPai SDK中的类型，应先导入MPShareSDK.framework，再将[MPShareSDK class]传入到此参数。
+ */
++ (void)connectMeiPai:(Class)MPShareSDKClass;
+
 @end

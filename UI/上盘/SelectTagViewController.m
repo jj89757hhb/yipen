@@ -70,6 +70,12 @@ static NSString *kTagsTableCellReuseIdentifier7=@"kTagsTableCellReuseIdentifier7
     }
     [SVProgressHUD show];
     [self requestData];
+    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"返回"] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
+}
+
+-(void)backAction{
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

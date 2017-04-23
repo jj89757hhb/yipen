@@ -28,6 +28,9 @@
     _startPriceL.text=[NSString stringWithFormat:@"¥%@",info.APrice];
     _addPriceL.text=[NSString stringWithFormat:@"¥%@",info.MakeUp];
     [self timeAction];
+    if (time(NULL)>[_info.AEndTime longLongValue]) {
+        _statusL.text=@"已结拍";
+    }
     
 }
 

@@ -167,8 +167,8 @@ static float image_offX =10;
         _isExpressL.font=saleFont;
         _priceL.font=saleFont;
         _priceL.textColor=[UIColor redColor];
-        _priceL.layer.borderWidth=1;
-        _priceL.layer.borderColor=RedColor.CGColor;
+//        _priceL.layer.borderWidth=1;
+//        _priceL.layer.borderColor=RedColor.CGColor;
         _saleStatusL.font=saleFont;
         
         _heightL.text=@"高度";
@@ -640,6 +640,9 @@ static float image_offX =10;
         }
         else if ([_info.InfoType integerValue]==3) {//拍卖
                 _saleStatusL.text=@"拍卖中";
+            if (time(NULL)>[_info.AEndTime longLongValue]) {
+                _saleStatusL.text=@"已结拍";
+            }
             _priceL.text=[NSString stringWithFormat:@"%@元",[CommonFun delDecimal:_info.APrice]];
             if ([_info.IsMailed boolValue]) {
                 

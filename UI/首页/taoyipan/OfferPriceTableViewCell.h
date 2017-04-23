@@ -19,4 +19,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *addL;
 @property(nonatomic,strong)CATextLayer *textLayer;
 @property(nonatomic,strong)PenJinInfo *info;
+@property (weak, nonatomic) IBOutlet UILabel *statusL;
+
 @end

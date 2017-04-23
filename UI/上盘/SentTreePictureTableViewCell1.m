@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -22,6 +23,7 @@
 
 
 -(void)layoutSubviews{
+    [super layoutSubviews];
     self.y1_width.constant=0.5;
     self.y2_width.constant=0.5;
     self.y3_width.constant=0.5;

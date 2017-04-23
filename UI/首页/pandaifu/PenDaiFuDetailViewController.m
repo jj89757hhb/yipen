@@ -31,6 +31,7 @@
 @property(nonatomic,weak)NSIndexPath *indexPath;
 @property(nonatomic,strong)NSMutableArray *photos;
 @property(nonatomic,strong)ShareView *shareView;
+@property(nonatomic,assign)BOOL isPoping;//键盘是否正在弹起
 @end
 
 @implementation PenDaiFuDetailViewController
@@ -76,13 +77,18 @@ static float BottomInputView_Height=50;
     [self setNavigationBarLeftItem:nil itemImg:[UIImage imageNamed:@"返回"] withBlock:^(id sender) {
         [weakSelf backAction];
     }];
-    if (self.isPopKeyBoard) {
-        //        [self commentAction:nil];
-        [self performSelector:@selector(commentAction:) withObject:nil afterDelay:1.0];
-    }
+//    if (self.isPopKeyBoard) {
+//        //        [self commentAction:nil];
+//        [self performSelector:@selector(commentAction:) withObject:nil afterDelay:1.0];
+//    }
 
 }
-
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (self.isPopKeyBoard) {
+    [self performSelector:@selector(commentAction:) withObject:nil afterDelay:0];
+    }
+}
 
 -(void)backAction{
     [self.navigationController popViewControllerAnimated:YES];
@@ -604,10 +610,11 @@ static float BottomInputView_Height=50;
 //    [UIView animateWithDuration:animationDuration animations:^{
 //       
 //    }];
+    _isPoping = YES;
     [UIView animateWithDuration:animationDuration animations:^{
-           [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-kbSize.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
+           [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT-BottomInputView_Height-keyboardRect.size.height-64, _inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
     } completion:^(BOOL finished) {
-      
+      _isPoping = NO;
     }];
     
 }
@@ -618,12 +625,12 @@ static float BottomInputView_Height=50;
     //    _inputTextBottom.contentInset = contentInsets;
     //    _inputTextBottom.scrollIndicatorInsets = contentInsets;
     [_bottomToolView setHidden:NO];
-    [_inputTextBottom setHidden:YES];
-    //    NSDictionary* userInfo = [aNotification userInfo];
-    //
-    //    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    //    NSTimeInterval animationDuration;
-    //    [animationDurationValue getValue:&animationDuration];
+//    [_inputTextBottom setHidden:YES];
+        NSDictionary* userInfo = [aNotification userInfo];
+    
+        NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+        NSTimeInterval animationDuration;
+        [animationDurationValue getValue:&animationDuration];
     //
     //    [UIView beginAnimations:nil context:NULL];
     //    [UIView setAnimationDuration:animationDuration];
@@ -631,6 +638,13 @@ static float BottomInputView_Height=50;
     //    textView.frame = self.view.bounds;
     //
     //    [UIView commitAnimations];
+    _isPoping = YES;
+    [UIView animateWithDuration:animationDuration animations:^{
+        [_inputTextBottom setFrame:CGRectMake(_inputTextBottom.frame.origin.x, SCREEN_HEIGHT ,_inputTextBottom.frame.size.width, _inputTextBottom.frame.size.height)];
+    } completion:^(BOOL finished) {
+        _isPoping = NO;
+    }];
+    
     
 }
 
@@ -690,6 +704,9 @@ static float BottomInputView_Height=50;
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (self.isPoping) {
+        return;
+    }
     [_inputTextBottom.inputText resignFirstResponder];
 }
 

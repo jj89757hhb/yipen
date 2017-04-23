@@ -14,4 +14,5 @@
 @property(nonatomic,strong)NSString *urlStr;
 @property(nonatomic,strong)NSString *_title;
 @property(nonatomic,strong)NSString *methodName;//服务端接口名称
+@property(nonatomic,assign)NSInteger enterType;// 0用户说明  1 用户协议
 @end

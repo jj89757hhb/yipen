@@ -81,5 +81,8 @@
 @property(nonatomic,strong)YPUserInfo *CommUser;//评论用户
 @property(nonatomic,strong)YPUserInfo *PostUser;//原贴用户
 
+//我的 - 盆缘使用
+@property(nonatomic ,copy)NSString *BFID;
+
 - (id)initWithKVCDictionary:(NSDictionary *)KVCDic;
 @end
