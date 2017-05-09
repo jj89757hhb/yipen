@@ -21,4 +21,5 @@
 + (UIViewController *)viewControllerHasNavgation:(UIView *)aView;
 +(NSInteger)upLoadPictureNum;
 +(NSString *)getVersion;
++ (NSString *) stringTomd5:(NSString *) input;
 @end

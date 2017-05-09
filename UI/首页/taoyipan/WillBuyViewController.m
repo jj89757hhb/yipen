@@ -318,7 +318,8 @@ static float Bottom_Height=50;
 //余额支付 验证密码
 -(void)verifyPsw:(NSString*)psw{
     [SVProgressHUD show];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:psw,@"pwd",[DataSource sharedDataSource].userInfo.ID,@"uid",nil];
+    NSString *md5_Psw = [CommonFun stringTomd5:psw];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:md5_Psw,@"pwd",[DataSource sharedDataSource].userInfo.ID,@"uid",nil];
     [HttpConnection PayPwdAuthe:dic WithBlock:^(id response, NSError *error) {
         if (!error) {
             if ([[response objectForKey:@"ok"] boolValue]) {

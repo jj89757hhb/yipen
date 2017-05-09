@@ -48,7 +48,8 @@
         return;
     }
     [SVProgressHUD show];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",_payPsw1.text,@"Password",_vcode, @"vcode", nil];
+    NSString *md5_Psw = [CommonFun stringTomd5:_payPsw1.text];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"UID",md5_Psw,@"Password",_vcode, @"vcode", nil];
     [HttpConnection SetPayPassword:dic WithBlock:^(id response, NSError *error) {
         if (error) {
             [SVProgressHUD showErrorWithStatus:ErrorMessage];

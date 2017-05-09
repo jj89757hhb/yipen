@@ -49,7 +49,8 @@
         return;
     }
     [SVProgressHUD show];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:_payPsw1.text,@"Pwd",_mobile, @"Mobile", nil];
+    NSString *md5_Psw = [CommonFun stringTomd5:_payPsw1.text];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:md5_Psw,@"Pwd",_mobile, @"Mobile", nil];
     [HttpConnection FindPwdTwo:dic WithBlock:^(id response, NSError *error) {
         if (error) {
             [SVProgressHUD showErrorWithStatus:ErrorMessage];

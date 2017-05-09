@@ -23,6 +23,10 @@
 
 
 -(void)subAction{
+    if(_pswTF.text.length==0){
+        [SVProgressHUD showErrorWithStatus:@"请输入密码"];
+        return;
+    }
     [self setNewPsw];
 //    [SVProgressHUD show];
 //    NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_phoneNewNum,@"Mobile", [DataSource sharedDataSource].userInfo.ID,@"Uid",nil];
@@ -47,7 +51,8 @@
 
 -(void)setNewPsw{
       [SVProgressHUD show];
-    NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:_pswTF.text,@"Pwd", [DataSource sharedDataSource].userInfo.ID,@"Uid",nil];
+     NSString *md5_Psw = [CommonFun stringTomd5:_pswTF.text];
+    NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:md5_Psw,@"Pwd", [DataSource sharedDataSource].userInfo.ID,@"Uid",nil];
     WS(weakSelf)
     [HttpConnection BindMobile:dic WithBlock:^(id response, NSError *error) {
         if (!error) {

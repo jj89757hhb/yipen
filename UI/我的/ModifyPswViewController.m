@@ -48,7 +48,9 @@
     }
     WS(weakSelf)
     [SVProgressHUD show];
-    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"Uid",_oldTF.text,@"OldPwd",_theNewTF.text,@"NewPwd",nil];
+    NSString *md5_oldPsw =[CommonFun stringTomd5:_oldTF.text];
+    NSString *md5_newPsw = [CommonFun stringTomd5:_theNewTF.text];
+    NSDictionary *dic=[[NSDictionary alloc] initWithObjectsAndKeys:[DataSource sharedDataSource].userInfo.ID,@"Uid",md5_oldPsw,@"OldPwd",md5_newPsw,@"NewPwd",nil];
     [HttpConnection ChangePwd:dic WithBlock:^(id response, NSError *error) {
         if (!error) {
             [SVProgressHUD showSuccessWithStatus:@"修改成功"];

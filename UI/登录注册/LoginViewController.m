@@ -126,7 +126,9 @@
         return;
     }
     [SVProgressHUD show];
-    NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:_mobileTF.text,@"Mobile",_passwordTF.text,@"Pwd",@"ios",@"OS",@"udid",@"DID", nil];//DID
+    NSString *md5_Psw = [CommonFun stringTomd5:_passwordTF.text];
+//    NSString *md5_Psw = _passwordTF.text;
+    NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:_mobileTF.text,@"Mobile",md5_Psw,@"Pwd",@"ios",@"OS",@"udid",@"DID", nil];//DID
     [HttpConnection loginWithPhone:dic WithBlock:^(id response, NSError *error) {
         if (!error) {
             
@@ -405,10 +407,11 @@
     
  
 }
-
+//注册
 -(void)registerUser{
     [SVProgressHUD show];
-    NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:mobileTF.text,@"Mobile",password1.text,@"Pwd", nil];
+     NSString *md5_Psw = [CommonFun stringTomd5:password1.text];
+    NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:mobileTF.text,@"Mobile",md5_Psw,@"Pwd", nil];
     [HttpConnection registerUserWithDic:dic WithBlock:^(id response, NSError *error) {
         //        [SVProgressHUD dismiss];
         NSString *ok=response[@"ok"];
