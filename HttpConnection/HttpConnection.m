@@ -3656,6 +3656,32 @@
     
 }
 
++(void)upLoadGeTuiClientId:(id)parameter WithBlock:(void (^)(id response, NSError *error))block{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *url=[NSString stringWithFormat:@"%@service.asmx/UpToken",kServerAddress];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
+    [request setTimeoutInterval:kTimeOutInterval];
+    AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary* json=nil;
+        NSError *error=nil;
+        if (responseObject) {
+            json=  [NSJSONSerialization
+                    JSONObjectWithData:responseObject
+                    options:NSJSONReadingMutableContainers
+                    error:&error];
+        }
+        NSLog(@"upLoadGeTuiClientId：%@",json);
+        block(json,nil);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil,error);
+    }];
+    [operation start];
+    
+}
+
 
 
 

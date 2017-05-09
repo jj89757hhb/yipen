@@ -99,4 +99,5 @@
 +(void)BindMobile:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)SetPwd:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 +(void)SetWDAccount:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
++(void)upLoadGeTuiClientId:(id)parameter WithBlock:(void (^)(id response, NSError *error))block;
 @end
