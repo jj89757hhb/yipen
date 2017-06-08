@@ -29,6 +29,8 @@
     self.subBtn.clipsToBounds=YES;
     self.line.backgroundColor=Line_Color;
     [self.subBtn addTarget:self action:@selector(subAction) forControlEvents:UIControlEventTouchUpInside];
+    _payPsw1.secureTextEntry = YES;
+    _payPsw2.secureTextEntry = YES;
 //    _payPsw1.keyboardType=UIKeyboardTypeNumberPad;
 }
 
