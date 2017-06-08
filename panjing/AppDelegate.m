@@ -58,7 +58,8 @@
     //2.1 代码初始化社交平台的方法
     [ShareView initializePlat];
 //    [SMSSDK registerApp:AppKey_sms withSecret:AppSecret_sms];
-     [WXApi registerApp:@"wxc854949473b2b966" withDescription:@"demo 2.0"];
+//     [WXApi registerApp:@"wxc854949473b2b966" withDescription:@"demo 2.0"];
+       [WXApi registerApp:@"wxc854949473b2b966"];
     [NotificationCenter addObserver:self selector:@selector(loginOut) name:KloginOutNotify object:nil];
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];

@@ -2970,7 +2970,9 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *url=[NSString stringWithFormat:@"%@service.asmx/PostAuction",kServerAddress];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    //    manager.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
+//     manager.requestSerializer=[AFJSONRequestSerializer serializer];
+//     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+//        manager.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameter error:nil];
     [request setTimeoutInterval:kTimeOutInterval];
     AFHTTPRequestOperation *operation = [manager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {

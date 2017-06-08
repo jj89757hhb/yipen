@@ -3,6 +3,7 @@
 platform :ios, "7.0"
 target "panjing" do
 pod 'ShareSDK3'
+#pod 'ShareSDK3',:git => 'https://git.oschina.net/MobClub/ShareSDK-for-iOS.git'
 pod 'Masonry'
 pod 'MBProgressHUD'
 pod 'SDWebImage'
