@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -54,12 +54,18 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Sp-J6-JMG">
                         <rect key="frame" x="0.0" y="50" width="320" height="189"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tree" translatesAutoresizingMaskIntoConstraints="NO" id="laA-Qt-6BG">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tree" translatesAutoresizingMaskIntoConstraints="NO" id="laA-Qt-6BG">
                                 <rect key="frame" x="8" y="8" width="50" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="QQC-cd-qBi"/>
+                                    <constraint firstAttribute="height" constant="50" id="kgn-rt-Hkb"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="日本柏树" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wWl-vK-0cB">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="日本柏树" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wWl-vK-0cB">
                                 <rect key="frame" x="66" y="15" width="107" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="JVy-WP-Jpl"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -144,7 +150,10 @@
                             <constraint firstItem="BSU-xH-PRT" firstAttribute="top" secondItem="3Sp-J6-JMG" secondAttribute="top" constant="15" id="NVC-mF-LKM"/>
                             <constraint firstAttribute="trailing" secondItem="BSU-xH-PRT" secondAttribute="trailing" constant="8" id="O8V-VX-bFQ"/>
                             <constraint firstItem="BSU-xH-PRT" firstAttribute="leading" secondItem="wWl-vK-0cB" secondAttribute="trailing" constant="65" id="Um1-Kd-79d"/>
+                            <constraint firstItem="wWl-vK-0cB" firstAttribute="leading" secondItem="laA-Qt-6BG" secondAttribute="trailing" constant="8" id="cYG-bY-w8f"/>
+                            <constraint firstItem="laA-Qt-6BG" firstAttribute="leading" secondItem="3Sp-J6-JMG" secondAttribute="leading" constant="8" id="dVZ-6n-2Pe"/>
                             <constraint firstItem="BSU-xH-PRT" firstAttribute="top" secondItem="wWl-vK-0cB" secondAttribute="top" id="k44-FN-79b"/>
+                            <constraint firstItem="laA-Qt-6BG" firstAttribute="top" secondItem="3Sp-J6-JMG" secondAttribute="top" constant="8" id="wIb-If-SHZ"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O97-oM-NFf">

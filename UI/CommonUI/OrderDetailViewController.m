@@ -425,7 +425,12 @@ static NSString *identify=@"identify";
                 [self paySuccessNoti];
             }
             else{
-                [SVProgressHUD showInfoWithStatus:[response objectForKey:@"reason"]];
+                if ([response objectForKey:@"reason"]) {
+                    [SVProgressHUD showInfoWithStatus:[response objectForKey:@"reason"]];
+                }
+                else{
+                    [SVProgressHUD showInfoWithStatus:@"支付密码错误"];
+                };
             }
         }
         else{

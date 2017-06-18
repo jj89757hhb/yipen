@@ -326,7 +326,12 @@ static float Bottom_Height=50;
                 [self paySuccessNoti];
             }
             else{
-                [SVProgressHUD showInfoWithStatus:[response objectForKey:@"reason"]];
+                if ([response objectForKey:@"reason"]) {
+                    [SVProgressHUD showInfoWithStatus:[response objectForKey:@"reason"]];
+                }
+                else{
+                    [SVProgressHUD showInfoWithStatus:@"支付密码错误"];
+                }
             }
         }
         else{

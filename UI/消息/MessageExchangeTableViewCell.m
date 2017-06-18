@@ -1250,7 +1250,7 @@
         [_negotiatedBtn setHidden:YES];
     }
     [_originPriceL sizeToFit];
-    
+    _orderBtn.hidden = YES;
    
 }
 
