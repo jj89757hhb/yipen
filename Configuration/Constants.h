@@ -1,7 +1,7 @@
 //
 //  Constants.h
 //非常重要,上线之前这里一定要改成2，推送的环境变量 1、开发环境  2、生产环境
-#define kDistributionTag                (2)//1为开发环境  2为生产环境
+#define kDistributionTag                (1)//1为开发环境  2为生产环境
 
 #if  kDistributionTag==1  //开发测试网络
 //测试环境

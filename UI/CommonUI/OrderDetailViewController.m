@@ -69,6 +69,7 @@ static NSString *identify=@"identify";
         }
         else if (_info.Status==KPay_Finish) {
             //        _statusL.text=@"已付款";
+            [chatBtn removeTarget:self action:@selector(chatAction:) forControlEvents:UIControlEventTouchUpInside];
             [chatBtn setTitle:@"发货" forState:UIControlStateNormal];
             [chatBtn addTarget:self action:@selector(sendGoods:) forControlEvents:UIControlEventTouchUpInside];
               chatBtn.backgroundColor=RedColor;
@@ -78,6 +79,7 @@ static NSString *identify=@"identify";
         }
         else if (_info.Status==KCancel) {
             //        _statusL.text=@"已取消";
+              [chatBtn removeTarget:self action:@selector(chatAction:) forControlEvents:UIControlEventTouchUpInside];
             [chatBtn setTitle:@"确认退款" forState:UIControlStateNormal];
             [chatBtn addTarget:self action:@selector(applyCancel2:) forControlEvents:UIControlEventTouchUpInside];
             chatBtn.backgroundColor=RedColor;
@@ -92,12 +94,14 @@ static NSString *identify=@"identify";
     else{//我买的
         if (_info.Status==KNo_Pay) {
             //        _statusL.text=@"未付款";
+              [chatBtn removeTarget:self action:@selector(chatAction:) forControlEvents:UIControlEventTouchUpInside];
             [chatBtn setTitle:@"立即付款" forState:UIControlStateNormal];
             [chatBtn addTarget:self action:@selector(payAction:) forControlEvents:UIControlEventTouchUpInside];
             chatBtn.backgroundColor=RedColor;
         }
         else if (_info.Status==KPay_Finish) {
             //        _statusL.text=@"已付款";
+              [chatBtn removeTarget:self action:@selector(chatAction:) forControlEvents:UIControlEventTouchUpInside];
             [chatBtn setTitle:@"申请退款" forState:UIControlStateNormal];
             [chatBtn addTarget:self action:@selector(applyCancel:) forControlEvents:UIControlEventTouchUpInside];
         }
@@ -240,6 +244,7 @@ static NSString *identify=@"identify";
         OrderDetailMySellTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         [cell setInfo:_info];
+        [cell.msgBtn addTarget:self action:@selector(msgAction) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }
     else{
@@ -251,6 +256,7 @@ static NSString *identify=@"identify";
         [cell setPayTypeBlock:^(id sender){
             [weakSelf selectPayType];
         }];
+        [cell.msgBtn addTarget:self action:@selector(msgAction) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }
 
@@ -547,6 +553,9 @@ static NSString *identify=@"identify";
             
             if ([resultDic[@"resultStatus"] integerValue]==9000) {//支付成功
                 //                   [self paySuccessNoti];
+                [UIAlertView bk_showAlertViewWithTitle:nil message:@"购买成功!" cancelButtonTitle:@"确定" otherButtonTitles:nil handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    
+                }];
                 
             }
             else if([resultDic[@"resultStatus"] integerValue]==6001){//用户取消
@@ -626,6 +635,28 @@ static NSString *identify=@"identify";
     // Dispose of any resources that can be recreated.
 }
 
+-(void)msgAction{
+    ExchangeInfo *info=  _info;
+    //新建一个聊天会话View Controller对象
+    RCConversationViewController *chat = [[RCConversationViewController alloc]init];
+    //设置会话的类型，如单聊、讨论组、群聊、聊天室、客服、公众服务会话等
+    chat.conversationType = ConversationType_PRIVATE;
+    //设置会话的目标会话ID。（单聊、客服、公众服务会话为对方的ID，讨论组、群聊、聊天室为会话的ID）
+    if (_enterType==0) {
+         chat.targetId = info.SalerID;
+        //设置聊天会话界面要显示的标题
+        chat.title = info.SaleUser.NickName;
+    }
+    else{
+         chat.targetId = info.BuyUser.ID;
+          chat.title = info.BuyUser.NickName;
+    }
+   
+    NSLog(@"chat.targetId:%@",chat.targetId);
+    //显示聊天会话界面
+    //    [self hideTabBar:YES animated:NO];
+    [self.navigationController pushViewController:chat animated:YES];
+}
 /*
 #pragma mark - Navigation
 

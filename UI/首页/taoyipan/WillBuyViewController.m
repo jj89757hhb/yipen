@@ -463,6 +463,9 @@ static float Bottom_Height=50;
 
             if ([resultDic[@"resultStatus"] integerValue]==9000) {//支付成功
 //                   [self paySuccessNoti];
+                [UIAlertView bk_showAlertViewWithTitle:nil message:@"购买成功!" cancelButtonTitle:@"确定" otherButtonTitles:nil handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    
+                }];
             
             }
             else if([resultDic[@"resultStatus"] integerValue]==6001){//用户取消

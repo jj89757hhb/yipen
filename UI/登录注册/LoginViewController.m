@@ -51,6 +51,8 @@
     [_loginLine2 setBackgroundColor:Line_Color];
     _mobileTF.delegate=self;
     _passwordTF.delegate=self;
+    _mobileTF.backgroundColor =Clear_Color;
+     _passwordTF.backgroundColor =Clear_Color;
 //    _mobileTF.text=@"18857871640";
 //    _mobileTF.text=@"13164954971";
 //    _passwordTF.text=@"123456";
