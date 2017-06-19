@@ -151,7 +151,7 @@
                                         <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密码" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W83-1s-5FR">
-                                        <rect key="frame" x="25" y="62" width="45" height="21"/>
+                                        <rect key="frame" x="25" y="59" width="45" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="45" id="l5D-3m-fxK"/>
                                         </constraints>
@@ -235,7 +235,7 @@
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="b4a-5p-rKO" firstAttribute="top" secondItem="W83-1s-5FR" secondAttribute="bottom" constant="8" symbolic="YES" id="4At-E0-TEb"/>
+                                    <constraint firstItem="b4a-5p-rKO" firstAttribute="top" secondItem="W83-1s-5FR" secondAttribute="bottom" constant="11" id="4At-E0-TEb"/>
                                     <constraint firstItem="cga-eN-xEk" firstAttribute="leading" secondItem="CAg-rK-e3c" secondAttribute="trailing" constant="12" id="4RD-5A-Loa"/>
                                     <constraint firstItem="g9Y-Ua-JCs" firstAttribute="leading" secondItem="QYp-Qb-9uU" secondAttribute="leading" id="6be-d8-HrQ"/>
                                     <constraint firstItem="b4a-5p-rKO" firstAttribute="top" secondItem="QYp-Qb-9uU" secondAttribute="top" constant="91" id="6yo-fQ-Adn"/>
