@@ -443,7 +443,9 @@ static float BottomInputView_Height=50;
             for (int i=0; i<_info.Comment.count; i++) {
                 CommentInfo *comment=_info.Comment[i];
                 comment_Height+=  [CommonFun sizeWithString:comment.Message font:[UIFont systemFontOfSize:comment_FontSize] size:CGSizeMake(SCREEN_WIDTH-15+10*2, MAXFLOAT)].height;
+                  comment_Height+=2;
             }
+          
             
         }
         if (_info.Descript.length) {

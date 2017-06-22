@@ -173,6 +173,10 @@ static NSInteger pageNum=10;//每页
             CommentInfo *comment=info.Comment[i];
             comment_Height+=  [CommonFun sizeWithString:comment.Message font:[UIFont systemFontOfSize:comment_FontSize] size:CGSizeMake(SCREEN_WIDTH-15-10*2, MAXFLOAT)].height;
             comment_Height+=offY_Comment;
+            if (i==3) {
+                break;
+            }
+            
         }
         comment_Height-=2;
 

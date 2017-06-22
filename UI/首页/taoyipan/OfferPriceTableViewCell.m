@@ -30,6 +30,8 @@
     [self timeAction];
     if (time(NULL)>[_info.AEndTime longLongValue]) {
         _statusL.text=@"已结拍";
+        [_offerPriceBtn setTitle:@"已结拍" forState:UIControlStateNormal];
+        [_offerPriceBtn setBackgroundColor:[UIColor darkGrayColor]];
     }
     
 }

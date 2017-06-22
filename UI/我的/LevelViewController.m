@@ -58,12 +58,13 @@
         segL.backgroundColor=colors[i];
         [bgView addSubview:segL];
     }
-    
-    arrowIV=[[UIImageView alloc] initWithFrame:CGRectMake(offX+10,  CGRectGetMaxY(scoreNumL.frame)+35, 28/2, 24/2)];
+    NSInteger level = [[DataSource sharedDataSource].userInfo.Levels integerValue];
+    arrowIV=[[UIImageView alloc] initWithFrame:CGRectMake(offX+10*level+(level-1)*width,  CGRectGetMaxY(scoreNumL.frame)+35, 28/2, 24/2)];
     arrowIV.image=[UIImage imageNamed:@"三角形"];
     [bgView addSubview:arrowIV];
     
-    levelIV=[[UIImageView alloc] initWithFrame:CGRectMake(offX, CGRectGetMaxY(arrowIV.frame)+4, 40, 14)];
+//    levelIV=[[UIImageView alloc] initWithFrame:CGRectMake(offX, CGRectGetMaxY(arrowIV.frame)+4, 40, 14)];
+        levelIV=[[UIImageView alloc] initWithFrame:CGRectMake(arrowIV.frame.origin.x-10, CGRectGetMaxY(arrowIV.frame)+4, 40, 14)];
 //    levelIV.image=[UIImage imageNamed:@"lv1"];
     levelIV.image=[UIImage imageNamed:[NSString stringWithFormat:@"lv%@",[DataSource sharedDataSource].userInfo.Levels]];
     [bgView addSubview:levelIV];
