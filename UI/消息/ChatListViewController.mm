@@ -30,7 +30,7 @@
     UIView * view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     view.backgroundColor = VIEWBACKCOLOR;
     self.emptyConversationView=view;
-    self.cellBackgroundColor = VIEWBACKCOLOR;
+//    self.cellBackgroundColor = VIEWBACKCOLOR;
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectZero];
     self.conversationListTableView.tableFooterView =footerView;
     self.conversationListTableView.backgroundColor = VIEWBACKCOLOR;
